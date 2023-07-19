@@ -44,4 +44,12 @@ export class CreateProgramDto {
 
   @IsBoolean()
   active: boolean;
+
+  @IsString()
+  @IsOptional()
+  test: string;
+
+  @IsDateString()
+  @IsOptional()
+  dateTest: Date;
 }

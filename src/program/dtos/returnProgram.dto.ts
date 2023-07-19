@@ -14,6 +14,8 @@ export class ReturnProgramDto {
   vla: string;
   paceVla: string;
   active: boolean;
+  test: string;
+  dateTest: Date;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {

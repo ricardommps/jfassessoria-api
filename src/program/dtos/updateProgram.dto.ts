@@ -44,4 +44,12 @@ export class UpdateProgramDto {
 
   @IsBoolean()
   active: boolean;
+
+  @IsString()
+  @IsOptional()
+  test: string;
+
+  @IsDateString()
+  @IsOptional()
+  dateTest: Date;
 }
