@@ -17,7 +17,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 
 @Roles(UserType.Admin, UserType.Root)
-@Controller('api/v2/training')
+@Controller('training')
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 

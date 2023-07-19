@@ -17,7 +17,7 @@ import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { CustomerEntity } from './entities/customer.entity';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 
-@Controller('api/v2/customer')
+@Controller('customer')
 export class CustomersController {
   constructor(private readonly customerService: CustomersService) {}
 

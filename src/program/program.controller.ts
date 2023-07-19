@@ -17,7 +17,7 @@ import { ProgramEntity } from './entities/program.entity';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
 
 @Roles(UserType.Admin, UserType.Root)
-@Controller('api/v2/program')
+@Controller('program')
 export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
   @Get()

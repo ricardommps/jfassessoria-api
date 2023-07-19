@@ -17,7 +17,7 @@ import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
 import { ReturnMeDto } from './dtos/returnMe.dto';
 
-@Controller('api/v2/user')
+@Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
