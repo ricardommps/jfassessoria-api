@@ -1,4 +1,4 @@
-import { ReturnProgramDto } from 'src/program/dtos/returnProgram.dto';
+import { ReturnProgramDto } from '../../program/dtos/returnProgram.dto';
 import { CustomerEntity } from '../entities/customer.entity';
 
 export class ReturnCustomerIdDto {

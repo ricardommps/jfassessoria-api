@@ -7,7 +7,7 @@ import {
 import { TrainingEntity } from './entities/training.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProgramService } from 'src/program/program.service';
+import { ProgramService } from '../program/program.service';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 

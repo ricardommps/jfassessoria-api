@@ -1,5 +1,5 @@
-import { CustomerEntity } from 'src/customers/entities/customer.entity';
-import { TrainingEntity } from 'src/training/entities/training.entity';
+import { CustomerEntity } from '../../customers/entities/customer.entity';
+import { TrainingEntity } from '../../training/entities/training.entity';
 import {
   Column,
   CreateDateColumn,

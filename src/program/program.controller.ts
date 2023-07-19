@@ -9,8 +9,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProgramService } from './program.service';
-import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enum/user-type.enum';
+import { Roles } from '../decorators/roles.decorator';
+import { UserType } from '../user/enum/user-type.enum';
 import { ReturnProgramDto } from './dtos/returnProgram.dto';
 import { CreateProgramDto } from './dtos/createProgram.dto';
 import { ProgramEntity } from './entities/program.entity';

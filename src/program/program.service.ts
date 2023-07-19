@@ -7,12 +7,12 @@ import {
 import { ProgramEntity } from './entities/program.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CustomersService } from 'src/customers/customers.service';
+import { CustomersService } from '../customers/customers.service';
 import { CreateProgramDto } from './dtos/createProgram.dto';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
-import { TrainingEntity } from 'src/training/entities/training.entity';
-import { TrainingService } from 'src/training/training.service';
-import { CreateTrainingDto } from 'src/training/dtos/createTraining.dto';
+import { TrainingEntity } from '../training/entities/training.entity';
+import { TrainingService } from '../training/training.service';
+import { CreateTrainingDto } from '../training/dtos/createTraining.dto';
 
 @Injectable()
 export class ProgramService {

@@ -1,12 +1,10 @@
 import {
-  IsArray,
   IsBoolean,
   IsDateString,
   IsInt,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { CreateTrainingDto } from 'src/training/dtos/createTraining.dto';
 
 export class CreateProgramDto {
   @IsString()

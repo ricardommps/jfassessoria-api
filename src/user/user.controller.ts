@@ -10,11 +10,11 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserEntity } from './entities/user.entity';
 import { ReturnUserDto } from './dtos/returnUser.dto';
-import { Roles } from 'src/decorators/roles.decorator';
+import { Roles } from '../decorators/roles.decorator';
 import { UserType } from './enum/user-type.enum';
-import { UserMe } from 'src/decorators/user-id.decorator';
-import { LoginPayload } from 'src/auth/dtos/loginPayload.dto';
-import { CustomersService } from 'src/customers/customers.service';
+import { UserMe } from '../decorators/user-id.decorator';
+import { LoginPayload } from '../auth/dtos/loginPayload.dto';
+import { CustomersService } from '../customers/customers.service';
 import { ReturnMeDto } from './dtos/returnMe.dto';
 
 @Controller('api/v2/user')

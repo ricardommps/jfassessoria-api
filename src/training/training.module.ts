@@ -3,7 +3,7 @@ import { TrainingEntity } from './entities/training.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TrainingService } from './training.service';
 import { TrainingController } from './training.controller';
-import { ProgramModule } from 'src/program/program.module';
+import { ProgramModule } from '../program/program.module';
 
 @Module({
   imports: [

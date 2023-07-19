@@ -9,8 +9,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { TrainingService } from './training.service';
-import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enum/user-type.enum';
+import { Roles } from '../decorators/roles.decorator';
+import { UserType } from '../user/enum/user-type.enum';
 import { ReturnTrainingDto } from './dtos/returnTraining,dto';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { TrainingEntity } from './entities/training.entity';

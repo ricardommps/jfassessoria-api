@@ -1,4 +1,4 @@
-import { ReturnTrainingDto } from 'src/training/dtos/returnTraining,dto';
+import { ReturnTrainingDto } from '../../training/dtos/returnTraining,dto';
 import { ProgramEntity } from '../entities/program.entity';
 
 export class ReturnProgramDto {
