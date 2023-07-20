@@ -31,6 +31,8 @@ export class ReturnProgramDto {
     this.vlan = program.vlan;
     this.paceVlan = program.paceVlan;
     this.active = program.active;
+    this.test = program.test;
+    this.dateTest = program.dateTest;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

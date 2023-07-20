@@ -58,6 +58,12 @@ export class ProgramEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  @Column({ name: 'test', nullable: true })
+  test: string;
+
+  @Column({ name: 'date_test' })
+  dateTest: Date;
+
   @ManyToOne(() => CustomerEntity, (customer) => customer.programs)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer?: CustomerEntity;
