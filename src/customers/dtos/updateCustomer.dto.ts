@@ -30,6 +30,9 @@ export class UpdateCustomersDto {
   @IsString()
   gender: string;
 
+  @IsBoolean()
+  active: boolean;
+
   @IsDateString()
   birthDate: Date;
 

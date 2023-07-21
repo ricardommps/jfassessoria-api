@@ -15,6 +15,7 @@ import { ReturnProgramDto } from './dtos/returnProgram.dto';
 import { CreateProgramDto } from './dtos/createProgram.dto';
 import { ProgramEntity } from './entities/program.entity';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
+import { CloneProgramDto } from './dtos/cloneProgram.dto';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('program')
@@ -38,9 +39,9 @@ export class ProgramController {
   @Post('/clone')
   @UsePipes(ValidationPipe)
   async clone(
-    @Body() createProgramDto: CreateProgramDto,
+    @Body() cloneProgramDto: CloneProgramDto,
   ): Promise<ProgramEntity> {
-    return this.programService.cloneProgram(createProgramDto);
+    return this.programService.cloneProgram(cloneProgramDto);
   }
 
   @Get('/customer/:customerId')

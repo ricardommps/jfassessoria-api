@@ -25,11 +25,13 @@ import { TrainingModule } from './training/training.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: {
-        rejectUnauthorized: false,
-        requestCert: true,
-        //ca: fs.readFileSync(certFile).toString(),
-      },
+      ssl: process.env.DATABASE_URL
+        ? {
+            rejectUnauthorized: false,
+            requestCert: true,
+            //ca: fs.readFileSync(certFile).toString(),
+          }
+        : false,
     }),
     CustomersModule,
     UserModule,

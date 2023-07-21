@@ -16,6 +16,7 @@ export class ReturnProgramDto {
   active: boolean;
   test: string;
   dateTest: Date;
+  customerId: number;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -33,6 +34,7 @@ export class ReturnProgramDto {
     this.active = program.active;
     this.test = program.test;
     this.dateTest = program.dateTest;
+    this.customerId = program.customerId;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

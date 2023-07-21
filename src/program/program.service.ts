@@ -13,6 +13,7 @@ import { UpdateProgramDto } from './dtos/updateProgram.dto';
 import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
 import { CreateTrainingDto } from '../training/dtos/createTraining.dto';
+import { CloneProgramDto } from './dtos/cloneProgram.dto';
 
 @Injectable()
 export class ProgramService {
@@ -38,12 +39,10 @@ export class ProgramService {
     });
   }
 
-  async cloneProgram(
-    createProgramDto: CreateProgramDto,
-  ): Promise<ProgramEntity> {
-    await this.customersService.findCustomerById(createProgramDto.customerId);
+  async cloneProgram(cloneProgramDto: CloneProgramDto): Promise<ProgramEntity> {
+    await this.customersService.findCustomerById(cloneProgramDto.customerId);
     const program = await this.programRepository.save({
-      ...createProgramDto,
+      ...cloneProgramDto,
     });
 
     return program;
@@ -53,6 +52,9 @@ export class ProgramService {
     const programs = await this.programRepository.find({
       where: {
         customerId,
+      },
+      relations: {
+        trainings: true,
       },
       order: { createdAt: 'ASC' },
     });
