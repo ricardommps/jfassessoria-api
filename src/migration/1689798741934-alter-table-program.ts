@@ -10,8 +10,8 @@ export class AlterTableProgram1689798741934 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-    ALTER TABLE program test active;
-    ALTER TABLE program date_test active;
+    ALTER TABLE program drop test;
+    ALTER TABLE program drop date_test;
 `);
   }
 }

@@ -1,4 +1,10 @@
-import { IsBoolean, IsDateString, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateTrainingDto {
   @IsString()
@@ -10,6 +16,10 @@ export class UpdateTrainingDto {
   @IsString()
   @IsOptional()
   coverPath: string;
+
+  @IsArray()
+  @IsOptional()
+  videos: [];
 
   @IsDateString()
   @IsOptional()

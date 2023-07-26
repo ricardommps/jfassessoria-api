@@ -14,6 +14,12 @@ import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
 import { CreateTrainingDto } from '../training/dtos/createTraining.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
+import { SendProgramDto } from './dtos/sendProgram.dto';
+
+export interface SendSuccess {
+  status: number;
+  message: string;
+}
 
 @Injectable()
 export class ProgramService {
@@ -46,6 +52,24 @@ export class ProgramService {
     });
 
     return program;
+  }
+
+  async sendProgram(sendProgramDto: SendProgramDto): Promise<SendSuccess> {
+    await sendProgramDto.customersId.map(async (item) => {
+      const saveProgram = {
+        ...sendProgramDto,
+        customerId: item,
+      };
+      delete saveProgram.customersId;
+      await this.customersService.findCustomerById(saveProgram.customerId);
+      return this.programRepository.save({
+        ...saveProgram,
+      });
+    });
+    return {
+      status: 200,
+      message: 'Send Success',
+    };
   }
 
   async findProgramByCustomerId(customerId: number): Promise<ProgramEntity[]> {

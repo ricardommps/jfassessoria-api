@@ -8,7 +8,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ProgramService } from './program.service';
+import { ProgramService, SendSuccess } from './program.service';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
 import { ReturnProgramDto } from './dtos/returnProgram.dto';
@@ -16,6 +16,7 @@ import { CreateProgramDto } from './dtos/createProgram.dto';
 import { ProgramEntity } from './entities/program.entity';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
+import { SendProgramDto } from './dtos/sendProgram.dto';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('program')
@@ -42,6 +43,14 @@ export class ProgramController {
     @Body() cloneProgramDto: CloneProgramDto,
   ): Promise<ProgramEntity> {
     return this.programService.cloneProgram(cloneProgramDto);
+  }
+
+  @Post('/sendProgram')
+  @UsePipes(ValidationPipe)
+  async sendProgram(
+    @Body() sendProgramDto: SendProgramDto,
+  ): Promise<SendSuccess> {
+    return this.programService.sendProgram(sendProgramDto);
   }
 
   @Get('/customer/:customerId')

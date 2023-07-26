@@ -32,6 +32,9 @@ export class TrainingEntity {
   @Column({ name: 'published' })
   published: boolean;
 
+  @Column({ type: 'json', name: 'videos' })
+  videos: [];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsBoolean,
   IsDateString,
   IsInt,
@@ -23,6 +24,10 @@ export class CreateTrainingDto {
 
   @IsBoolean()
   published: boolean;
+
+  @IsArray()
+  @IsOptional()
+  videos: [];
 
   @IsInt()
   programId: number;
