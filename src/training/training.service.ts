@@ -10,6 +10,12 @@ import { Repository } from 'typeorm';
 import { ProgramService } from '../program/program.service';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
+import { SendTrainingDto } from './dtos/sendTraining.dto';
+
+export interface SendSuccess {
+  status: number;
+  message: string;
+}
 
 @Injectable()
 export class TrainingService {
@@ -74,5 +80,23 @@ export class TrainingService {
       ...training,
       ...updateTraining,
     });
+  }
+
+  async sendTraining(sendTrainingDto: SendTrainingDto): Promise<SendSuccess> {
+    await sendTrainingDto.programsId.map(async (item) => {
+      const saveTraining = {
+        ...sendTrainingDto,
+        programId: item,
+      };
+      delete saveTraining.programsId;
+      await this.programService.findProgramById(saveTraining.programId);
+      return this.trainingRepository.save({
+        ...saveTraining,
+      });
+    });
+    return {
+      status: 200,
+      message: 'Send Success',
+    };
   }
 }

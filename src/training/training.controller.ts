@@ -8,13 +8,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { TrainingService } from './training.service';
+import { SendSuccess, TrainingService } from './training.service';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
 import { ReturnTrainingDto } from './dtos/returnTraining,dto';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
+import { SendTrainingDto } from './dtos/sendTraining.dto';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('training')
@@ -52,5 +53,13 @@ export class TrainingController {
     @Param('trainingId') trainingId: number,
   ): Promise<TrainingEntity> {
     return this.trainingService.updateTraining(updateTraining, trainingId);
+  }
+
+  @Post('/sendTraining')
+  @UsePipes(ValidationPipe)
+  async sendProgram(
+    @Body() sendTrainingDto: SendTrainingDto,
+  ): Promise<SendSuccess> {
+    return this.trainingService.sendTraining(sendTrainingDto);
   }
 }

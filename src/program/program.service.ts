@@ -33,7 +33,11 @@ export class ProgramService {
   ) {}
 
   async getAllProgram(): Promise<ProgramEntity[]> {
-    return this.programRepository.find();
+    return this.programRepository.find({
+      relations: {
+        customer: true,
+      },
+    });
   }
 
   async createProgram(
@@ -107,6 +111,22 @@ export class ProgramService {
       },
       relations: {
         trainings: true,
+      },
+    });
+    if (!program) {
+      throw new NotFoundException(`Program id: ${programId} not found`);
+    }
+    return program;
+  }
+
+  async findProgramByIdUViewPdf(programId: number): Promise<ProgramEntity> {
+    const program = await this.programRepository.findOne({
+      where: {
+        id: programId,
+      },
+      relations: {
+        trainings: true,
+        customer: true,
       },
     });
     if (!program) {

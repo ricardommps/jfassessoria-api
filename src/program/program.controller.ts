@@ -17,6 +17,7 @@ import { ProgramEntity } from './entities/program.entity';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { SendProgramDto } from './dtos/sendProgram.dto';
+import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('program')
@@ -25,7 +26,7 @@ export class ProgramController {
   @Get()
   async getAllProgram(): Promise<ReturnProgramDto[]> {
     return (await this.programService.getAllProgram()).map(
-      (programEntity) => new ReturnProgramDto(programEntity),
+      (programEntity) => new ReturnProgramAndCustomerDto(programEntity),
     );
   }
 
@@ -74,6 +75,13 @@ export class ProgramController {
     @Param('programId') programId,
   ): Promise<ReturnProgramDto> {
     return await this.programService.findProgramByIdUsingRelation(programId);
+  }
+
+  @Get('/viewPdf/:programId')
+  async findProgramByIdUViewPdf(
+    @Param('programId') programId,
+  ): Promise<ReturnProgramAndCustomerDto> {
+    return await this.programService.findProgramByIdUViewPdf(programId);
   }
 
   @UsePipes(ValidationPipe)
