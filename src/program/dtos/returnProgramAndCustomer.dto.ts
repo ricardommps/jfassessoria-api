@@ -1,5 +1,5 @@
 import { ProgramEntity } from '../entities/program.entity';
-import { ReturnCustomerDetailsDto } from 'src/customers/dtos/returnCustomerDetails.dto';
+import { ReturnCustomerDetailsDto } from '../../customers/dtos/returnCustomerDetails.dto';
 
 export class ReturnProgramAndCustomerDto {
   id: number;
