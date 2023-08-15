@@ -23,6 +23,9 @@ export class CreateCustomersDto {
   @IsBoolean()
   isStrength: boolean;
 
+  @IsBoolean()
+  active: boolean;
+
   @IsOptional()
   @IsDateString()
   expiresDate: Date;

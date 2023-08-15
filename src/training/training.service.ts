@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { TrainingEntity } from './entities/training.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { ProgramService } from '../program/program.service';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
@@ -32,7 +32,7 @@ export class TrainingService {
       where: {
         programId,
       },
-      order: { createdAt: 'ASC' },
+      order: { datePublished: 'ASC' },
     });
 
     return programs;
@@ -98,5 +98,10 @@ export class TrainingService {
       status: 200,
       message: 'Send Success',
     };
+  }
+
+  async deleteTraining(trainingId: number): Promise<DeleteResult> {
+    await this.findTrainingById(trainingId);
+    return this.trainingRepository.delete({ id: trainingId });
   }
 }

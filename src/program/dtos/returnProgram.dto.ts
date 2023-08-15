@@ -10,13 +10,17 @@ export class ReturnProgramDto {
   pv: string;
   pace: string;
   vlan: string;
+  vlanLevel: number;
+  vlaLevel: number;
   paceVlan: string;
   vla: string;
   paceVla: string;
   active: boolean;
   test: string;
+  warningPdf: string;
   dateTest: Date;
   customerId: number;
+  fcmValue: number;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -35,6 +39,10 @@ export class ReturnProgramDto {
     this.test = program.test;
     this.dateTest = program.dateTest;
     this.customerId = program.customerId;
+    this.vlanLevel = program.vlanLevel;
+    this.vlaLevel = program.vlaLevel;
+    this.warningPdf = program.warningPdf;
+    this.fcmValue = program.fcmValue;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

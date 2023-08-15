@@ -8,6 +8,7 @@ export class ReturnCustomerDetailsDto {
   isStrength: boolean;
   phone: string;
   birthDate: Date;
+  active: boolean;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -16,5 +17,6 @@ export class ReturnCustomerDetailsDto {
     this.birthDate = customerEntity.birthDate;
     this.isRunner = customerEntity.isRunner;
     this.isStrength = customerEntity.isStrength;
+    this.active = customerEntity.active;
   }
 }

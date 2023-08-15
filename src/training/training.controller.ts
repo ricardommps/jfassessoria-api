@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -16,6 +17,7 @@ import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 import { SendTrainingDto } from './dtos/sendTraining.dto';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('training')
@@ -61,5 +63,12 @@ export class TrainingController {
     @Body() sendTrainingDto: SendTrainingDto,
   ): Promise<SendSuccess> {
     return this.trainingService.sendTraining(sendTrainingDto);
+  }
+
+  @Delete('/:trainingId')
+  async deleteProduct(
+    @Param('trainingId') trainingId: number,
+  ): Promise<DeleteResult> {
+    return this.trainingService.deleteTraining(trainingId);
   }
 }

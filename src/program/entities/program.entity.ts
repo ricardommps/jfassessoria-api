@@ -52,6 +52,12 @@ export class ProgramEntity {
   @Column({ name: 'pace_vla', nullable: true })
   paceVla: string;
 
+  @Column({ name: 'vlan_level' })
+  vlanLevel: number;
+
+  @Column({ name: 'vla_level' })
+  vlaLevel: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -61,8 +67,14 @@ export class ProgramEntity {
   @Column({ name: 'test', nullable: true })
   test: string;
 
+  @Column({ name: 'warning_pdf', nullable: true })
+  warningPdf: string;
+
   @Column({ name: 'date_test' })
   dateTest: Date;
+
+  @Column({ name: 'fcm_value', nullable: true })
+  fcmValue: number;
 
   @ManyToOne(() => CustomerEntity, (customer) => customer.programs)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
@@ -70,6 +82,7 @@ export class ProgramEntity {
 
   @OneToMany(() => TrainingEntity, (training) => training.program, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   trainings?: TrainingEntity[];
 }

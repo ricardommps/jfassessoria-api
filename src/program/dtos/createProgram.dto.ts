@@ -30,6 +30,12 @@ export class CreateProgramDto {
   @IsString()
   vlan: string;
 
+  @IsInt()
+  vlaLevel: number;
+
+  @IsInt()
+  vlanLevel: number;
+
   @IsString()
   paceVlan: string;
 
@@ -48,6 +54,14 @@ export class CreateProgramDto {
   @IsString()
   @IsOptional()
   test: string;
+
+  @IsString()
+  @IsOptional()
+  warningPdf: string;
+
+  @IsInt()
+  @IsOptional()
+  fcmValue: number;
 
   @IsDateString()
   @IsOptional()

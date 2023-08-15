@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -18,6 +19,7 @@ import { UpdateProgramDto } from './dtos/updateProgram.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { SendProgramDto } from './dtos/sendProgram.dto';
 import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
+import { DeleteResult } from 'typeorm';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('program')
@@ -91,5 +93,12 @@ export class ProgramController {
     @Param('programId') programId: number,
   ): Promise<ProgramEntity> {
     return this.programService.updateProgram(updateProgram, programId);
+  }
+
+  @Delete('/:programId')
+  async deleteProduct(
+    @Param('programId') programId: number,
+  ): Promise<DeleteResult> {
+    return this.programService.deleteProgram(programId);
   }
 }

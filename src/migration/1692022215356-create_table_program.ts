@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableProgram1688322066564 implements MigrationInterface {
+export class CreateTableProgram1692022215356 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
             CREATE TABLE public.program (
@@ -16,10 +16,15 @@ export class CreateTableProgram1688322066564 implements MigrationInterface {
                 pace_vlan character varying NOT NULL,
                 vla character varying NOT NULL,
                 pace_vla character varying NOT NULL,
+                active boolean NOT NULL,
+                vla_level integer NOT NULL,
+                vlan_level integer NOT NULL,
                 created_at timestamp without time zone DEFAULT now() NOT NULL,
                 updated_at timestamp without time zone DEFAULT now() NOT NULL,
                 primary key (id),
-                foreign key (customer_id) references public.customer(id)
+                foreign key (customer_id) 
+                  references public.customer (id)
+                  ON DELETE CASCADE
             );
             
             CREATE SEQUENCE public.program_id_seq
@@ -38,7 +43,7 @@ export class CreateTableProgram1688322066564 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-            drop table public.program;
-        `);
+        drop table public.program;
+    `);
   }
 }

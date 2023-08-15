@@ -11,11 +11,15 @@ export class ReturnProgramAndCustomerDto {
   pace: string;
   vlan: string;
   paceVlan: string;
+  vlanLevel: number;
   vla: string;
   paceVla: string;
+  vlaLevel: number;
   active: boolean;
   test: string;
+  warningPdf: string;
   dateTest: Date;
+  fcmValue: number;
   customerId: number;
   customer?: ReturnCustomerDetailsDto;
 
@@ -34,6 +38,11 @@ export class ReturnProgramAndCustomerDto {
     this.active = program.active;
     this.test = program.test;
     this.dateTest = program.dateTest;
+    this.vlanLevel = program.vlanLevel;
+    this.vlaLevel = program.vlaLevel;
+    this.warningPdf = program.warningPdf;
+    this.fcmValue = program.fcmValue;
+
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)
       : undefined;

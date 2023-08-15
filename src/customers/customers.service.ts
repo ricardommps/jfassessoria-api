@@ -1,8 +1,10 @@
 import {
   BadGatewayException,
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerEntity } from './entities/customer.entity';
@@ -11,16 +13,23 @@ import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { createPasswordHashed } from '../utils/password';
 import { UserType } from '../user/enum/user-type.enum';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CustomersService {
   constructor(
     @InjectRepository(CustomerEntity)
     private readonly customerRepository: Repository<CustomerEntity>,
+
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
   ) {}
 
-  async getAllCustomer(): Promise<CustomerEntity[]> {
+  async getAllCustomer(userId): Promise<CustomerEntity[]> {
     return this.customerRepository.find({
+      where: {
+        userId,
+      },
       relations: {
         programs: true,
       },
@@ -29,7 +38,9 @@ export class CustomersService {
 
   async createCustomer(
     createCustomersDto: CreateCustomersDto,
+    userId: number,
   ): Promise<CustomerEntity> {
+    await this.userService.findUserById(userId);
     const customer = await this.findCustomerByEmail(
       createCustomersDto.email,
     ).catch(() => undefined);
@@ -41,8 +52,8 @@ export class CustomersService {
     const passwordHashed = await createPasswordHashed(`${emailPrefix[0]}123`);
     return this.customerRepository.save({
       ...createCustomersDto,
+      userId,
       typeUser: UserType.User,
-      active: false,
       password: passwordHashed,
     });
   }
@@ -87,9 +98,11 @@ export class CustomersService {
 
   async getCustomerByIdUsingRelations(
     customerId: number,
+    userId: number,
   ): Promise<CustomerEntity> {
     const customer = await this.customerRepository.findOne({
       where: {
+        userId,
         id: customerId,
       },
       relations: {

@@ -5,6 +5,7 @@ export class ReturnCustomerDto {
   id: number;
   name: string;
   email: string;
+  active: boolean;
   isRunner: boolean;
   isStrength: boolean;
   phone: string;
@@ -13,6 +14,7 @@ export class ReturnCustomerDto {
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
+    this.active = customerEntity.active;
     this.email = customerEntity.email;
     this.phone = customerEntity.phone;
     this.birthDate = customerEntity.birthDate;

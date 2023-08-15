@@ -31,6 +31,12 @@ export class CloneProgramDto {
   @IsString()
   vlan: string;
 
+  @IsInt()
+  vlaLevel: number;
+
+  @IsInt()
+  vlanLevel: number;
+
   @IsString()
   paceVlan: string;
 
@@ -49,6 +55,14 @@ export class CloneProgramDto {
   @IsString()
   @IsOptional()
   test: string;
+
+  @IsString()
+  @IsOptional()
+  warningPdf: string;
+
+  @IsInt()
+  @IsOptional()
+  fcmValue: number;
 
   @IsDateString()
   @IsOptional()

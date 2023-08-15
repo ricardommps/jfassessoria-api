@@ -2,6 +2,7 @@ import {
   IsArray,
   IsBoolean,
   IsDateString,
+  IsInt,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -36,6 +37,12 @@ export class SendProgramDto {
   @IsString()
   vla: string;
 
+  @IsInt()
+  vlaLevel: number;
+
+  @IsInt()
+  vlanLevel: number;
+
   @IsString()
   paceVla: string;
 
@@ -48,6 +55,14 @@ export class SendProgramDto {
   @IsString()
   @IsOptional()
   test: string;
+
+  @IsString()
+  @IsOptional()
+  warningPdf: string;
+
+  @IsInt()
+  @IsOptional()
+  fcmValue: number;
 
   @IsDateString()
   @IsOptional()

@@ -6,13 +6,11 @@ import {
 } from '@nestjs/common';
 import { ProgramEntity } from './entities/program.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
 import { CreateProgramDto } from './dtos/createProgram.dto';
 import { UpdateProgramDto } from './dtos/updateProgram.dto';
-import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
-import { CreateTrainingDto } from '../training/dtos/createTraining.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { SendProgramDto } from './dtos/sendProgram.dto';
 
@@ -123,6 +121,10 @@ export class ProgramService {
     const program = await this.programRepository.findOne({
       where: {
         id: programId,
+        trainings: {
+          published: true,
+          // id: Not(IsNull()), // parent (not)exist - this can helpful for someone
+        },
       },
       relations: {
         trainings: true,
@@ -147,17 +149,9 @@ export class ProgramService {
     });
   }
 
-  private async preloadTraining(
-    training: CreateTrainingDto,
-    programId: number,
-  ): Promise<TrainingEntity> {
-    const trainingCreated = await this.trainingService.cloneTraining(
-      training,
-      programId,
-    );
+  async deleteProgram(programId: number): Promise<DeleteResult> {
+    await this.findProgramById(programId);
 
-    if (trainingCreated) {
-      return trainingCreated;
-    }
+    return this.programRepository.delete({ id: programId });
   }
 }

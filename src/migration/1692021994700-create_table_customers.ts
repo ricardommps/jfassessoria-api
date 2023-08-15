@@ -1,10 +1,11 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateTableCustomers1688067155287 implements MigrationInterface {
+export class CreateTableCustomers1692021994700 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
         CREATE TABLE public.customer (
             id integer NOT NULL,
+            user_id int NOT NULL,
             name character varying NOT NULL,
             email character varying NOT NULL,
             password character varying NOT NULL,
@@ -22,7 +23,8 @@ export class CreateTableCustomers1688067155287 implements MigrationInterface {
             avatar character varying NOT NULL,
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
-            primary key (id)
+            primary key (id),
+            foreign key (user_id) references public.user(id)
         );
         
         CREATE SEQUENCE public.customer_id_seq

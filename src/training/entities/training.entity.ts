@@ -41,7 +41,9 @@ export class TrainingEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => ProgramEntity, (program) => program.trainings)
+  @ManyToOne(() => ProgramEntity, (program) => program.trainings, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'program_id', referencedColumnName: 'id' })
   program?: ProgramEntity;
 }
