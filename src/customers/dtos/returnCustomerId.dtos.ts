@@ -1,4 +1,4 @@
-import { ReturnPaymentDto } from 'src/payment/dtos/returnPayment.dto';
+import { ReturnPaymentDto } from '../../payment/dtos/returnPayment.dto';
 import { ReturnProgramDto } from '../../program/dtos/returnProgram.dto';
 import { CustomerEntity } from '../entities/customer.entity';
 

@@ -1,4 +1,4 @@
-import { PaymentEntity } from 'src/payment/entities/payment.entity';
+import { PaymentEntity } from '../../payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
 import {
   Column,

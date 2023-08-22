@@ -1,4 +1,4 @@
-import { CustomerEntity } from 'src/customers/entities/customer.entity';
+import { CustomerEntity } from '../../customers/entities/customer.entity';
 import {
   Column,
   CreateDateColumn,

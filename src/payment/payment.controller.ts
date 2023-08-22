@@ -9,11 +9,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Roles } from 'src/decorators/roles.decorator';
-import { UserType } from 'src/user/enum/user-type.enum';
+import { Roles } from '../decorators/roles.decorator';
+import { UserType } from '../user/enum/user-type.enum';
 import { PaymentService } from './payment.service';
 import { ReturnPaymentDto } from './dtos/returnPayment.dto';
-import { UserId } from 'src/decorators/user-id.decorator';
+import { UserId } from '../decorators/user-id.decorator';
 import { CreatePaymentDto } from './dtos/createPayment.dto';
 import { PaymentEntity } from './entities/payment.entity';
 import { DeleteResult } from 'typeorm';

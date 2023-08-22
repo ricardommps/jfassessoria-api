@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentEntity } from './entities/payment.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreatePaymentDto } from './dtos/createPayment.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PaymentService {
