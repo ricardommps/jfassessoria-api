@@ -32,6 +32,13 @@ export class CustomersService {
       },
       relations: {
         programs: true,
+        payments: true,
+      },
+      order: {
+        name: 'ASC',
+        payments: {
+          startDate: 'DESC',
+        },
       },
     });
   }

@@ -12,7 +12,7 @@ import {
 import { SendSuccess, TrainingService } from './training.service';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { ReturnTrainingDto } from './dtos/returnTraining,dto';
+import { ReturnTrainingDto } from './dtos/returnTraining.dto';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { TrainingEntity } from './entities/training.entity';
 import { UpdateTrainingDto } from './dtos/updateTraining.dto';

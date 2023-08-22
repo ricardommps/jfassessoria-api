@@ -1,3 +1,4 @@
+import { PaymentEntity } from 'src/payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
 import {
   Column,
@@ -69,4 +70,7 @@ export class CustomerEntity {
 
   @OneToMany(() => ProgramEntity, (program) => program.customer)
   programs?: ProgramEntity[];
+
+  @OneToMany(() => PaymentEntity, (payment) => payment.customer)
+  payments?: PaymentEntity[];
 }

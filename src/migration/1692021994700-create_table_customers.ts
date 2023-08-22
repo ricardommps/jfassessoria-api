@@ -9,7 +9,7 @@ export class CreateTableCustomers1692021994700 implements MigrationInterface {
             name character varying NOT NULL,
             email character varying NOT NULL,
             password character varying NOT NULL,
-            goal character varying NOT NULL,
+            goal character varying,
             type_user int NOT NULL,
             active boolean NOT NULL,
             is_runner boolean NOT NULL,

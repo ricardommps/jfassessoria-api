@@ -9,6 +9,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { ProgramModule } from './program/program.module';
 import { TrainingModule } from './training/training.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -25,13 +26,7 @@ import { TrainingModule } from './training/training.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: process.env.DATABASE_URL
-        ? {
-            rejectUnauthorized: false,
-            requestCert: true,
-            //ca: fs.readFileSync(certFile).toString(),
-          }
-        : false,
+      ssl: true,
     }),
     CustomersModule,
     UserModule,
@@ -39,6 +34,7 @@ import { TrainingModule } from './training/training.module';
     JwtModule,
     ProgramModule,
     TrainingModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [

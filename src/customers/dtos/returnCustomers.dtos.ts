@@ -1,3 +1,4 @@
+import { ReturnPaymentDto } from 'src/payment/dtos/returnPayment.dto';
 import { ReturnProgramDto } from '../../program/dtos/returnProgram.dto';
 import { CustomerEntity } from '../entities/customer.entity';
 
@@ -11,6 +12,7 @@ export class ReturnCustomerDto {
   phone: string;
   birthDate: Date;
   programs: ReturnProgramDto[];
+  payments: ReturnPaymentDto[];
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -22,6 +24,10 @@ export class ReturnCustomerDto {
     this.isStrength = customerEntity.isStrength;
     this.programs = customerEntity.programs
       ? customerEntity.programs.map((program) => new ReturnProgramDto(program))
+      : undefined;
+
+    this.payments = customerEntity.payments
+      ? customerEntity.payments.map((payment) => new ReturnPaymentDto(payment))
       : undefined;
   }
 }
