@@ -26,7 +26,7 @@ import { PaymentModule } from './payment/payment.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: false,
+      ssl: true,
     }),
     CustomersModule,
     UserModule,
