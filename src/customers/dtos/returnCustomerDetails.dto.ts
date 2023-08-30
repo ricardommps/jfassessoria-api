@@ -9,6 +9,7 @@ export class ReturnCustomerDetailsDto {
   phone: string;
   birthDate: Date;
   active: boolean;
+  temporaryPassword: boolean;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -18,5 +19,6 @@ export class ReturnCustomerDetailsDto {
     this.isRunner = customerEntity.isRunner;
     this.isStrength = customerEntity.isStrength;
     this.active = customerEntity.active;
+    this.temporaryPassword = customerEntity.temporaryPassword;
   }
 }

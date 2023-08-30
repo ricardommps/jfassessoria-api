@@ -68,6 +68,10 @@ export class CloneProgramDto {
   @IsOptional()
   dateTest: Date;
 
+  @IsBoolean()
+  @IsOptional()
+  hide: boolean;
+
   @IsArray()
   trainings: [];
 }

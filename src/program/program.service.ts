@@ -32,18 +32,29 @@ export class ProgramService {
 
   async getAllProgram(): Promise<ProgramEntity[]> {
     return this.programRepository.find({
+      where: {
+        hide: false,
+      },
       relations: {
         customer: true,
       },
     });
   }
 
+  async getAllProgramChart(): Promise<ProgramEntity[]> {
+    return this.programRepository.find();
+  }
+
   async createProgram(
     createProgramDto: CreateProgramDto,
   ): Promise<ProgramEntity> {
-    await this.customersService.findCustomerById(createProgramDto.customerId);
+    const newCreateProgramDto = createProgramDto;
+    newCreateProgramDto.hide = false;
+    await this.customersService.findCustomerById(
+      newCreateProgramDto.customerId,
+    );
     return this.programRepository.save({
-      ...createProgramDto,
+      ...newCreateProgramDto,
     });
   }
 
@@ -78,8 +89,27 @@ export class ProgramService {
     const programs = await this.programRepository.find({
       where: {
         customerId,
+        hide: false,
       },
       relations: {
+        trainings: true,
+      },
+      order: { referenceMonth: 'DESC' },
+    });
+
+    return programs;
+  }
+
+  async findArchivedProgramByCustomerId(
+    customerId: number,
+  ): Promise<ProgramEntity[]> {
+    const programs = await this.programRepository.find({
+      where: {
+        customerId,
+        hide: true,
+      },
+      relations: {
+        customer: true,
         trainings: true,
       },
       order: { createdAt: 'ASC' },
@@ -141,10 +171,10 @@ export class ProgramService {
     updateProgram: UpdateProgramDto,
     programId: number,
   ): Promise<ProgramEntity> {
-    const product = await this.findProgramById(programId);
+    const program = await this.findProgramById(programId);
 
     return this.programRepository.save({
-      ...product,
+      ...program,
       ...updateProgram,
     });
   }
@@ -153,5 +183,21 @@ export class ProgramService {
     await this.findProgramById(programId);
 
     return this.programRepository.delete({ id: programId });
+  }
+
+  async hideProgram(programId: number): Promise<ProgramEntity> {
+    const program = await this.findProgramById(programId);
+    program.hide = true;
+    return this.programRepository.save({
+      ...program,
+    });
+  }
+
+  async showProgram(programId: number): Promise<ProgramEntity> {
+    const program = await this.findProgramById(programId);
+    program.hide = false;
+    return this.programRepository.save({
+      ...program,
+    });
   }
 }

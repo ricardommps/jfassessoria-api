@@ -20,6 +20,7 @@ import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { SendProgramDto } from './dtos/sendProgram.dto';
 import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
 import { DeleteResult } from 'typeorm';
+import { ArchivedProgramDto } from './dtos/archivedProgram.dto';
 
 @Roles(UserType.Admin, UserType.Root)
 @Controller('program')
@@ -28,6 +29,13 @@ export class ProgramController {
   @Get()
   async getAllProgram(): Promise<ReturnProgramDto[]> {
     return (await this.programService.getAllProgram()).map(
+      (programEntity) => new ReturnProgramAndCustomerDto(programEntity),
+    );
+  }
+
+  @Get('/allChart')
+  async getAllProgramChart(): Promise<ReturnProgramDto[]> {
+    return (await this.programService.getAllProgramChart()).map(
       (programEntity) => new ReturnProgramAndCustomerDto(programEntity),
     );
   }
@@ -88,7 +96,7 @@ export class ProgramController {
 
   @UsePipes(ValidationPipe)
   @Put('/:programId')
-  async updateProduct(
+  async updateProgram(
     @Body() updateProgram: UpdateProgramDto,
     @Param('programId') programId: number,
   ): Promise<ProgramEntity> {
@@ -96,9 +104,34 @@ export class ProgramController {
   }
 
   @Delete('/:programId')
-  async deleteProduct(
+  async deleteProgram(
     @Param('programId') programId: number,
   ): Promise<DeleteResult> {
     return this.programService.deleteProgram(programId);
+  }
+
+  @UsePipes(ValidationPipe)
+  @Put('/hide/:programId')
+  async hideProgram(
+    @Param('programId') programId: number,
+  ): Promise<ProgramEntity> {
+    return this.programService.hideProgram(programId);
+  }
+
+  @UsePipes(ValidationPipe)
+  @Put('/show/:programId')
+  async showProgram(
+    @Param('programId') programId: number,
+  ): Promise<ProgramEntity> {
+    return this.programService.showProgram(programId);
+  }
+
+  @Get('/archived/:customerId')
+  async findArchivedProgramByCustomerId(
+    @Param('customerId') customerId,
+  ): Promise<ArchivedProgramDto[]> {
+    return (
+      await this.programService.findArchivedProgramByCustomerId(customerId)
+    ).map((program) => new ArchivedProgramDto(program));
   }
 }

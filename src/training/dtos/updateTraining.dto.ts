@@ -25,6 +25,14 @@ export class UpdateTrainingDto {
   @IsOptional()
   datePublished: Date;
 
+  @IsDateString()
+  @IsOptional()
+  trainingDateOther: Date;
+
+  @IsBoolean()
+  @IsOptional()
+  hide: boolean;
+
   @IsBoolean()
   published: boolean;
 }

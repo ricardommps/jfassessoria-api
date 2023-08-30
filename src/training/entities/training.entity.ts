@@ -29,11 +29,17 @@ export class TrainingEntity {
   @Column({ name: 'date_published' })
   datePublished: Date;
 
+  @Column({ name: 'training_date_other' })
+  trainingDateOther: Date;
+
   @Column({ name: 'published' })
   published: boolean;
 
   @Column({ type: 'json', name: 'videos' })
   videos: [];
+
+  @Column({ name: 'hide' })
+  hide: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

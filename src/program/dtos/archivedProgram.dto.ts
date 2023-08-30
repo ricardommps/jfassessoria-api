@@ -1,7 +1,8 @@
 import { ProgramEntity } from '../entities/program.entity';
 import { ReturnCustomerDetailsDto } from '../../customers/dtos/returnCustomerDetails.dto';
+import { ReturnTrainingDto } from 'src/training/dtos/returnTraining.dto';
 
-export class ReturnProgramAndCustomerDto {
+export class ArchivedProgramDto {
   id: number;
   name: string;
   goal: string;
@@ -23,11 +24,13 @@ export class ReturnProgramAndCustomerDto {
   customerId: number;
   hide: boolean;
   customer?: ReturnCustomerDetailsDto;
+  trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
     this.id = program.id;
     this.name = program.name;
     this.goal = program.goal;
+    this.customerId = program.customerId;
     this.difficultyLevel = program.difficultyLevel;
     this.referenceMonth = program.referenceMonth;
     this.pv = program.pv;
@@ -47,6 +50,10 @@ export class ReturnProgramAndCustomerDto {
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)
+      : undefined;
+
+    this.trainings = program.trainings
+      ? program.trainings.map((training) => new ReturnTrainingDto(training))
       : undefined;
   }
 }

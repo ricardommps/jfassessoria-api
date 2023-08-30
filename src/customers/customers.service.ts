@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerEntity } from './entities/customer.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { createPasswordHashed } from '../utils/password';
 import { UserType } from '../user/enum/user-type.enum';
@@ -62,6 +62,7 @@ export class CustomersService {
       userId,
       typeUser: UserType.User,
       password: passwordHashed,
+      temporaryPassword: true,
     });
   }
 
@@ -136,6 +137,13 @@ export class CustomersService {
     return this.customerRepository.save({
       ...customer,
       ...updateCustomerDTO,
+      temporaryPassword: false,
     });
+  }
+
+  async deleteCustomer(customerId: number): Promise<DeleteResult> {
+    await this.findCustomerById(customerId);
+
+    return this.customerRepository.delete({ id: customerId });
   }
 }

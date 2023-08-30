@@ -68,6 +68,10 @@ export class SendProgramDto {
   @IsOptional()
   dateTest: Date;
 
+  @IsBoolean()
+  @IsOptional()
+  hide: boolean;
+
   @IsArray()
   trainings: [];
 }

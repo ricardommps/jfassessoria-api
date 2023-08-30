@@ -66,4 +66,8 @@ export class UpdateProgramDto {
   @IsDateString()
   @IsOptional()
   dateTest: Date;
+
+  @IsBoolean()
+  @IsOptional()
+  hide: boolean;
 }

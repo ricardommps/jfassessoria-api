@@ -7,7 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { createPasswordHashed } from '../utils/password';
+import { createPasswordHashed, validatePassword } from '../utils/password';
+import { UpdatePasswordDTO } from './dtos/update-password.dto';
 
 @Injectable()
 export class UserService {
@@ -29,6 +30,7 @@ export class UserService {
     return this.userRepository.save({
       ...createUserDto,
       password: passwordHashed,
+      temporaryPassword: true,
     });
   }
 
@@ -58,5 +60,31 @@ export class UserService {
       throw new NotFoundException(`UserId: ${userId} Not Found`);
     }
     return user;
+  }
+
+  async updatePasswordUser(
+    updatePasswordDTO: UpdatePasswordDTO,
+    userId: number,
+  ): Promise<UserEntity> {
+    const user = await this.findUserById(userId);
+
+    const passwordHashed = await createPasswordHashed(
+      updatePasswordDTO.newPassword,
+    );
+
+    const isMatch = await validatePassword(
+      updatePasswordDTO.lastPassword,
+      user.password || '',
+    );
+
+    if (!isMatch) {
+      throw new BadRequestException('Last password invalid');
+    }
+
+    return this.userRepository.save({
+      ...user,
+      password: passwordHashed,
+      temporaryPassword: false,
+    });
   }
 }

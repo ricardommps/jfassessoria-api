@@ -21,8 +21,16 @@ export class SendTrainingDto {
   @IsOptional()
   datePublished: Date;
 
+  @IsDateString()
+  @IsOptional()
+  trainingDateOther: Date;
+
   @IsBoolean()
   published: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  hide: boolean;
 
   @IsArray()
   @IsOptional()

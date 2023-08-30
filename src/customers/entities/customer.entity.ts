@@ -62,6 +62,9 @@ export class CustomerEntity {
   @Column({ name: 'avatar' })
   avatar: string;
 
+  @Column({ name: 'temporary_password' })
+  temporaryPassword: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

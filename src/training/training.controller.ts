@@ -71,4 +71,12 @@ export class TrainingController {
   ): Promise<DeleteResult> {
     return this.trainingService.deleteTraining(trainingId);
   }
+
+  @UsePipes(ValidationPipe)
+  @Put('/hide/:trainingId')
+  async hideTraining(
+    @Param('trainingId') trainingId: number,
+  ): Promise<TrainingEntity> {
+    return this.trainingService.hideTraining(trainingId);
+  }
 }

@@ -23,6 +23,9 @@ export class UserEntity {
   @Column({ name: 'type_user', nullable: false })
   typeUser: number;
 
+  @Column({ name: 'temporary_password' })
+  temporaryPassword: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

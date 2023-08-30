@@ -15,6 +15,7 @@ export class ReturnCustomerIdDto {
   gender: string;
   birthDate: Date;
   phone: string;
+  temporaryPassword: boolean;
   programs: ReturnProgramDto[];
   payments: ReturnPaymentDto[];
   constructor(customerEntity: CustomerEntity) {
@@ -30,6 +31,7 @@ export class ReturnCustomerIdDto {
     this.gender = customerEntity.gender;
     this.birthDate = customerEntity.birthDate;
     this.phone = customerEntity.phone;
+    this.temporaryPassword = customerEntity.temporaryPassword;
 
     this.programs = customerEntity.programs
       ? customerEntity.programs.map((program) => new ReturnProgramDto(program))

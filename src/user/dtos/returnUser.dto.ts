@@ -4,9 +4,11 @@ export class ReturnUserDto {
   id: number;
   name: string;
   email: string;
+  temporaryPassword: boolean;
   constructor(userEntity: UserEntity) {
     this.id = userEntity.id;
     this.name = userEntity.name;
     this.email = userEntity.email;
+    this.temporaryPassword = userEntity.temporaryPassword;
   }
 }

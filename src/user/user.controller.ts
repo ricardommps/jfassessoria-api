@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -12,10 +13,11 @@ import { UserEntity } from './entities/user.entity';
 import { ReturnUserDto } from './dtos/returnUser.dto';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from './enum/user-type.enum';
-import { UserMe } from '../decorators/user-id.decorator';
+import { UserId, UserMe } from '../decorators/user-id.decorator';
 import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
 import { ReturnMeDto } from './dtos/returnMe.dto';
+import { UpdatePasswordDTO } from './dtos/update-password.dto';
 
 @Controller('user')
 export class UserController {
@@ -60,5 +62,15 @@ export class UserController {
         ...userResult,
       },
     };
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Patch()
+  @UsePipes(ValidationPipe)
+  async updatePasswordUser(
+    @Body() updatePasswordDTO: UpdatePasswordDTO,
+    @UserId() userId: number,
+  ): Promise<UserEntity> {
+    return this.userService.updatePasswordUser(updatePasswordDTO, userId);
   }
 }

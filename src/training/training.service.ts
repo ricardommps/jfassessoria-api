@@ -104,4 +104,12 @@ export class TrainingService {
     await this.findTrainingById(trainingId);
     return this.trainingRepository.delete({ id: trainingId });
   }
+
+  async hideTraining(trainingId: number): Promise<TrainingEntity> {
+    const training = await this.findTrainingById(trainingId);
+    training.hide = true;
+    return this.trainingRepository.save({
+      ...training,
+    });
+  }
 }

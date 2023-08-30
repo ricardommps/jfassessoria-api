@@ -76,6 +76,9 @@ export class ProgramEntity {
   @Column({ name: 'fcm_value', nullable: true })
   fcmValue: number;
 
+  @Column({ name: 'hide' })
+  hide: boolean;
+
   @ManyToOne(() => CustomerEntity, (customer) => customer.programs)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer?: CustomerEntity;

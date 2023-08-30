@@ -3,6 +3,7 @@ interface User {
   id: number;
   name: string;
   email: string;
+  temporaryPassword: boolean;
 }
 
 export class ReturnMeDto {
@@ -11,5 +12,6 @@ export class ReturnMeDto {
     this.user.id = userEntity.id;
     this.user.name = userEntity.name;
     this.user.email = userEntity.email;
+    this.user.temporaryPassword = userEntity.temporaryPassword;
   }
 }

@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -9,6 +9,10 @@ export class CreateUserDto {
 
   @IsNumber()
   typeUser: number;
+
+  @IsOptional()
+  @IsBoolean()
+  temporaryPassword: boolean;
 
   @IsString()
   password: string;

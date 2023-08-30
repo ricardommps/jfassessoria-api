@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -17,6 +18,7 @@ import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { CustomerEntity } from './entities/customer.entity';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { UserId } from '../decorators/user-id.decorator';
+import { DeleteResult } from 'typeorm';
 
 @Controller('customer')
 export class CustomersController {
@@ -62,5 +64,12 @@ export class CustomersController {
     @Param('customerId') customerId: number,
   ): Promise<CustomerEntity> {
     return this.customerService.updateCustomer(updateCustomerDTO, customerId);
+  }
+
+  @Delete('/:customerId')
+  async deleteCustomer(
+    @Param('customerId') customerId: number,
+  ): Promise<DeleteResult> {
+    return this.customerService.deleteCustomer(customerId);
   }
 }
