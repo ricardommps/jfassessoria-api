@@ -1,6 +1,6 @@
 import { ProgramEntity } from '../entities/program.entity';
 import { ReturnCustomerDetailsDto } from '../../customers/dtos/returnCustomerDetails.dto';
-import { ReturnTrainingDto } from 'src/training/dtos/returnTraining.dto';
+import { ReturnTrainingDto } from '../../training/dtos/returnTraining.dto';
 
 export class ArchivedProgramDto {
   id: number;
