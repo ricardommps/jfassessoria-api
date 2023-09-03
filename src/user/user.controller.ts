@@ -40,9 +40,33 @@ export class UserController {
     );
   }
 
-  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/me')
   async findUserById(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
+    const { userId, typeUser } = userMe;
+    if (typeUser === 1) {
+      const userResult = new ReturnUserDto(
+        await this.customerService.findCustomerById(userId),
+      );
+      return {
+        user: {
+          ...userResult,
+        },
+      };
+    }
+    const userResult = new ReturnUserDto(
+      await this.userService.findUserById(userId),
+    );
+    return {
+      user: {
+        ...userResult,
+      },
+    };
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/customer/me')
+  async findCustomerById(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
     const { userId, typeUser } = userMe;
     if (typeUser === 1) {
       const userResult = new ReturnUserDto(
