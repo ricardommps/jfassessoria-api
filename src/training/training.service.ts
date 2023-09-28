@@ -4,13 +4,14 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { TrainingEntity } from './entities/training.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { FinishedTrainingEntity } from 'src/finished-training/entities/finished-training.entity';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { ProgramService } from '../program/program.service';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
-import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 import { SendTrainingDto } from './dtos/sendTraining.dto';
+import { UpdateTrainingDto } from './dtos/updateTraining.dto';
+import { TrainingEntity } from './entities/training.entity';
 
 export interface SendSuccess {
   status: number;
@@ -25,6 +26,8 @@ export class TrainingService {
 
     @Inject(forwardRef(() => ProgramService))
     private readonly programService: ProgramService,
+
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   async findTrainingsByProgramId(programId: number): Promise<TrainingEntity[]> {
@@ -36,6 +39,29 @@ export class TrainingService {
     });
 
     return programs;
+  }
+
+  async findTrainingsByProgramIdQueryBuilder(
+    programId: number,
+  ): Promise<TrainingEntity[]> {
+    const qb = await this.dataSource
+      .createQueryBuilder()
+      .select(
+        'training.id, training.name, training.datePublished, training.trainingDateOther, training.description',
+      )
+      .addSelect('array_to_json(array_agg(finished)) as finished')
+      .from(TrainingEntity, 'training')
+      .leftJoin(
+        FinishedTrainingEntity,
+        'finished',
+        'training.id = finished.training_id',
+      )
+      .where('training.program_id= :programId', { programId: programId })
+      .orderBy('training.datePublished', 'ASC')
+      .groupBy('training.id');
+
+    const trainings = await qb.getRawMany();
+    return trainings;
   }
 
   async createTraining(

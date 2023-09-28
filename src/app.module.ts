@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CustomersModule } from './customers/customers.module';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './guards/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { CustomersModule } from './customers/customers.module';
+import { FinishedTrainingModule } from './finished-training/finished-training.module';
+import { RolesGuard } from './guards/roles.guard';
+import { PaymentModule } from './payment/payment.module';
 import { ProgramModule } from './program/program.module';
 import { TrainingModule } from './training/training.module';
-import { PaymentModule } from './payment/payment.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { PaymentModule } from './payment/payment.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: true,
+      ssl: false,
     }),
     CustomersModule,
     UserModule,
@@ -35,6 +36,7 @@ import { PaymentModule } from './payment/payment.module';
     ProgramModule,
     TrainingModule,
     PaymentModule,
+    FinishedTrainingModule,
   ],
   controllers: [],
   providers: [

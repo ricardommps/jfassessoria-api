@@ -21,11 +21,33 @@ import { SendProgramDto } from './dtos/sendProgram.dto';
 import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
 import { DeleteResult } from 'typeorm';
 import { ArchivedProgramDto } from './dtos/archivedProgram.dto';
+import { UserId } from 'src/decorators/user-id.decorator';
 
-@Roles(UserType.Admin, UserType.Root)
 @Controller('program')
 export class ProgramController {
   constructor(private readonly programService: ProgramService) {}
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/myPrograms')
+  async getAllCustomer(@UserId() userId: number): Promise<ReturnProgramDto[]> {
+    return (await this.programService.findProgramByCustomerId(userId)).map(
+      (program) => new ReturnProgramDto(program),
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/myProgram/:programId')
+  async myProgramById(
+    @UserId() userId: number,
+    @Param('programId') programId,
+  ): Promise<ReturnProgramDto> {
+    return await this.programService.findMyProgramByIdUsingRelation(
+      programId,
+      userId,
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
   @Get()
   async getAllProgram(): Promise<ReturnProgramDto[]> {
     return (await this.programService.getAllProgram()).map(
@@ -33,6 +55,7 @@ export class ProgramController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/allChart')
   async getAllProgramChart(): Promise<ReturnProgramDto[]> {
     return (await this.programService.getAllProgramChart()).map(
@@ -40,6 +63,7 @@ export class ProgramController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Post()
   @UsePipes(ValidationPipe)
   async createProgram(
@@ -48,6 +72,7 @@ export class ProgramController {
     return this.programService.createProgram(createProgramDto);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Post('/clone')
   @UsePipes(ValidationPipe)
   async clone(
@@ -56,6 +81,7 @@ export class ProgramController {
     return this.programService.cloneProgram(cloneProgramDto);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Post('/sendProgram')
   @UsePipes(ValidationPipe)
   async sendProgram(
@@ -64,6 +90,7 @@ export class ProgramController {
     return this.programService.sendProgram(sendProgramDto);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/customer/:customerId')
   async findProgramByCustomerId(
     @Param('customerId') customerId,
@@ -73,6 +100,7 @@ export class ProgramController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/:programId')
   async findProgramById(
     @Param('programId') programId,
@@ -80,6 +108,7 @@ export class ProgramController {
     return await this.programService.findProgramById(programId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/detail/:programId')
   async findProgramByIdUsingRelation(
     @Param('programId') programId,
@@ -87,6 +116,7 @@ export class ProgramController {
     return await this.programService.findProgramByIdUsingRelation(programId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/viewPdf/:programId')
   async findProgramByIdUViewPdf(
     @Param('programId') programId,
@@ -94,8 +124,9 @@ export class ProgramController {
     return await this.programService.findProgramByIdUViewPdf(programId);
   }
 
-  @UsePipes(ValidationPipe)
+  @Roles(UserType.Admin, UserType.Root)
   @Put('/:programId')
+  @UsePipes(ValidationPipe)
   async updateProgram(
     @Body() updateProgram: UpdateProgramDto,
     @Param('programId') programId: number,
@@ -103,6 +134,7 @@ export class ProgramController {
     return this.programService.updateProgram(updateProgram, programId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Delete('/:programId')
   async deleteProgram(
     @Param('programId') programId: number,
@@ -110,22 +142,25 @@ export class ProgramController {
     return this.programService.deleteProgram(programId);
   }
 
-  @UsePipes(ValidationPipe)
+  @Roles(UserType.Admin, UserType.Root)
   @Put('/hide/:programId')
+  @UsePipes(ValidationPipe)
   async hideProgram(
     @Param('programId') programId: number,
   ): Promise<ProgramEntity> {
     return this.programService.hideProgram(programId);
   }
 
-  @UsePipes(ValidationPipe)
+  @Roles(UserType.Admin, UserType.Root)
   @Put('/show/:programId')
+  @UsePipes(ValidationPipe)
   async showProgram(
     @Param('programId') programId: number,
   ): Promise<ProgramEntity> {
     return this.programService.showProgram(programId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/archived/:customerId')
   async findArchivedProgramByCustomerId(
     @Param('customerId') customerId,

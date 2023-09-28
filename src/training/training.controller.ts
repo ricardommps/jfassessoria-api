@@ -19,11 +19,19 @@ import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 import { SendTrainingDto } from './dtos/sendTraining.dto';
 import { DeleteResult } from 'typeorm';
 
-@Roles(UserType.Admin, UserType.Root)
 @Controller('training')
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/programQueryBuilder/:programId')
+  async findFinishedById(@Param('programId') programId: number) {
+    return await this.trainingService.findTrainingsByProgramIdQueryBuilder(
+      programId,
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/program/:programId')
   async findTrainingsByProgramId(
     @Param('programId') programId,
@@ -33,6 +41,7 @@ export class TrainingController {
     );
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Post()
   @UsePipes(ValidationPipe)
   async createTraining(
@@ -41,6 +50,7 @@ export class TrainingController {
     return this.trainingService.createTraining(createTrainingDto);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Get('/:trainingId')
   async findProgramById(
     @Param('trainingId') trainingId,
@@ -48,6 +58,7 @@ export class TrainingController {
     return await this.trainingService.findTrainingById(trainingId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Put('/:trainingId')
   async updateTraining(
@@ -57,6 +68,7 @@ export class TrainingController {
     return this.trainingService.updateTraining(updateTraining, trainingId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Post('/sendTraining')
   @UsePipes(ValidationPipe)
   async sendProgram(
@@ -65,6 +77,7 @@ export class TrainingController {
     return this.trainingService.sendTraining(sendTrainingDto);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @Delete('/:trainingId')
   async deleteProduct(
     @Param('trainingId') trainingId: number,
@@ -72,6 +85,7 @@ export class TrainingController {
     return this.trainingService.deleteTraining(trainingId);
   }
 
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Put('/hide/:trainingId')
   async hideTraining(
