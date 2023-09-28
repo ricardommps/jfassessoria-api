@@ -50,6 +50,7 @@ export class CustomersService {
     await this.userService.findUserById(userId);
     const customer = await this.findCustomerByEmailUser(
       createCustomersDto.email,
+      userId,
     ).catch(() => undefined);
 
     if (customer) {
