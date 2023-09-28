@@ -1,4 +1,4 @@
-import { ReturnTrainingDto } from 'src/training/dtos/returnTraining.dto';
+import { ReturnTrainingDto } from '../../training/dtos/returnTraining.dto';
 import { FinishedTrainingEntity } from '../entities/finished-training.entity';
 
 export class ReturnFinishedByIdDto {

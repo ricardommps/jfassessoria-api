@@ -5,8 +5,8 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { FinishedTrainingEntity } from 'src/finished-training/entities/finished-training.entity';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
+import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramService } from '../program/program.service';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
 import { SendTrainingDto } from './dtos/sendTraining.dto';

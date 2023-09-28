@@ -9,19 +9,19 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ProgramService, SendSuccess } from './program.service';
-import { Roles } from '../decorators/roles.decorator';
-import { UserType } from '../user/enum/user-type.enum';
-import { ReturnProgramDto } from './dtos/returnProgram.dto';
-import { CreateProgramDto } from './dtos/createProgram.dto';
-import { ProgramEntity } from './entities/program.entity';
-import { UpdateProgramDto } from './dtos/updateProgram.dto';
-import { CloneProgramDto } from './dtos/cloneProgram.dto';
-import { SendProgramDto } from './dtos/sendProgram.dto';
-import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
 import { DeleteResult } from 'typeorm';
+import { Roles } from '../decorators/roles.decorator';
+import { UserId } from '../decorators/user-id.decorator';
+import { UserType } from '../user/enum/user-type.enum';
 import { ArchivedProgramDto } from './dtos/archivedProgram.dto';
-import { UserId } from 'src/decorators/user-id.decorator';
+import { CloneProgramDto } from './dtos/cloneProgram.dto';
+import { CreateProgramDto } from './dtos/createProgram.dto';
+import { ReturnProgramDto } from './dtos/returnProgram.dto';
+import { ReturnProgramAndCustomerDto } from './dtos/returnProgramAndCustomer.dto';
+import { SendProgramDto } from './dtos/sendProgram.dto';
+import { UpdateProgramDto } from './dtos/updateProgram.dto';
+import { ProgramEntity } from './entities/program.entity';
+import { ProgramService, SendSuccess } from './program.service';
 
 @Controller('program')
 export class ProgramController {

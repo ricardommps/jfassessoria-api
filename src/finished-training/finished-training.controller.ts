@@ -7,11 +7,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { FinishedTrainingService } from './finished-training.service';
-import { UserType } from 'src/user/enum/user-type.enum';
-import { Roles } from 'src/decorators/roles.decorator';
-import { ReturnFinishedTrainingDto } from './dtos/returnFinishedTraining.dto';
+import { Roles } from '../decorators/roles.decorator';
+import { UserType } from '../user/enum/user-type.enum';
 import { CreateFinishedTrainingDto } from './dtos/createFinishedTraining.dto';
+import { ReturnFinishedTrainingDto } from './dtos/returnFinishedTraining.dto';
+import { FinishedTrainingService } from './finished-training.service';
 
 @Controller('finishedtraining')
 export class FinishedTrainingController {

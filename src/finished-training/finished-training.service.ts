@@ -1,9 +1,9 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { ProgramEntity } from 'src/program/entities/program.entity';
-import { TrainingEntity } from 'src/training/entities/training.entity';
-import { TrainingService } from 'src/training/training.service';
 import { DataSource, Repository } from 'typeorm';
+import { ProgramEntity } from '../program/entities/program.entity';
+import { TrainingEntity } from '../training/entities/training.entity';
+import { TrainingService } from '../training/training.service';
 import { CreateFinishedTrainingDto } from './dtos/createFinishedTraining.dto';
 import { FinishedTrainingEntity } from './entities/finished-training.entity';
 
