@@ -4,15 +4,15 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { ProgramEntity } from './entities/program.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
-import { CreateProgramDto } from './dtos/createProgram.dto';
-import { UpdateProgramDto } from './dtos/updateProgram.dto';
 import { TrainingService } from '../training/training.service';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
+import { CreateProgramDto } from './dtos/createProgram.dto';
 import { SendProgramDto } from './dtos/sendProgram.dto';
+import { UpdateProgramDto } from './dtos/updateProgram.dto';
+import { ProgramEntity } from './entities/program.entity';
 //Program
 export interface SendSuccess {
   status: number;
@@ -108,10 +108,7 @@ export class ProgramService {
         customerId,
         hide: true,
       },
-      relations: {
-        customer: true,
-        trainings: true,
-      },
+      relations: ['customer', 'trainings '],
       order: { createdAt: 'ASC' },
     });
 
@@ -147,6 +144,22 @@ export class ProgramService {
     return program;
   }
 
+  async findMyProgramByIdUsingRelation(
+    programId: number,
+    customerId: number,
+  ): Promise<ProgramEntity> {
+    const program = await this.programRepository.findOne({
+      where: {
+        id: programId,
+        customerId,
+      },
+    });
+    if (!program) {
+      throw new NotFoundException(`Program id: ${programId} not found`);
+    }
+    return program;
+  }
+
   async findProgramByIdUViewPdf(programId: number): Promise<ProgramEntity> {
     const program = await this.programRepository.findOne({
       where: {
@@ -159,6 +172,11 @@ export class ProgramService {
       relations: {
         trainings: true,
         customer: true,
+      },
+      order: {
+        trainings: {
+          datePublished: 'ASC',
+        },
       },
     });
     if (!program) {
