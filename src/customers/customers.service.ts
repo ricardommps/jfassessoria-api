@@ -7,13 +7,13 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomerEntity } from './entities/customer.entity';
 import { DeleteResult, Repository } from 'typeorm';
-import { CreateCustomersDto } from './dtos/createCustomers.dtos';
-import { createPasswordHashed } from '../utils/password';
 import { UserType } from '../user/enum/user-type.enum';
-import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { UserService } from '../user/user.service';
+import { createPasswordHashed } from '../utils/password';
+import { CreateCustomersDto } from './dtos/createCustomers.dtos';
+import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
+import { CustomerEntity } from './entities/customer.entity';
 
 @Injectable()
 export class CustomersService {
@@ -48,7 +48,7 @@ export class CustomersService {
     userId: number,
   ): Promise<CustomerEntity> {
     await this.userService.findUserById(userId);
-    const customer = await this.findCustomerByEmail(
+    const customer = await this.findCustomerByEmailUser(
       createCustomersDto.email,
     ).catch(() => undefined);
 
@@ -64,6 +64,21 @@ export class CustomersService {
       password: passwordHashed,
       temporaryPassword: true,
     });
+  }
+  async findCustomerByEmailUser(
+    email: string,
+    userId: number,
+  ): Promise<CustomerEntity> {
+    const customer = await this.customerRepository.findOne({
+      where: {
+        email,
+        id: userId,
+      },
+    });
+    if (!customer) {
+      throw new NotFoundException(`Email: ${email} Not Found`);
+    }
+    return customer;
   }
 
   async findCustomerByEmail(email: string): Promise<CustomerEntity> {
