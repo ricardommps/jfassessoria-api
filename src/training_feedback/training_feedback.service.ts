@@ -5,9 +5,9 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FinishedTrainingService } from 'src/finished-training/finished-training.service';
-import { TrainingService } from 'src/training/training.service';
 import { Repository } from 'typeorm';
+import { FinishedTrainingService } from '../finished-training/finished-training.service';
+import { TrainingService } from '../training/training.service';
 import { CreateTrainingFeedbackDto } from './dtos/createTrainingFeedback.dto';
 import { TrainingFeedbackEntity } from './entities/training_feedback.entity';
 

@@ -15,6 +15,7 @@ export class UpdateProgramDto {
   goal: string;
 
   @IsString()
+  @IsOptional()
   difficultyLevel: string;
 
   @IsDateString()
@@ -22,27 +23,35 @@ export class UpdateProgramDto {
   referenceMonth: Date;
 
   @IsString()
+  @IsOptional()
   pv: string;
 
   @IsString()
+  @IsOptional()
   pace: string;
 
   @IsString()
+  @IsOptional()
   vlan: string;
 
   @IsString()
+  @IsOptional()
   paceVlan: string;
 
   @IsString()
+  @IsOptional()
   vla: string;
 
   @IsInt()
+  @IsOptional()
   vlaLevel: number;
 
   @IsInt()
+  @IsOptional()
   vlanLevel: number;
 
   @IsString()
+  @IsOptional()
   paceVla: string;
 
   @IsInt()

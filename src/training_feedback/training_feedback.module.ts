@@ -1,6 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FinishedTrainingModule } from 'src/finished-training/finished-training.module';
+import { FinishedTrainingModule } from '../finished-training/finished-training.module';
 import { TrainingModule } from '../training/training.module';
 import { TrainingFeedbackEntity } from './entities/training_feedback.entity';
 import { TrainingFeedbackController } from './training_feedback.controller';

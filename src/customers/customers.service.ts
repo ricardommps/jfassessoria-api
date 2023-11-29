@@ -7,10 +7,10 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { FinishedTrainingEntity } from 'src/finished-training/entities/finished-training.entity';
-import { ProgramEntity } from 'src/program/entities/program.entity';
-import { TrainingEntity } from 'src/training/entities/training.entity';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
+import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
+import { ProgramEntity } from '../program/entities/program.entity';
+import { TrainingEntity } from '../training/entities/training.entity';
 import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed } from '../utils/password';

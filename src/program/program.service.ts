@@ -5,10 +5,10 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { CustomerEntity } from 'src/customers/entities/customer.entity';
-import { TrainingEntity } from 'src/training/entities/training.entity';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
+import { CustomerEntity } from '../customers/entities/customer.entity';
+import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { CreateProgramDto } from './dtos/createProgram.dto';
