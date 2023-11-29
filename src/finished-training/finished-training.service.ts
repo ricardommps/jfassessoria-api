@@ -5,11 +5,11 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { TrainingFeedbackEntity } from 'src/training_feedback/entities/training_feedback.entity';
 import { DataSource, Repository } from 'typeorm';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
+import { TrainingFeedbackEntity } from '../training_feedback/entities/training_feedback.entity';
 import { CreateFinishedTrainingDto } from './dtos/createFinishedTraining.dto';
 import { FinishedTrainingEntity } from './entities/finished-training.entity';
 

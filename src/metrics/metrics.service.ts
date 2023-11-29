@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { CustomersService } from 'src/customers/customers.service';
-import { FinishedTrainingEntity } from 'src/finished-training/entities/finished-training.entity';
-import { ProgramEntity } from 'src/program/entities/program.entity';
-import { TrainingEntity } from 'src/training/entities/training.entity';
-import { TrainingFeedbackEntity } from 'src/training_feedback/entities/training_feedback.entity';
 import { DataSource, Repository } from 'typeorm';
+import { CustomersService } from '../customers/customers.service';
+import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
+import { ProgramEntity } from '../program/entities/program.entity';
+import { TrainingEntity } from '../training/entities/training.entity';
+import { TrainingFeedbackEntity } from '../training_feedback/entities/training_feedback.entity';
 import { CreateMetricsDto } from './dtos/createMetrics.dto';
 import { MetricsEntity } from './entities/metrics.entity';
 @Injectable()
