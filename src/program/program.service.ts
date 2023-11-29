@@ -4,8 +4,10 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { CustomerEntity } from 'src/customers/entities/customer.entity';
+import { TrainingEntity } from 'src/training/entities/training.entity';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
 import { TrainingService } from '../training/training.service';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
@@ -28,6 +30,8 @@ export class ProgramService {
 
     @Inject(forwardRef(() => TrainingService))
     private readonly trainingService: TrainingService,
+
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   async getAllProgram(): Promise<ProgramEntity[]> {
@@ -112,6 +116,20 @@ export class ProgramService {
       order: { createdAt: 'ASC' },
     });
 
+    return programs;
+  }
+
+  async findArchivedProgramByCustomerIdQuery(customerId) {
+    const qb = await this.dataSource
+      .createQueryBuilder()
+      .select(['pro.*', 'c.id', 'c.user_id', 'c.name AS customerName'])
+      .from(ProgramEntity, 'pro')
+      .leftJoin(CustomerEntity, 'c', 'pro.customer_id = c.id')
+      .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
+      .where('pro.customer_id= :customerId', { customerId: customerId })
+      .andWhere('pro.hide= :hide', { hide: true })
+      .orderBy('pro.created_at', 'ASC');
+    const programs = await qb.getRawMany();
     return programs;
   }
 

@@ -34,5 +34,8 @@ export class UpdateTrainingDto {
   hide: boolean;
 
   @IsBoolean()
+  finished: boolean;
+
+  @IsBoolean()
   published: boolean;
 }

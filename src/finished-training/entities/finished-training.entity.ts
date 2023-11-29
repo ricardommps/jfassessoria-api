@@ -32,8 +32,8 @@ export class FinishedTrainingEntity {
   @Column({ name: 'link' })
   link: string;
 
-  @Column({ name: 'reviw' })
-  reviw: boolean;
+  @Column({ name: 'review' })
+  review: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

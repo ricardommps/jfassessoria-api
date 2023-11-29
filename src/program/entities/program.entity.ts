@@ -1,5 +1,3 @@
-import { CustomerEntity } from '../../customers/entities/customer.entity';
-import { TrainingEntity } from '../../training/entities/training.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CustomerEntity } from '../../customers/entities/customer.entity';
+import { TrainingEntity } from '../../training/entities/training.entity';
 
 @Entity({ name: 'program' })
 export class ProgramEntity {
@@ -78,6 +78,9 @@ export class ProgramEntity {
 
   @Column({ name: 'hide' })
   hide: boolean;
+
+  @Column({ name: 'type', nullable: true })
+  type: number;
 
   @ManyToOne(() => CustomerEntity, (customer) => customer.programs)
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })

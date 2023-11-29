@@ -1,5 +1,7 @@
+import { MetricsEntity } from '../../metrics/entities/metrics.entity';
 import { PaymentEntity } from '../../payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -76,4 +78,7 @@ export class CustomerEntity {
 
   @OneToMany(() => PaymentEntity, (payment) => payment.customer)
   payments?: PaymentEntity[];
+
+  @OneToMany(() => MetricsEntity, (metric) => metric.customer)
+  metrics?: MetricsEntity[];
 }

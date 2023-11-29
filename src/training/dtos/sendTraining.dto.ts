@@ -29,6 +29,9 @@ export class SendTrainingDto {
   published: boolean;
 
   @IsBoolean()
+  finished: boolean;
+
+  @IsBoolean()
   @IsOptional()
   hide: boolean;
 

@@ -7,9 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { CustomersModule } from './customers/customers.module';
 import { FinishedTrainingModule } from './finished-training/finished-training.module';
 import { RolesGuard } from './guards/roles.guard';
+import { MetricsModule } from './metrics/metrics.module';
 import { PaymentModule } from './payment/payment.module';
 import { ProgramModule } from './program/program.module';
 import { TrainingModule } from './training/training.module';
+import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -37,6 +39,8 @@ import { UserModule } from './user/user.module';
     TrainingModule,
     PaymentModule,
     FinishedTrainingModule,
+    TrainingFeedbackModule,
+    MetricsModule,
   ],
   controllers: [],
   providers: [

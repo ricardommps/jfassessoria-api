@@ -15,6 +15,7 @@ export class CreateProgramDto {
   goal: string;
 
   @IsString()
+  @IsOptional()
   difficultyLevel: string;
 
   @IsDateString()
@@ -22,30 +23,39 @@ export class CreateProgramDto {
   referenceMonth: Date;
 
   @IsString()
+  @IsOptional()
   pv: string;
 
   @IsString()
+  @IsOptional()
   pace: string;
 
   @IsString()
+  @IsOptional()
   vlan: string;
 
   @IsInt()
+  @IsOptional()
   vlaLevel: number;
 
   @IsInt()
+  @IsOptional()
   vlanLevel: number;
 
   @IsString()
+  @IsOptional()
   paceVlan: string;
 
   @IsString()
+  @IsOptional()
   vla: string;
 
   @IsString()
+  @IsOptional()
   paceVla: string;
 
   @IsInt()
+  @IsOptional()
   customerId: number;
 
   @IsBoolean()
@@ -70,4 +80,8 @@ export class CreateProgramDto {
   @IsBoolean()
   @IsOptional()
   hide: boolean;
+
+  @IsInt()
+  @IsOptional()
+  type: number;
 }

@@ -70,4 +70,8 @@ export class UpdateProgramDto {
   @IsBoolean()
   @IsOptional()
   hide: boolean;
+
+  @IsInt()
+  @IsOptional()
+  type: number;
 }
