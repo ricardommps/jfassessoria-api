@@ -9,15 +9,15 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { SendSuccess, TrainingService } from './training.service';
+import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { ReturnTrainingDto } from './dtos/returnTraining.dto';
 import { CreateTrainingDto } from './dtos/createTraining.dto';
-import { TrainingEntity } from './entities/training.entity';
-import { UpdateTrainingDto } from './dtos/updateTraining.dto';
+import { ReturnTrainingDto } from './dtos/returnTraining.dto';
 import { SendTrainingDto } from './dtos/sendTraining.dto';
-import { DeleteResult } from 'typeorm';
+import { UpdateTrainingDto } from './dtos/updateTraining.dto';
+import { TrainingEntity } from './entities/training.entity';
+import { SendSuccess, TrainingService } from './training.service';
 
 @Controller('training')
 export class TrainingController {
@@ -29,6 +29,18 @@ export class TrainingController {
     return await this.trainingService.findTrainingsByProgramIdQueryBuilder(
       programId,
     );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/list/:programId')
+  async findTrainingsNotFinished(@Param('programId') programId: number) {
+    return await this.trainingService.findTrainingsNotFinished(programId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/listfinished/:programId')
+  async findTrainingsFinished(@Param('programId') programId: number) {
+    return await this.trainingService.findTrainingsFinished(programId);
   }
 
   @Roles(UserType.Admin, UserType.Root)

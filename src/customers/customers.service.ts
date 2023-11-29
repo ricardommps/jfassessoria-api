@@ -6,8 +6,11 @@ import {
   NotFoundException,
   forwardRef,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { FinishedTrainingEntity } from 'src/finished-training/entities/finished-training.entity';
+import { ProgramEntity } from 'src/program/entities/program.entity';
+import { TrainingEntity } from 'src/training/entities/training.entity';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed } from '../utils/password';
@@ -23,6 +26,8 @@ export class CustomersService {
 
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   async getAllCustomer(userId): Promise<CustomerEntity[]> {
@@ -41,6 +46,27 @@ export class CustomersService {
         },
       },
     });
+  }
+
+  async getAllCustomerQuery(userId) {
+    const qb = await this.dataSource
+      .createQueryBuilder()
+      .select(['c.id AS id', 'c.name AS name', 'c.active AS active'])
+      .addSelect('COUNT(DISTINCT pro.id)', 'programs')
+      .addSelect('COUNT(DISTINCT ft.id)', 'reviews')
+      .addSelect(
+        "COALESCE((select json_agg(payment.*) from payment where payment.customer_id = c.id), 'null'::json) AS payments",
+      )
+      .from(CustomerEntity, 'c')
+      .leftJoin(ProgramEntity, 'pro', 'pro.customer_id = c.id')
+      .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
+      .leftJoin(FinishedTrainingEntity, 'ft', 'ft.training_id = tra.id')
+      .where('ft.review IS NOT TRUE')
+      .andWhere('c.user_id= :userId', { userId: userId })
+      .orderBy('c.name', 'ASC')
+      .groupBy('c.id');
+    const customers = await qb.getRawMany();
+    return customers;
   }
 
   async createCustomer(

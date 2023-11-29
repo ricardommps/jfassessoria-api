@@ -41,6 +41,30 @@ export class TrainingService {
     return programs;
   }
 
+  async findTrainingsNotFinished(programId: number): Promise<TrainingEntity[]> {
+    const programs = await this.trainingRepository.find({
+      where: {
+        programId,
+        finished: false,
+      },
+      order: { datePublished: 'ASC' },
+    });
+
+    return programs;
+  }
+
+  async findTrainingsFinished(programId: number): Promise<TrainingEntity[]> {
+    const programs = await this.trainingRepository.find({
+      where: {
+        programId,
+        finished: true,
+      },
+      order: { datePublished: 'ASC' },
+    });
+
+    return programs;
+  }
+
   async findTrainingsByProgramIdQueryBuilder(
     programId: number,
   ): Promise<TrainingEntity[]> {

@@ -9,7 +9,7 @@ export class ReturnFinishedTrainingDto {
   rpe: number;
   trimp: string;
   link: string;
-  reviw: boolean;
+  review: boolean;
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
     this.trainingId = finishedTrainingEntity.trainingId;
@@ -19,6 +19,6 @@ export class ReturnFinishedTrainingDto {
     this.rpe = finishedTrainingEntity.rpe;
     this.trimp = finishedTrainingEntity.trimp;
     this.link = finishedTrainingEntity.link;
-    this.reviw = this.reviw;
+    this.review = this.review;
   }
 }

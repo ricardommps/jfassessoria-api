@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';
 import { CreateFinishedTrainingDto } from './dtos/createFinishedTraining.dto';
 import { ReturnFinishedTrainingDto } from './dtos/returnFinishedTraining.dto';
+import { FinishedTrainingEntity } from './entities/finished-training.entity';
 import { FinishedTrainingService } from './finished-training.service';
 
 @Controller('finishedtraining')
@@ -37,8 +39,49 @@ export class FinishedTrainingController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @UsePipes(ValidationPipe)
+  @Put('/update')
+  async updateFinishedTraining(
+    @Body() updateFinishedTrainingDto: CreateFinishedTrainingDto,
+  ): Promise<FinishedTrainingEntity> {
+    return this.finishedTrainingService.updateFinishedTraining(
+      updateFinishedTrainingDto,
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get(':id')
   async findFinishedById(@Param('id') id: string) {
     return await this.finishedTrainingService.findFinishedById(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('listByProgramId/:id')
+  async findFinishedByProgramId(@Param('id') id: string) {
+    return await this.finishedTrainingService.findFinishedByProgramId(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/findById/:id')
+  async findById(@Param('id') id: number) {
+    return await this.finishedTrainingService.findById(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('/review/:id')
+  async findFinishedByReview(@Param('id') id: string) {
+    return await this.finishedTrainingService.findFinishedByReview(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/review/done/:id')
+  async findFinishedReviewDone(@Param('id') id: string) {
+    return await this.finishedTrainingService.findFinishedReviewDone(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/review/training/:id')
+  async findFinishedReviewById(@Param('id') id: string) {
+    return await this.finishedTrainingService.findFinishedReviewById(id);
   }
 }

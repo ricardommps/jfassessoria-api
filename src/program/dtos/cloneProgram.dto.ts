@@ -72,6 +72,10 @@ export class CloneProgramDto {
   @IsOptional()
   hide: boolean;
 
+  @IsInt()
+  @IsOptional()
+  type: number;
+
   @IsArray()
   trainings: [];
 }

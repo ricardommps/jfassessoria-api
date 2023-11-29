@@ -22,6 +22,7 @@ export class ReturnProgramDto {
   customerId: number;
   fcmValue: number;
   hide: boolean;
+  type: number;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -45,6 +46,7 @@ export class ReturnProgramDto {
     this.warningPdf = program.warningPdf;
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
+    this.type = program.type;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

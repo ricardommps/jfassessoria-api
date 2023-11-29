@@ -1,4 +1,3 @@
-import { ProgramEntity } from '../../program/entities/program.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProgramEntity } from '../../program/entities/program.entity';
 
 @Entity({ name: 'training' })
 export class TrainingEntity {
@@ -40,6 +40,9 @@ export class TrainingEntity {
 
   @Column({ name: 'hide' })
   hide: boolean;
+
+  @Column({ name: 'finished' })
+  finished: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -1,9 +1,9 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { TrainingEntity } from './entities/training.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TrainingService } from './training.service';
-import { TrainingController } from './training.controller';
 import { ProgramModule } from '../program/program.module';
+import { TrainingEntity } from './entities/training.entity';
+import { TrainingController } from './training.controller';
+import { TrainingService } from './training.service';
 
 @Module({
   imports: [

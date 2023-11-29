@@ -33,6 +33,10 @@ export class CreateTrainingDto {
   @IsOptional()
   hide: boolean;
 
+  @IsBoolean()
+  @IsOptional()
+  finished: boolean;
+
   @IsArray()
   @IsOptional()
   videos: [];

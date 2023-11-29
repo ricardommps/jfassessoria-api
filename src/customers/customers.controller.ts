@@ -9,16 +9,16 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
+import { UserId } from '../decorators/user-id.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
-import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
 import { CustomersService } from './customers.service';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
-import { CustomerEntity } from './entities/customer.entity';
+import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
+import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
-import { UserId } from '../decorators/user-id.decorator';
-import { DeleteResult } from 'typeorm';
+import { CustomerEntity } from './entities/customer.entity';
 
 @Controller('customer')
 export class CustomersController {
@@ -30,6 +30,12 @@ export class CustomersController {
     return (await this.customerService.getAllCustomer(userId)).map(
       (customerEntity) => new ReturnCustomerDto(customerEntity),
     );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('/all')
+  async getAllCustomerQuery(@UserId() userId: number) {
+    return await this.customerService.getAllCustomerQuery(userId);
   }
 
   @Roles(UserType.Admin, UserType.Root)

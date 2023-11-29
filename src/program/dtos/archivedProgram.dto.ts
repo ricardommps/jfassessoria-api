@@ -1,6 +1,6 @@
-import { ProgramEntity } from '../entities/program.entity';
 import { ReturnCustomerDetailsDto } from '../../customers/dtos/returnCustomerDetails.dto';
 import { ReturnTrainingDto } from '../../training/dtos/returnTraining.dto';
+import { ProgramEntity } from '../entities/program.entity';
 
 export class ArchivedProgramDto {
   id: number;
@@ -23,6 +23,7 @@ export class ArchivedProgramDto {
   fcmValue: number;
   customerId: number;
   hide: boolean;
+  type: number;
   customer?: ReturnCustomerDetailsDto;
   trainings?: ReturnTrainingDto[];
 
@@ -47,6 +48,7 @@ export class ArchivedProgramDto {
     this.warningPdf = program.warningPdf;
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
+    this.type = program.type;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

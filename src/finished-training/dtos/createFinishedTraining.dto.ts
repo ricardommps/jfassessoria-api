@@ -1,6 +1,10 @@
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateFinishedTrainingDto {
+  @IsOptional()
+  @IsNumber()
+  id: number;
+
   @IsNumber()
   trainingId: number;
 
@@ -25,5 +29,5 @@ export class CreateFinishedTrainingDto {
 
   @IsOptional()
   @IsBoolean()
-  reviw: boolean;
+  review: boolean;
 }

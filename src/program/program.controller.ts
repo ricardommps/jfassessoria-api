@@ -13,7 +13,6 @@ import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
 import { UserType } from '../user/enum/user-type.enum';
-import { ArchivedProgramDto } from './dtos/archivedProgram.dto';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { CreateProgramDto } from './dtos/createProgram.dto';
 import { ReturnProgramDto } from './dtos/returnProgram.dto';
@@ -116,7 +115,7 @@ export class ProgramController {
     return await this.programService.findProgramByIdUsingRelation(programId);
   }
 
-  @Roles(UserType.Admin, UserType.Root)
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/viewPdf/:programId')
   async findProgramByIdUViewPdf(
     @Param('programId') programId,
@@ -162,11 +161,9 @@ export class ProgramController {
 
   @Roles(UserType.Admin, UserType.Root)
   @Get('/archived/:customerId')
-  async findArchivedProgramByCustomerId(
-    @Param('customerId') customerId,
-  ): Promise<ArchivedProgramDto[]> {
-    return (
-      await this.programService.findArchivedProgramByCustomerId(customerId)
-    ).map((program) => new ArchivedProgramDto(program));
+  async findArchivedProgramByCustomerId(@Param('customerId') customerId) {
+    return await this.programService.findArchivedProgramByCustomerIdQuery(
+      customerId,
+    );
   }
 }
