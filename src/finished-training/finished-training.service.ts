@@ -103,6 +103,7 @@ export class FinishedTrainingService {
         'fed.description_feedback',
         'fed.paces',
         'fed.viewed',
+        'fed.id as feedbackId',
       ])
       .from(FinishedTrainingEntity, 'finished_training')
       .innerJoin(
@@ -115,7 +116,8 @@ export class FinishedTrainingService {
         'fed',
         'finished_training.id = fed.finished_training_id',
       )
-      .where('tra.program_id= :programId', { programId: id });
+      .where('tra.program_id= :programId', { programId: id })
+      .orderBy('tra.datePublished', 'DESC');
 
     const finishedTraining = await qb.getRawMany();
     return finishedTraining;
@@ -184,6 +186,7 @@ export class FinishedTrainingService {
         'finished_training.rpe as rpe',
         'finished_training.trimp as trimp',
         'finished_training.link as link',
+        'finished_training.comments as comments',
         'tra.id as trainingId',
         'tra.program_id',
         'tra.name as trainingName',

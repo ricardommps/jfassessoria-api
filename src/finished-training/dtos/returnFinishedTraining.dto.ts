@@ -10,6 +10,7 @@ export class ReturnFinishedTrainingDto {
   trimp: string;
   link: string;
   review: boolean;
+  comments: string;
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
     this.trainingId = finishedTrainingEntity.trainingId;
@@ -19,6 +20,7 @@ export class ReturnFinishedTrainingDto {
     this.rpe = finishedTrainingEntity.rpe;
     this.trimp = finishedTrainingEntity.trimp;
     this.link = finishedTrainingEntity.link;
-    this.review = this.review;
+    this.review = finishedTrainingEntity.review;
+    this.comments = finishedTrainingEntity.comments;
   }
 }

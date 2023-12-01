@@ -35,6 +35,9 @@ export class FinishedTrainingEntity {
   @Column({ name: 'review' })
   review: boolean;
 
+  @Column({ name: 'comments' })
+  comments: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
