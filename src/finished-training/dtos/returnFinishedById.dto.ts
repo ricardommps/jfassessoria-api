@@ -11,6 +11,7 @@ export class ReturnFinishedByIdDto {
   trimp: string;
   link: string;
   review: boolean;
+  comments: string;
   trainings?: ReturnTrainingDto[];
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
@@ -21,6 +22,7 @@ export class ReturnFinishedByIdDto {
     this.rpe = finishedTrainingEntity.rpe;
     this.trimp = finishedTrainingEntity.trimp;
     this.link = finishedTrainingEntity.link;
+    this.comments = finishedTrainingEntity.comments;
     this.review = this.review;
   }
 }
