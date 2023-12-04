@@ -82,7 +82,10 @@ export class ProgramEntity {
   @Column({ name: 'type', nullable: true })
   type: number;
 
-  @ManyToOne(() => CustomerEntity, (customer) => customer.programs)
+  @ManyToOne(() => CustomerEntity, (customer) => customer.programs, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer?: CustomerEntity;
 
