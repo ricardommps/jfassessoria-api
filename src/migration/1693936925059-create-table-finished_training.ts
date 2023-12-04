@@ -18,7 +18,9 @@ export class CreateTableFinishedTraining1693936925059
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
             primary key (id),
-            foreign key (training_id) references public.training(id)
+            foreign key (training_id) 
+                  references public.training (id)
+                  ON DELETE CASCADE
         );
         
         CREATE SEQUENCE public.finished_training_id_seq
