@@ -7,13 +7,14 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { UpdatePasswordDTO } from 'src/user/dtos/update-password.dto';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
 import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
-import { createPasswordHashed } from '../utils/password';
+import { createPasswordHashed, validatePassword } from '../utils/password';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
@@ -171,5 +172,31 @@ export class CustomersService {
     await this.findCustomerById(customerId);
 
     return this.customerRepository.delete({ id: customerId });
+  }
+
+  async updatePasswordCustomer(
+    updatePasswordDTO: UpdatePasswordDTO,
+    userId: number,
+  ): Promise<CustomerEntity> {
+    const customer = await this.findCustomerById(userId);
+
+    const passwordHashed = await createPasswordHashed(
+      updatePasswordDTO.newPassword,
+    );
+
+    const isMatch = await validatePassword(
+      updatePasswordDTO.lastPassword,
+      customer.password || '',
+    );
+
+    if (!isMatch) {
+      throw new BadRequestException('Last password invalid');
+    }
+
+    return this.customerRepository.save({
+      ...customer,
+      password: passwordHashed,
+      temporaryPassword: false,
+    });
   }
 }

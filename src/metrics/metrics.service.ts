@@ -73,6 +73,15 @@ export class MetricsService {
     return metrics;
   }
 
+  async findMetricsById(id: number): Promise<MetricsEntity[]> {
+    const metrics = await this.metricsRepository.find({
+      where: {
+        id,
+      },
+    });
+    return metrics;
+  }
+
   async createMetrics(
     createMetricsDto: CreateMetricsDto,
   ): Promise<MetricsEntity> {

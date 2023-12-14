@@ -68,6 +68,14 @@ export class MetricsController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
+  @Get('/findById/:id')
+  async findMetricsById(@Param('id') id): Promise<ReturnMetricDto[]> {
+    return (await this.metricsService.findMetricsById(id)).map(
+      (metric) => new ReturnMetricDto(metric),
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
   @Post()
   @UsePipes(ValidationPipe)
   async createProgram(

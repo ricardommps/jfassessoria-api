@@ -4,11 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { UpdatePasswordDTO } from 'src/user/dtos/update-password.dto';
 import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
@@ -77,5 +79,18 @@ export class CustomersController {
     @Param('customerId') customerId: number,
   ): Promise<DeleteResult> {
     return this.customerService.deleteCustomer(customerId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Patch('/resetPassword')
+  @UsePipes(ValidationPipe)
+  async updatePasswordUser(
+    @Body() updatePasswordDTO: UpdatePasswordDTO,
+    @UserId() userId: number,
+  ): Promise<CustomerEntity> {
+    return this.customerService.updatePasswordCustomer(
+      updatePasswordDTO,
+      userId,
+    );
   }
 }
