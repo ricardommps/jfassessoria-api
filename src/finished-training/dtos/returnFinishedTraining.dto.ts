@@ -11,6 +11,7 @@ export class ReturnFinishedTrainingDto {
   link: string;
   review: boolean;
   comments: string;
+  unrealized: boolean;
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
     this.trainingId = finishedTrainingEntity.trainingId;
@@ -22,5 +23,6 @@ export class ReturnFinishedTrainingDto {
     this.link = finishedTrainingEntity.link;
     this.review = finishedTrainingEntity.review;
     this.comments = finishedTrainingEntity.comments;
+    this.unrealized = finishedTrainingEntity.unrealized;
   }
 }

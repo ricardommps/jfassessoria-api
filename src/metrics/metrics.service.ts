@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingFeedbackEntity } from '../training_feedback/entities/training_feedback.entity';
 import { CreateMetricsDto } from './dtos/createMetrics.dto';
+import { UpdateMetricsDto } from './dtos/updateMetric.dto';
 import { MetricsEntity } from './entities/metrics.entity';
 @Injectable()
 export class MetricsService {
@@ -67,7 +68,7 @@ export class MetricsService {
       where: {
         customerId,
       },
-      order: { createdAt: 'ASC' },
+      order: { updatedAt: 'DESC' },
     });
 
     return metrics;
@@ -82,6 +83,19 @@ export class MetricsService {
     return metrics;
   }
 
+  async findMetricById(id: number): Promise<MetricsEntity> {
+    const metric = await this.metricsRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    console.log('--findMetricById-', metric);
+    if (!metric) {
+      throw new NotFoundException(`Metric id: ${metric} not found`);
+    }
+    return metric;
+  }
+
   async createMetrics(
     createMetricsDto: CreateMetricsDto,
   ): Promise<MetricsEntity> {
@@ -89,5 +103,21 @@ export class MetricsService {
     return this.metricsRepository.save({
       ...createMetricsDto,
     });
+  }
+
+  async updateMetric(
+    updateMetricsDto: UpdateMetricsDto,
+    id: number,
+  ): Promise<MetricsEntity> {
+    const metric = await this.findMetricById(id);
+    return this.metricsRepository.save({
+      ...metric,
+      ...updateMetricsDto,
+    });
+  }
+
+  async deleteMetric(id: number): Promise<DeleteResult> {
+    await this.findMetricById(id);
+    return this.metricsRepository.delete({ id: id });
   }
 }

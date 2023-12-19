@@ -1,17 +1,21 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
 import { UserType } from '../user/enum/user-type.enum';
 import { CreateMetricsDto } from './dtos/createMetrics.dto';
 import { ReturnMetricDto } from './dtos/returnMetrics.dto';
+import { UpdateMetricsDto } from './dtos/updateMetric.dto';
 import { MetricsEntity } from './entities/metrics.entity';
 import { MetricsService } from './metrics.service';
 
@@ -82,5 +86,21 @@ export class MetricsController {
     @Body() createMetricsDto: CreateMetricsDto,
   ): Promise<MetricsEntity> {
     return this.metricsService.createMetrics(createMetricsDto);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @UsePipes(ValidationPipe)
+  @Put('/:id')
+  async updateMetricsDto(
+    @Body() updateTraining: UpdateMetricsDto,
+    @Param('id') id: number,
+  ): Promise<MetricsEntity> {
+    return this.metricsService.updateMetric(updateTraining, id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Delete('/:id')
+  async deleteProduct(@Param('id') id: number): Promise<DeleteResult> {
+    return this.metricsService.deleteMetric(id);
   }
 }

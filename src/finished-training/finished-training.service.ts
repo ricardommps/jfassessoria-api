@@ -134,6 +134,7 @@ export class FinishedTrainingService {
         'tra.date_published as trainingPublished',
         'tra.training_date_other',
         'finished_training.id as finishedId',
+        'finished_training.unrealized as unrealized',
       ])
       .from(FinishedTrainingEntity, 'finished_training')
       .innerJoin(
@@ -159,6 +160,7 @@ export class FinishedTrainingService {
         'tra.description as tariningDesc',
         'tra.date_published as trainingPublished',
         'tra.training_date_other',
+        'finished_training.unrealized as unrealized',
         'finished_training.id as finishedId',
       ])
       .from(FinishedTrainingEntity, 'finished_training')
@@ -187,6 +189,7 @@ export class FinishedTrainingService {
         'finished_training.trimp as trimp',
         'finished_training.link as link',
         'finished_training.comments as comments',
+        'finished_training.unrealized as unrealized',
         'tra.id as trainingId',
         'tra.program_id',
         'tra.name as trainingName',
