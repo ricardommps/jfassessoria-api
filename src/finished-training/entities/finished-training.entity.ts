@@ -38,6 +38,9 @@ export class FinishedTrainingEntity {
   @Column({ name: 'comments' })
   comments: string;
 
+  @Column({ name: 'unrealized' })
+  unrealized: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

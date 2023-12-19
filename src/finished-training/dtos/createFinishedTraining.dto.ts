@@ -39,4 +39,8 @@ export class CreateFinishedTrainingDto {
   @IsOptional()
   @IsBoolean()
   review: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  unrealized: boolean;
 }
