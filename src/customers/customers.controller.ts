@@ -10,10 +10,10 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UpdatePasswordDTO } from 'src/user/dtos/update-password.dto';
 import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
+import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
 import { UserType } from '../user/enum/user-type.enum';
 import { CustomersService } from './customers.service';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';

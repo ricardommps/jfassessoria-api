@@ -18,6 +18,11 @@ export interface SendSuccess {
   message: string;
 }
 
+interface CloneItem {
+  training: CreateTrainingDto;
+  qnt: number;
+}
+
 @Injectable()
 export class TrainingService {
   constructor(
@@ -97,15 +102,18 @@ export class TrainingService {
     });
   }
 
-  async cloneTraining(
-    createTrainingDto: CreateTrainingDto,
-    programId: number,
-  ): Promise<TrainingEntity> {
-    const result = await this.trainingRepository.save({
-      ...createTrainingDto,
-      id: programId,
-    });
-    return result;
+  async cloneTraining(cloneItem: CloneItem): Promise<DeleteResult> {
+    const createTrainingDto: CreateTrainingDto = cloneItem.training;
+    await this.programService.findProgramById(createTrainingDto.programId);
+    const features: CreateTrainingDto[] = [];
+    for (let i = 0; i < cloneItem.qnt; i++) {
+      features.push(createTrainingDto);
+    }
+    await this.trainingRepository.save(features);
+    return {
+      raw: [],
+      affected: cloneItem.qnt,
+    };
   }
 
   async findTrainingById(trainingId: number): Promise<TrainingEntity> {
