@@ -19,6 +19,11 @@ import { UpdateTrainingDto } from './dtos/updateTraining.dto';
 import { TrainingEntity } from './entities/training.entity';
 import { SendSuccess, TrainingService } from './training.service';
 
+interface CloneItem {
+  training: CreateTrainingDto;
+  qnt: number;
+}
+
 @Controller('training')
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
@@ -60,6 +65,13 @@ export class TrainingController {
     @Body() createTrainingDto: CreateTrainingDto,
   ): Promise<TrainingEntity> {
     return this.trainingService.createTraining(createTrainingDto);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Post('/clone')
+  @UsePipes(ValidationPipe)
+  async cloneTraining(@Body() cloneItem: CloneItem): Promise<DeleteResult> {
+    return await this.trainingService.cloneTraining(cloneItem);
   }
 
   @Roles(UserType.Admin, UserType.Root)

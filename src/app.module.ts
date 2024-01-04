@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { CustomersModule } from './customers/customers.module';
 import { FinishedTrainingModule } from './finished-training/finished-training.module';
 import { RolesGuard } from './guards/roles.guard';
+import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { PaymentModule } from './payment/payment.module';
 import { ProgramModule } from './program/program.module';
@@ -41,6 +42,7 @@ import { UserModule } from './user/user.module';
     FinishedTrainingModule,
     TrainingFeedbackModule,
     MetricsModule,
+    MediaModule,
   ],
   controllers: [],
   providers: [

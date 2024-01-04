@@ -7,11 +7,11 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { UpdatePasswordDTO } from 'src/user/dtos/update-password.dto';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
+import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
 import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed, validatePassword } from '../utils/password';

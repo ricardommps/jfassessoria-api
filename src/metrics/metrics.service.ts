@@ -89,7 +89,6 @@ export class MetricsService {
         id: id,
       },
     });
-    console.log('--findMetricById-', metric);
     if (!metric) {
       throw new NotFoundException(`Metric id: ${metric} not found`);
     }
