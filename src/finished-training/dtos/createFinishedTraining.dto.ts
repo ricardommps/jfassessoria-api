@@ -1,4 +1,10 @@
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateFinishedTrainingDto {
   @IsOptional()
@@ -19,6 +25,18 @@ export class CreateFinishedTrainingDto {
   @IsOptional()
   @IsString()
   pace: string;
+
+  @IsOptional()
+  @IsString()
+  unitmeasurement: string;
+
+  @IsOptional()
+  @IsString()
+  typetraining: string;
+
+  @IsArray()
+  @IsOptional()
+  intensities: string[];
 
   @IsOptional()
   @IsNumber()

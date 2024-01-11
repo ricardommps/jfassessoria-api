@@ -38,6 +38,15 @@ export class FinishedTrainingEntity {
   @Column({ name: 'comments' })
   comments: string;
 
+  @Column({ name: 'unitmeasurement' })
+  unitmeasurement: string;
+
+  @Column({ name: 'typetraining' })
+  typetraining: string;
+
+  @Column('varchar', { name: 'intensities', array: true })
+  intensities: string[];
+
   @Column({ name: 'unrealized' })
   unrealized: boolean;
 

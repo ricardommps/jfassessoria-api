@@ -38,16 +38,20 @@ export class FinishedTrainingService {
   async createFinished(
     createFinishedTrainingDto: CreateFinishedTrainingDto,
   ): Promise<FinishedTrainingEntity> {
-    const training = await this.trainingService.findTrainingById(
-      createFinishedTrainingDto.trainingId,
-    );
+    try {
+      const training = await this.trainingService.findTrainingById(
+        createFinishedTrainingDto.trainingId,
+      );
 
-    training.finished = true;
-    await this.trainingService.updateTraining(training, training.id);
+      training.finished = true;
+      await this.trainingService.updateTraining(training, training.id);
 
-    return this.finishedTrainingEntityRepository.save({
-      ...createFinishedTrainingDto,
-    });
+      return this.finishedTrainingEntityRepository.save({
+        ...createFinishedTrainingDto,
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateFinishedTraining(
@@ -190,6 +194,9 @@ export class FinishedTrainingService {
         'finished_training.link as link',
         'finished_training.comments as comments',
         'finished_training.unrealized as unrealized',
+        'finished_training.unitmeasurement as unitmeasurement',
+        'finished_training.typetraining as typetraining',
+        'finished_training.intensities as intensities',
         'tra.id as trainingId',
         'tra.program_id',
         'tra.name as trainingName',
