@@ -13,6 +13,9 @@ export class ReturnFinishedByIdDto {
   review: boolean;
   comments: string;
   unrealized: boolean;
+  unitmeasurement: string;
+  typetraining: string;
+  intensities: string[];
   trainings?: ReturnTrainingDto[];
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
@@ -26,5 +29,8 @@ export class ReturnFinishedByIdDto {
     this.comments = finishedTrainingEntity.comments;
     this.review = finishedTrainingEntity.review;
     this.unrealized = finishedTrainingEntity.unrealized;
+    this.unitmeasurement = finishedTrainingEntity.unitmeasurement;
+    this.intensities = finishedTrainingEntity.intensities;
+    this.typetraining = finishedTrainingEntity.typetraining;
   }
 }

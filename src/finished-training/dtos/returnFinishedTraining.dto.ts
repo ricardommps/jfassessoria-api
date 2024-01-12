@@ -12,6 +12,9 @@ export class ReturnFinishedTrainingDto {
   review: boolean;
   comments: string;
   unrealized: boolean;
+  unitmeasurement: string;
+  typetraining: string;
+  intensities: string[];
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
     this.trainingId = finishedTrainingEntity.trainingId;
@@ -24,5 +27,8 @@ export class ReturnFinishedTrainingDto {
     this.review = finishedTrainingEntity.review;
     this.comments = finishedTrainingEntity.comments;
     this.unrealized = finishedTrainingEntity.unrealized;
+    this.unitmeasurement = finishedTrainingEntity.unitmeasurement;
+    this.intensities = finishedTrainingEntity.intensities;
+    this.typetraining = finishedTrainingEntity.typetraining;
   }
 }

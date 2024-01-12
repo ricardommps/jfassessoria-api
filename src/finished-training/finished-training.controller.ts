@@ -32,7 +32,7 @@ export class FinishedTrainingController {
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @UsePipes(ValidationPipe)
   @Post()
-  async createCustomer(
+  async createFinished(
     @Body() createFinishedDto: CreateFinishedTrainingDto,
   ): Promise<ReturnFinishedTrainingDto> {
     return this.finishedTrainingService.createFinished(createFinishedDto);
