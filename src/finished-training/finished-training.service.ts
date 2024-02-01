@@ -194,7 +194,8 @@ export class FinishedTrainingService {
       )
       .innerJoin(ProgramEntity, 'pro', 'tra.program_id = pro.id')
       .where('pro.customer_id= :customerId', { customerId: id })
-      .andWhere('finished_training.review is not true');
+      .andWhere('finished_training.review is not true')
+      .orderBy('finished_training.created_at', 'DESC');
 
     const finishedTraining = await qb.getRawMany();
     return finishedTraining;
@@ -221,7 +222,8 @@ export class FinishedTrainingService {
       )
       .innerJoin(ProgramEntity, 'pro', 'tra.program_id = pro.id')
       .where('pro.customer_id= :customerId', { customerId: id })
-      .andWhere('finished_training.review is true');
+      .andWhere('finished_training.review is true')
+      .orderBy('finished_training.created_at', 'DESC');
 
     const finishedTraining = await qb.getRawMany();
     return finishedTraining;
