@@ -161,9 +161,11 @@ export class ProgramController {
 
   @Roles(UserType.Admin, UserType.Root)
   @Get('/archived/:customerId')
-  async findArchivedProgramByCustomerId(@Param('customerId') customerId) {
-    return await this.programService.findArchivedProgramByCustomerIdQuery(
-      customerId,
-    );
+  async findArchivedProgramByCustomerId(
+    @Param('customerId') customerId,
+  ): Promise<ReturnProgramDto[]> {
+    return (
+      await this.programService.findArchivedProgramByCustomerId(customerId)
+    ).map((program) => new ReturnProgramDto(program));
   }
 }

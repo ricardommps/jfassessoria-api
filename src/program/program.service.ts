@@ -7,8 +7,6 @@ import {
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
-import { CustomerEntity } from '../customers/entities/customer.entity';
-import { TrainingEntity } from '../training/entities/training.entity';
 import { TrainingService } from '../training/training.service';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
 import { CreateProgramDto } from './dtos/createProgram.dto';
@@ -112,8 +110,10 @@ export class ProgramService {
         customerId,
         hide: true,
       },
-      relations: ['customer', 'trainings '],
-      order: { createdAt: 'ASC' },
+      relations: {
+        trainings: true,
+      },
+      order: { referenceMonth: 'DESC' },
     });
 
     return programs;
@@ -124,8 +124,6 @@ export class ProgramService {
       .createQueryBuilder()
       .select(['pro.*', 'c.id', 'c.user_id', 'c.name AS customerName'])
       .from(ProgramEntity, 'pro')
-      .leftJoin(CustomerEntity, 'c', 'pro.customer_id = c.id')
-      .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
       .where('pro.customer_id= :customerId', { customerId: customerId })
       .andWhere('pro.hide= :hide', { hide: true })
       .orderBy('pro.created_at', 'ASC');

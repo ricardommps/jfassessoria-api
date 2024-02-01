@@ -122,7 +122,53 @@ export class FinishedTrainingService {
       )
       .where('tra.program_id= :programId', { programId: id })
       .orderBy('tra.datePublished', 'DESC');
+    const finishedTraining = await qb.getRawMany();
+    return finishedTraining;
+  }
 
+  async findFinished(userId, timestampFrom, timestampTo) {
+    const qb = await this.dataSource
+      .createQueryBuilder()
+      .select([
+        'finished_training.*',
+        'tra.name as trainingName',
+        'tra.description as trainingDesc',
+        'tra.date_published as trainingDatePublished',
+        'tra.id as trainingId',
+        'fed.description_feedback',
+        'fed.created_at as feedbackCreated',
+        'fed.paces',
+        'fed.viewed',
+        'fed.id as feedbackId',
+        'pro.name as programName',
+        'pro.type as type',
+        'pro.goal as goal',
+        'pro.pv as pv',
+        'pro.pace as programpace',
+        'pro.difficulty_level as difficulty',
+        'pro.reference_month as month',
+        'pro.id as programId',
+      ])
+      .from(FinishedTrainingEntity, 'finished_training')
+      .innerJoin(
+        TrainingEntity,
+        'tra',
+        'finished_training.training_id = tra.id',
+      )
+      .leftJoin(
+        TrainingFeedbackEntity,
+        'fed',
+        'finished_training.id = fed.finished_training_id',
+      )
+      .leftJoin(ProgramEntity, 'pro', 'tra.program_id = pro.id')
+      .where('pro.customer_id= :customerId', { customerId: userId })
+      .andWhere('finished_training.created_at<=:timestampFrom', {
+        timestampFrom: timestampFrom,
+      })
+      .andWhere('finished_training.created_at>:timestampTo', {
+        timestampTo: timestampTo,
+      })
+      .orderBy('finished_training.created_at', 'DESC');
     const finishedTraining = await qb.getRawMany();
     return finishedTraining;
   }

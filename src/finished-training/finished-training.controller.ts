@@ -5,10 +5,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from '../decorators/roles.decorator';
+import { UserId } from '../decorators/user-id.decorator';
 import { UserType } from '../user/enum/user-type.enum';
 import { CreateFinishedTrainingDto } from './dtos/createFinishedTraining.dto';
 import { ReturnFinishedTrainingDto } from './dtos/returnFinishedTraining.dto';
@@ -50,15 +52,23 @@ export class FinishedTrainingController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
-  @Get(':id')
-  async findFinishedById(@Param('id') id: string) {
-    return await this.finishedTrainingService.findFinishedById(id);
-  }
-
-  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('listByProgramId/:id')
   async findFinishedByProgramId(@Param('id') id: string) {
     return await this.finishedTrainingService.findFinishedByProgramId(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('listByUser')
+  async findFinished(
+    @UserId() userId: number,
+    @Query('timestampFrom') timestampFrom?: string,
+    @Query('timestampTo') timestampTo?: string,
+  ) {
+    return await this.finishedTrainingService.findFinished(
+      userId,
+      timestampFrom,
+      timestampTo,
+    );
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
@@ -83,5 +93,11 @@ export class FinishedTrainingController {
   @Get('/review/training/:id')
   async findFinishedReviewById(@Param('id') id: string) {
     return await this.finishedTrainingService.findFinishedReviewById(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get(':id')
+  async findFinishedById(@Param('id') id: string) {
+    return await this.finishedTrainingService.findFinishedById(id);
   }
 }

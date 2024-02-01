@@ -17,6 +17,7 @@ import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
 import { UserType } from '../user/enum/user-type.enum';
 import { CustomersService } from './customers.service';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
+import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
 import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
@@ -91,6 +92,19 @@ export class CustomersController {
     return this.customerService.updatePasswordCustomer(
       updatePasswordDTO,
       userId,
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Patch('/newPassword/:customerId')
+  @UsePipes(ValidationPipe)
+  async newPassword(
+    @Body() updatePasswordDTO: NewPasswordDTO,
+    @Param('customerId') customerId: number,
+  ): Promise<CustomerEntity> {
+    return this.customerService.newPasswordCustomer(
+      updatePasswordDTO,
+      customerId,
     );
   }
 }
