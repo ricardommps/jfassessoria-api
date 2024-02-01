@@ -16,6 +16,7 @@ import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed, validatePassword } from '../utils/password';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
+import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
@@ -155,9 +156,9 @@ export class CustomersService {
     customerId: number,
   ): Promise<CustomerEntity> {
     const customer = await this.findCustomerById(customerId);
-    const customerByEmail = await this.findUserByEmail(customer.email).catch(
-      () => undefined,
-    );
+    const customerByEmail = await this.findUserByEmail(
+      updateCustomerDTO.email,
+    ).catch(() => undefined);
     if (customerByEmail && updateCustomerDTO.email !== customerByEmail.email) {
       throw new BadGatewayException('email registered in system');
     }
@@ -193,6 +194,21 @@ export class CustomersService {
       throw new BadRequestException('Last password invalid');
     }
 
+    return this.customerRepository.save({
+      ...customer,
+      password: passwordHashed,
+      temporaryPassword: false,
+    });
+  }
+
+  async newPasswordCustomer(
+    updatePasswordDTO: NewPasswordDTO,
+    customerId: number,
+  ): Promise<CustomerEntity> {
+    const customer = await this.findCustomerById(customerId);
+    const passwordHashed = await createPasswordHashed(
+      updatePasswordDTO.newPassword,
+    );
     return this.customerRepository.save({
       ...customer,
       password: passwordHashed,
