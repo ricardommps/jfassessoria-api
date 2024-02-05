@@ -20,6 +20,9 @@ export class TrainingEntity {
   @Column({ name: 'name', nullable: true })
   name: string;
 
+  @Column({ name: 'subtitle' })
+  subtitle: string;
+
   @Column({ name: 'description', nullable: true })
   description: string;
 

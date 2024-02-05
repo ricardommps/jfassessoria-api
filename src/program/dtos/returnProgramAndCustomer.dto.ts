@@ -23,6 +23,7 @@ export class ReturnProgramAndCustomerDto {
   customerId: number;
   hide: boolean;
   type: number;
+  updatedAt: Date;
   customer?: ReturnCustomerDetailsDto;
 
   constructor(program: ProgramEntity) {
@@ -46,6 +47,7 @@ export class ReturnProgramAndCustomerDto {
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
     this.type = program.type;
+    this.updatedAt = program.updatedAt;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

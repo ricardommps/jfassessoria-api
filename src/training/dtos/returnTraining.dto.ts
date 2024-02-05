@@ -8,6 +8,7 @@ interface Video {
 export class ReturnTrainingDto {
   id: number;
   name: string;
+  subtitle: string;
   description: string;
   coverPath: string;
   datePublished: Date;
@@ -20,6 +21,7 @@ export class ReturnTrainingDto {
   constructor(training: TrainingEntity) {
     this.id = training.id;
     this.name = training.name;
+    this.subtitle = training.subtitle;
     this.description = training.description;
     this.coverPath = training.coverPath;
     this.datePublished = training.datePublished;

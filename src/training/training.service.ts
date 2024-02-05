@@ -76,7 +76,7 @@ export class TrainingService {
     const qb = await this.dataSource
       .createQueryBuilder()
       .select(
-        'training.id, training.name, training.datePublished, training.trainingDateOther, training.description',
+        'training.id, training.name, training.subtitle, training.datePublished, training.trainingDateOther, training.description',
       )
       .addSelect('array_to_json(array_agg(finished)) as finished')
       .from(TrainingEntity, 'training')
