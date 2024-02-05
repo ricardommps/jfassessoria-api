@@ -11,6 +11,10 @@ export class SendTrainingDto {
   name: string;
 
   @IsString()
+  @IsOptional()
+  subtitle: string;
+
+  @IsString()
   description: string;
 
   @IsString()

@@ -96,7 +96,7 @@ export class ProgramService {
       relations: {
         trainings: true,
       },
-      order: { referenceMonth: 'DESC' },
+      order: { updatedAt: 'DESC' },
     });
 
     return programs;
