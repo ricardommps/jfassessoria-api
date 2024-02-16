@@ -1,3 +1,4 @@
+import { ReturnTrainingDto } from '../../training/dtos/returnTraining.dto';
 import { FinishedTrainingEntity } from '../entities/finished-training.entity';
 
 export class ReturnFinishedTrainingDto {
@@ -15,6 +16,7 @@ export class ReturnFinishedTrainingDto {
   unitmeasurement: string;
   typetraining: string;
   intensities: string[];
+  training?: ReturnTrainingDto;
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
     this.trainingId = finishedTrainingEntity.trainingId;

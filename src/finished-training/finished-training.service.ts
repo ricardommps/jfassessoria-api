@@ -48,6 +48,7 @@ export class FinishedTrainingService {
 
       return this.finishedTrainingEntityRepository.save({
         ...createFinishedTrainingDto,
+        training,
       });
     } catch (error) {
       throw error;
