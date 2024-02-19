@@ -83,14 +83,14 @@ export class CustomersService {
     if (customer) {
       throw new BadRequestException('email registred in system');
     }
-    const emailPrefix = createCustomersDto.email.split('@');
-    const passwordHashed = await createPasswordHashed(`${emailPrefix[0]}123`);
+    //  const emailPrefix = createCustomersDto.email.split('@');
+    // const passwordHashed = await createPasswordHashed(`${emailPrefix[0]}123`);
     return this.customerRepository.save({
       ...createCustomersDto,
       userId,
       typeUser: UserType.User,
-      password: passwordHashed,
-      temporaryPassword: true,
+      password: null,
+      temporaryPassword: false,
     });
   }
 
@@ -212,7 +212,7 @@ export class CustomersService {
     return this.customerRepository.save({
       ...customer,
       password: passwordHashed,
-      temporaryPassword: false,
+      temporaryPassword: true,
     });
   }
 }

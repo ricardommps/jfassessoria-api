@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
-import { LoginDto } from './dtos/login.dto';
-import { ReturnLogin } from './dtos/returnLogin.dto';
-import { UserEntity } from '../user/entities/user.entity';
-import { validatePassword } from '../utils/password';
-import { LoginPayload } from './dtos/loginPayload.dto';
-import { ReturnUserDto } from '../user/dtos/returnUser.dto';
-import { CustomerEntity } from '../customers/entities/customer.entity';
 import { CustomersService } from '../customers/customers.service';
+import { CustomerEntity } from '../customers/entities/customer.entity';
+import { ReturnUserDto } from '../user/dtos/returnUser.dto';
+import { UserEntity } from '../user/entities/user.entity';
+import { UserService } from '../user/user.service';
+import { validatePassword } from '../utils/password';
+import { LoginDto } from './dtos/login.dto';
+import { LoginPayload } from './dtos/loginPayload.dto';
+import { ReturnLogin } from './dtos/returnLogin.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +40,9 @@ export class AuthService {
     const customer: CustomerEntity | undefined = await this.customerService
       .findCustomerByEmail(loginDto.email)
       .catch(() => undefined);
+    if (!customer?.password) {
+      throw new NotFoundException('Email or password invalid');
+    }
     const isMatch = await validatePassword(
       loginDto.password,
       customer?.password || '',

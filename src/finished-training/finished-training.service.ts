@@ -45,7 +45,6 @@ export class FinishedTrainingService {
 
       training.finished = true;
       await this.trainingService.updateTraining(training, training.id);
-
       return this.finishedTrainingEntityRepository.save({
         ...createFinishedTrainingDto,
         training,
