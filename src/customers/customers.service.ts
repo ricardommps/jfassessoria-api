@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
@@ -102,6 +103,21 @@ export class CustomersService {
     });
     if (!customer) {
       throw new NotFoundException(`Email: ${email} Not Found`);
+    }
+    return customer;
+  }
+
+  async customerMe(userId: number, password: string): Promise<CustomerEntity> {
+    const customer = await this.customerRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (customer.password !== password) {
+      throw new UnauthorizedException();
+    }
+    if (!customer) {
+      throw new NotFoundException(`CustomerId: ${userId} Not Found`);
     }
     return customer;
   }

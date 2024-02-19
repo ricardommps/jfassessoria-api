@@ -7,17 +7,17 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dtos/createUser.dto';
-import { UserEntity } from './entities/user.entity';
-import { ReturnUserDto } from './dtos/returnUser.dto';
-import { Roles } from '../decorators/roles.decorator';
-import { UserType } from './enum/user-type.enum';
-import { UserId, UserMe } from '../decorators/user-id.decorator';
 import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
+import { Roles } from '../decorators/roles.decorator';
+import { UserId, UserMe } from '../decorators/user-id.decorator';
+import { CreateUserDto } from './dtos/createUser.dto';
 import { ReturnMeDto } from './dtos/returnMe.dto';
+import { ReturnUserDto } from './dtos/returnUser.dto';
 import { UpdatePasswordDTO } from './dtos/update-password.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserType } from './enum/user-type.enum';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -66,11 +66,11 @@ export class UserController {
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/customer/me')
-  async findCustomerById(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
-    const { userId, typeUser } = userMe;
+  async customerMe(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
+    const { userId, typeUser, password } = userMe;
     if (typeUser === 1) {
       const userResult = new ReturnUserDto(
-        await this.customerService.findCustomerById(userId),
+        await this.customerService.customerMe(userId, password),
       );
       return {
         user: {
