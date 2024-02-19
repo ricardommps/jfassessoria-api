@@ -29,7 +29,6 @@ export class AuthService {
     if (!user || !isMatch) {
       throw new NotFoundException('Email or password invalid');
     }
-
     return {
       accessToken: this.jwtService.sign({ ...new LoginPayload(user) }),
       user: new ReturnUserDto(user),
