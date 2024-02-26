@@ -56,7 +56,10 @@ export class CustomersService {
       .createQueryBuilder()
       .select(['c.id AS id', 'c.name AS name', 'c.active AS active'])
       .addSelect('COUNT(DISTINCT pro.id)', 'programs')
-      .addSelect('COUNT(DISTINCT ft.id)', 'reviews')
+      .addSelect(
+        'COUNT(DISTINCT ft.id) filter (where ft.review IS NOT TRUE)',
+        'reviews',
+      )
       .addSelect(
         "COALESCE((select json_agg(payment.*) from payment where payment.customer_id = c.id), 'null'::json) AS payments",
       )
@@ -64,8 +67,7 @@ export class CustomersService {
       .leftJoin(ProgramEntity, 'pro', 'pro.customer_id = c.id')
       .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
       .leftJoin(FinishedTrainingEntity, 'ft', 'ft.training_id = tra.id')
-      .where('ft.review IS NOT TRUE')
-      .andWhere('c.user_id= :userId', { userId: userId })
+      .where('c.user_id= :userId', { userId: userId })
       .orderBy('c.name', 'ASC')
       .groupBy('c.id');
     const customers = await qb.getRawMany();
