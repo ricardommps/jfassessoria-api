@@ -105,6 +105,9 @@ export class TrainingService {
   async cloneTraining(cloneItem: CloneItem): Promise<DeleteResult> {
     const createTrainingDto: CreateTrainingDto = cloneItem.training;
     await this.programService.findProgramById(createTrainingDto.programId);
+    createTrainingDto.datePublished = null;
+    createTrainingDto.published = false;
+    createTrainingDto.finished = false;
     const features: CreateTrainingDto[] = [];
     for (let i = 0; i < cloneItem.qnt; i++) {
       features.push(createTrainingDto);
@@ -141,9 +144,13 @@ export class TrainingService {
   }
 
   async sendTraining(sendTrainingDto: SendTrainingDto): Promise<SendSuccess> {
-    await sendTrainingDto.programsId.map(async (item) => {
+    const sendTrainingDtoCopy: SendTrainingDto = sendTrainingDto;
+    sendTrainingDtoCopy.datePublished = null;
+    sendTrainingDtoCopy.published = false;
+    sendTrainingDtoCopy.finished = false;
+    await sendTrainingDtoCopy.programsId.map(async (item) => {
       const saveTraining = {
-        ...sendTrainingDto,
+        ...sendTrainingDtoCopy,
         programId: item,
       };
       delete saveTraining.programsId;
