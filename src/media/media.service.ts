@@ -1,4 +1,9 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
@@ -23,6 +28,19 @@ export class MediaService {
       order: { updatedAt: 'DESC' },
     });
     return medias;
+  }
+
+  async findMediaById(id: number, userId: number): Promise<MediaEntity> {
+    const media = await this.mediaEntity.findOne({
+      where: {
+        userId,
+        id,
+      },
+    });
+    if (!media) {
+      throw new NotFoundException(`Media: ${id} Not Found`);
+    }
+    return media;
   }
 
   async createMedia(

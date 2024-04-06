@@ -15,6 +15,14 @@ export class UpdateTrainingDto {
   subtitle: string;
 
   @IsString()
+  @IsOptional()
+  heating: string;
+
+  @IsString()
+  @IsOptional()
+  recovery: string;
+
+  @IsString()
   description: string;
 
   @IsString()
@@ -42,4 +50,12 @@ export class UpdateTrainingDto {
 
   @IsBoolean()
   published: boolean;
+
+  @IsArray()
+  @IsOptional()
+  mediaOrder: number[];
+
+  @IsArray()
+  @IsOptional()
+  exerciseInfo: object[];
 }

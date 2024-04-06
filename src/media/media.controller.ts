@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -34,5 +35,16 @@ export class MediaController {
     @UserId() userId: number,
   ): Promise<MediaEntity> {
     return this.mediaService.createMedia(createMediaDto, userId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('/:id')
+  async getMediaById(
+    @Param('id') id: number,
+    @UserId() userId: number,
+  ): Promise<ReturnMediaDto> {
+    return new ReturnMediaDto(
+      await this.mediaService.findMediaById(id, userId),
+    );
   }
 }

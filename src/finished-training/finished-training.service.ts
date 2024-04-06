@@ -5,6 +5,8 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { ProgramService } from 'src/program/program.service';
+import { TrainingFeedbackService } from 'src/training_feedback/training_feedback.service';
 import { DataSource, Repository } from 'typeorm';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
@@ -19,6 +21,13 @@ export interface Finished {
   training: TrainingEntity;
 }
 
+export interface FinishedProps {
+  finished: FinishedTrainingEntity;
+  program: ProgramEntity;
+  training: TrainingEntity;
+  feedback?: TrainingFeedbackEntity;
+}
+
 @Injectable()
 export class FinishedTrainingService {
   constructor(
@@ -27,6 +36,12 @@ export class FinishedTrainingService {
 
     @Inject(forwardRef(() => TrainingService))
     private readonly trainingService: TrainingService,
+
+    @Inject(forwardRef(() => ProgramService))
+    private readonly programService: ProgramService,
+
+    @Inject(forwardRef(() => TrainingFeedbackService))
+    private readonly trainingFeedbackService: TrainingFeedbackService,
 
     @InjectDataSource() private dataSource: DataSource,
   ) {}
@@ -92,6 +107,17 @@ export class FinishedTrainingService {
     if (!finishedTraining) {
       throw new NotFoundException(`FinishedTrainingId: ${id} Not Found`);
     }
+    return finishedTraining;
+  }
+
+  async findByTrainingId(id: number): Promise<FinishedTrainingEntity> {
+    const finishedTraining =
+      await this.finishedTrainingEntityRepository.findOne({
+        where: {
+          trainingId: id,
+        },
+      });
+
     return finishedTraining;
   }
 
@@ -233,6 +259,69 @@ export class FinishedTrainingService {
     return finishedTraining;
   }
 
+  async finishedByTrainingId(id: number): Promise<FinishedProps> {
+    const training = await this.trainingService.getTrainingById(id);
+
+    if (!training) {
+      throw new NotFoundException(`training not found`);
+    }
+
+    const finished = await this.finishedTrainingEntityRepository.findOne({
+      where: { trainingId: training.id },
+    });
+
+    if (!finished) {
+      throw new NotFoundException(`finished not found`);
+    }
+
+    const program = await this.programService.findProgramById(
+      training.programId,
+    );
+
+    if (!program) {
+      throw new NotFoundException(`program not found`);
+    }
+
+    const feedback = await this.trainingFeedbackService.findByTrainingId(
+      finished.id,
+    );
+
+    return {
+      finished,
+      training,
+      program,
+      feedback,
+    };
+  }
+
+  async finishedById(id: number): Promise<FinishedProps> {
+    const finished = await this.finishedTrainingEntityRepository.findOne({
+      where: { id },
+    });
+
+    if (!finished) {
+      throw new NotFoundException(`Training id: ${id} not found`);
+    }
+
+    const training = await this.trainingService.getTrainingById(
+      finished.trainingId,
+    );
+
+    const program = await this.programService.findProgramById(
+      training.programId,
+    );
+    const feedback = await this.trainingFeedbackService.findByTrainingId(
+      finished.id,
+    );
+
+    return {
+      finished,
+      training,
+      program,
+      feedback,
+    };
+  }
+
   async findFinishedReviewById(id) {
     const qb = await this.dataSource
       .createQueryBuilder()
@@ -253,6 +342,8 @@ export class FinishedTrainingService {
         'tra.program_id',
         'tra.name as trainingName',
         'tra.subtitle as trainingSubtitle',
+        'tra.heating as trainingHeating',
+        'tra.recovery as trainingRecovery',
         'tra.description as tariningDesc',
         'tra.date_published as trainingPublished',
         'tra.training_date_other',

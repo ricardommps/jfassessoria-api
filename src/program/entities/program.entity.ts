@@ -89,9 +89,6 @@ export class ProgramEntity {
   @JoinColumn({ name: 'customer_id', referencedColumnName: 'id' })
   customer?: CustomerEntity;
 
-  @OneToMany(() => TrainingEntity, (training) => training.program, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => TrainingEntity, (training) => training.program)
   trainings?: TrainingEntity[];
 }

@@ -91,13 +91,19 @@ export class FinishedTrainingController {
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/review/training/:id')
-  async findFinishedReviewById(@Param('id') id: string) {
-    return await this.finishedTrainingService.findFinishedReviewById(id);
+  async findFinishedReviewById(@Param('id') id: number) {
+    return await this.finishedTrainingService.finishedById(id);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/review/trainingId/:id')
+  async findFinishedReviewId(@Param('id') id: number) {
+    return await this.finishedTrainingService.finishedByTrainingId(id);
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get(':id')
-  async findFinishedById(@Param('id') id: string) {
-    return await this.finishedTrainingService.findFinishedById(id);
+  async finishedByTrainingId(@Param('id') id: number) {
+    return await this.finishedTrainingService.finishedByTrainingId(id);
   }
 }
