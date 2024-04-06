@@ -143,6 +143,23 @@ export class ProgramService {
     return program;
   }
 
+  async findProgramByIdRelations(programId: number): Promise<ProgramEntity> {
+    const program = await this.programRepository.findOne({
+      where: {
+        id: programId,
+      },
+      relations: {
+        trainings: {
+          medias: true,
+        },
+      },
+    });
+    if (!program) {
+      throw new NotFoundException(`Program id: ${programId} not found`);
+    }
+    return program;
+  }
+
   async findProgramByIdUsingRelation(
     programId: number,
   ): Promise<ProgramEntity> {
@@ -185,10 +202,8 @@ export class ProgramService {
           // id: Not(IsNull()), // parent (not)exist - this can helpful for someone
         },
       },
-      relations: {
-        trainings: true,
-        customer: true,
-      },
+      relations: ['trainings', 'trainings.medias', 'customer'],
+
       order: {
         trainings: {
           datePublished: 'ASC',
@@ -217,6 +232,16 @@ export class ProgramService {
     await this.findProgramById(programId);
 
     return this.programRepository.delete({ id: programId });
+  }
+
+  async deleteProgramCascade(id: number): Promise<void> {
+    const program = await this.programRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: ['trainings'],
+    });
+    await this.programRepository.remove(program);
   }
 
   async hideProgram(programId: number): Promise<ProgramEntity> {

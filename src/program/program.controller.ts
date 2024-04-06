@@ -9,7 +9,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
 import { UserType } from '../user/enum/user-type.enum';
@@ -134,11 +133,9 @@ export class ProgramController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
-  @Delete('/:programId')
-  async deleteProgram(
-    @Param('programId') programId: number,
-  ): Promise<DeleteResult> {
-    return this.programService.deleteProgram(programId);
+  @Delete('/:id')
+  async deleteProgram(@Param('id') id: string): Promise<void> {
+    return this.programService.deleteProgramCascade(+id);
   }
 
   @Roles(UserType.Admin, UserType.Root)

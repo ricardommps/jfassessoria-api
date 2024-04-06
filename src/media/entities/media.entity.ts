@@ -1,7 +1,10 @@
+import { TrainingEntity } from 'src/training/entities/training.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,4 +37,11 @@ export class MediaEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @ManyToMany(() => TrainingEntity, (training) => training.medias, {
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
+  @JoinTable()
+  trainings: TrainingEntity[];
 }

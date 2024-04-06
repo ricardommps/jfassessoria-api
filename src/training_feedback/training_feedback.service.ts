@@ -41,6 +41,17 @@ export class TrainingFeedbackService {
     return trainingFeedback;
   }
 
+  async findByTrainingId(id: number): Promise<TrainingFeedbackEntity> {
+    const trainingFeedback =
+      await this.trainingFeedbackEntityRepository.findOne({
+        where: {
+          finishedTrainingId: id,
+        },
+      });
+
+    return trainingFeedback;
+  }
+
   async createTrainingFeedback(
     createTrainingFeedbackDto: CreateTrainingFeedbackDto,
   ): Promise<TrainingFeedbackEntity> {

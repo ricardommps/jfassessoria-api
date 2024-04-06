@@ -15,6 +15,14 @@ export class SendTrainingDto {
   subtitle: string;
 
   @IsString()
+  @IsOptional()
+  heating: string;
+
+  @IsString()
+  @IsOptional()
+  recovery: string;
+
+  @IsString()
   description: string;
 
   @IsString()
@@ -42,6 +50,14 @@ export class SendTrainingDto {
   @IsArray()
   @IsOptional()
   videos: [];
+
+  @IsArray()
+  @IsOptional()
+  mediaOrder: number[];
+
+  @IsArray()
+  @IsOptional()
+  exerciseInfo: object[];
 
   @IsArray()
   programsId: [];

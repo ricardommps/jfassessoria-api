@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { MediaEntity } from 'src/media/entities/media.entity';
 
 export class CreateTrainingDto {
   @IsString()
@@ -21,6 +22,14 @@ export class CreateTrainingDto {
   @IsString()
   @IsOptional()
   coverPath: string;
+
+  @IsString()
+  @IsOptional()
+  heating: string;
+
+  @IsString()
+  @IsOptional()
+  recovery: string;
 
   @IsDateString()
   @IsOptional()
@@ -44,6 +53,18 @@ export class CreateTrainingDto {
   @IsArray()
   @IsOptional()
   videos: [];
+
+  @IsArray()
+  @IsOptional()
+  mediaOrder: number[];
+
+  @IsArray()
+  @IsOptional()
+  medias: MediaEntity[];
+
+  @IsArray()
+  @IsOptional()
+  exerciseInfo: object[];
 
   @IsInt()
   programId: number;
