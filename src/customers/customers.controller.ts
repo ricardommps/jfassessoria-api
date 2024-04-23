@@ -7,10 +7,15 @@ import {
   Patch,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
+
+import { storage } from '../configs/upload';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
 import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
@@ -20,6 +25,7 @@ import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
 import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
+import { ReturnMyDataDto } from './dtos/returnMyData.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
@@ -32,6 +38,22 @@ export class CustomersController {
   async getAllCustomer(@UserId() userId: number): Promise<ReturnCustomerDto[]> {
     return (await this.customerService.getAllCustomer(userId)).map(
       (customerEntity) => new ReturnCustomerDto(customerEntity),
+    );
+  }
+
+  @Patch('/avatar')
+  @UseInterceptors(FileInterceptor('file', { storage }))
+  async updateAvatar(
+    @UserId() userId: number,
+    @UploadedFile() file,
+  ): Promise<CustomerEntity> {
+    return this.customerService.updateAvatar(userId, file);
+  }
+
+  @Get('/myData')
+  async getMyData(@UserId() userId: number): Promise<ReturnMyDataDto> {
+    return new ReturnMyDataDto(
+      await this.customerService.findCustomerById(userId),
     );
   }
 

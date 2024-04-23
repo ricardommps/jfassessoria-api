@@ -7,6 +7,8 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ReturnCustomerMeDto } from 'src/customers/dtos/returnCustomerMeDto.dtos';
+import { ReturnMeData } from 'src/customers/dtos/returnMeData.dtos';
 import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
 import { Roles } from '../decorators/roles.decorator';
@@ -66,10 +68,12 @@ export class UserController {
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/customer/me')
-  async customerMe(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
+  async customerMe(
+    @UserMe() userMe: LoginPayload,
+  ): Promise<ReturnCustomerMeDto | ReturnMeDto> {
     const { userId, typeUser, password } = userMe;
     if (typeUser === 1) {
-      const userResult = new ReturnUserDto(
+      const userResult = new ReturnMeData(
         await this.customerService.customerMe(userId, password),
       );
       return {
