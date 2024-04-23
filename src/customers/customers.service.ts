@@ -5,10 +5,14 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  UploadedFile,
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { promises } from 'fs';
+import { resolve } from 'path';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
+import { TMP_FOLDER, UPLOADS_FOLDER } from '../configs/upload';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
@@ -21,6 +25,28 @@ import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
+class DiskStorage {
+  async saveFile(file) {
+    await promises.rename(
+      resolve(TMP_FOLDER, file),
+      resolve(UPLOADS_FOLDER, file),
+    );
+
+    return file;
+  }
+
+  async deleteFile(file) {
+    const filePath = resolve(UPLOADS_FOLDER, file);
+
+    try {
+      await promises.stat(filePath);
+    } catch {
+      return;
+    }
+
+    await promises.unlink(filePath);
+  }
+}
 @Injectable()
 export class CustomersService {
   constructor(
@@ -54,7 +80,12 @@ export class CustomersService {
   async getAllCustomerQuery(userId) {
     const qb = await this.dataSource
       .createQueryBuilder()
-      .select(['c.id AS id', 'c.name AS name', 'c.active AS active'])
+      .select([
+        'c.id AS id',
+        'c.name AS name',
+        'c.active AS active',
+        'c.avatar as avatar',
+      ])
       .addSelect('COUNT(DISTINCT pro.id)', 'programs')
       .addSelect(
         'COUNT(DISTINCT ft.id) filter (where ft.review IS NOT TRUE)',
@@ -167,6 +198,31 @@ export class CustomersService {
       throw new NotFoundException(`CustomerId: ${customerId} Not Found`);
     }
     return customer;
+  }
+
+  async updateAvatar(
+    userId: number,
+    @UploadedFile() file,
+  ): Promise<CustomerEntity> {
+    const customer = await this.findCustomerById(userId);
+    if (!customer) {
+      throw new NotFoundException(
+        'Somente usuários autenticados podem mudar o avatar',
+      );
+    }
+    const avatarFilename = file.filename;
+    const diskStorage = new DiskStorage();
+
+    if (customer.avatar) {
+      await diskStorage.deleteFile(customer.avatar);
+    }
+
+    const filename = await diskStorage.saveFile(avatarFilename);
+    customer.avatar = filename;
+
+    return this.customerRepository.save({
+      ...customer,
+    });
   }
 
   async updateCustomer(

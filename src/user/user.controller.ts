@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
+import { ReturnCustomerMeDto } from '../customers/dtos/returnCustomerMeDto.dtos';
+import { ReturnMeData } from '../customers/dtos/returnMeData.dtos';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId, UserMe } from '../decorators/user-id.decorator';
 import { CreateUserDto } from './dtos/createUser.dto';
@@ -66,10 +68,12 @@ export class UserController {
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/customer/me')
-  async customerMe(@UserMe() userMe: LoginPayload): Promise<ReturnMeDto> {
+  async customerMe(
+    @UserMe() userMe: LoginPayload,
+  ): Promise<ReturnCustomerMeDto | ReturnMeDto> {
     const { userId, typeUser, password } = userMe;
     if (typeUser === 1) {
-      const userResult = new ReturnUserDto(
+      const userResult = new ReturnMeData(
         await this.customerService.customerMe(userId, password),
       );
       return {
