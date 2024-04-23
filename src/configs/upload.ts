@@ -2,7 +2,7 @@ import { randomBytes } from 'crypto';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 
-export const TMP_FOLDER = resolve(__dirname, '..', '..', 'var/tmp');
+export const TMP_FOLDER = resolve(process.cwd(), 'tmp');
 
 export const UPLOADS_FOLDER = resolve(TMP_FOLDER, 'uploads');
 
