@@ -2,7 +2,14 @@ import { randomBytes } from 'crypto';
 import { diskStorage } from 'multer';
 import { resolve } from 'path';
 
-export const TMP_FOLDER = resolve(__dirname, '..', '..', 'tmp');
+//export const TMP_FOLDER = resolve(__dirname, '..', '..', 'tmp');
+
+export const TMP_FOLDER = resolve(
+  process.cwd(),
+  '..',
+  '..',
+  'api/jfassessoria-api/tmp',
+);
 export const UPLOADS_FOLDER = resolve(TMP_FOLDER, 'uploads');
 
 export const storage = diskStorage({
