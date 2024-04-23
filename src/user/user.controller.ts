@@ -7,10 +7,10 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ReturnCustomerMeDto } from 'src/customers/dtos/returnCustomerMeDto.dtos';
-import { ReturnMeData } from 'src/customers/dtos/returnMeData.dtos';
 import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 import { CustomersService } from '../customers/customers.service';
+import { ReturnCustomerMeDto } from '../customers/dtos/returnCustomerMeDto.dtos';
+import { ReturnMeData } from '../customers/dtos/returnMeData.dtos';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId, UserMe } from '../decorators/user-id.decorator';
 import { CreateUserDto } from './dtos/createUser.dto';
