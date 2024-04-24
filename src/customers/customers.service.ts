@@ -5,14 +5,11 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-  UploadedFile,
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { promises } from 'fs';
-import { resolve } from 'path';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
-import { TMP_FOLDER, UPLOADS_FOLDER } from '../configs/upload';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
 import { ProgramEntity } from '../program/entities/program.entity';
 import { TrainingEntity } from '../training/entities/training.entity';
@@ -25,28 +22,6 @@ import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
-class DiskStorage {
-  async saveFile(file) {
-    await promises.rename(
-      resolve(TMP_FOLDER, file),
-      resolve(UPLOADS_FOLDER, file),
-    );
-
-    return file;
-  }
-
-  async deleteFile(file) {
-    const filePath = resolve(UPLOADS_FOLDER, file);
-
-    try {
-      await promises.stat(filePath);
-    } catch {
-      return;
-    }
-
-    await promises.unlink(filePath);
-  }
-}
 @Injectable()
 export class CustomersService {
   constructor(
@@ -57,7 +32,27 @@ export class CustomersService {
     private readonly userService: UserService,
 
     @InjectDataSource() private dataSource: DataSource,
+
+    private cloudinary: CloudinaryService,
   ) {}
+
+  async uploadImageToCloudinary(file: Express.Multer.File, userId: number) {
+    const customer = await this.findCustomerById(userId);
+    if (!customer) {
+      throw new NotFoundException(
+        'Somente usuários autenticados podem mudar o avatar',
+      );
+    }
+    if (customer.cloudinaryId && customer.avatar) {
+      await this.cloudinary.deleteImage(String(userId));
+    }
+    const result = await this.cloudinary.uploadImage(file);
+    customer.avatar = result?.secure_url || customer.avatar;
+    customer.cloudinaryId = result?.public_id || customer.cloudinaryId;
+    return this.customerRepository.save({
+      ...customer,
+    });
+  }
 
   async getAllCustomer(userId): Promise<CustomerEntity[]> {
     return this.customerRepository.find({
@@ -198,31 +193,6 @@ export class CustomersService {
       throw new NotFoundException(`CustomerId: ${customerId} Not Found`);
     }
     return customer;
-  }
-
-  async updateAvatar(
-    userId: number,
-    @UploadedFile() file,
-  ): Promise<CustomerEntity> {
-    const customer = await this.findCustomerById(userId);
-    if (!customer) {
-      throw new NotFoundException(
-        'Somente usuários autenticados podem mudar o avatar',
-      );
-    }
-    const avatarFilename = file.filename;
-    const diskStorage = new DiskStorage();
-
-    if (customer.avatar) {
-      await diskStorage.deleteFile(customer.avatar);
-    }
-
-    const filename = await diskStorage.saveFile(avatarFilename);
-    customer.avatar = filename;
-
-    return this.customerRepository.save({
-      ...customer,
-    });
   }
 
   async updateCustomer(

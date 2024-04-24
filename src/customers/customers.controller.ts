@@ -15,7 +15,6 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
-import { storage } from '../configs/upload';
 import { Roles } from '../decorators/roles.decorator';
 import { UserId } from '../decorators/user-id.decorator';
 import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
@@ -42,12 +41,12 @@ export class CustomersController {
   }
 
   @Patch('/avatar')
-  @UseInterceptors(FileInterceptor('file', { storage }))
-  async updateAvatar(
+  @UseInterceptors(FileInterceptor('file'))
+  uploadImage(
+    @UploadedFile() file: Express.Multer.File,
     @UserId() userId: number,
-    @UploadedFile() file,
-  ): Promise<CustomerEntity> {
-    return this.customerService.updateAvatar(userId, file);
+  ) {
+    return this.customerService.uploadImageToCloudinary(file, userId);
   }
 
   @Get('/myData')

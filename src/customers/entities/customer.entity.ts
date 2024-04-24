@@ -64,6 +64,9 @@ export class CustomerEntity {
   @Column({ name: 'avatar' })
   avatar: string;
 
+  @Column({ name: 'cloudinary_id' })
+  cloudinaryId: string;
+
   @Column({ name: 'temporary_password' })
   temporaryPassword: boolean;
 
