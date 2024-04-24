@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CustomersModule } from './customers/customers.module';
 import { FinishedTrainingModule } from './finished-training/finished-training.module';
 import { RolesGuard } from './guards/roles.guard';
@@ -43,6 +44,7 @@ import { UserModule } from './user/user.module';
     TrainingFeedbackModule,
     MetricsModule,
     MediaModule,
+    CloudinaryModule,
   ],
   controllers: [],
   providers: [
