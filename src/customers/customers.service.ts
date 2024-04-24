@@ -44,7 +44,7 @@ export class CustomersService {
       );
     }
     if (customer.cloudinaryId && customer.avatar) {
-      await this.cloudinary.deleteImage(String(userId));
+      await this.cloudinary.deleteImage(String(customer.cloudinaryId));
     }
     const result = await this.cloudinary.uploadImage(file);
     customer.avatar = result?.secure_url || customer.avatar;
