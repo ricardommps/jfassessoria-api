@@ -1,3 +1,4 @@
+import { RatingEntity } from 'src/rating/entities/rating.entity';
 import { MetricsEntity } from '../../metrics/entities/metrics.entity';
 import { PaymentEntity } from '../../payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -84,4 +86,7 @@ export class CustomerEntity {
 
   @OneToMany(() => MetricsEntity, (metric) => metric.customer)
   metrics?: MetricsEntity[];
+
+  @OneToOne(() => RatingEntity, (rating) => rating.customer)
+  rating: RatingEntity;
 }

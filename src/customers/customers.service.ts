@@ -140,6 +140,7 @@ export class CustomersService {
       where: {
         id: userId,
       },
+      relations: ['rating'],
     });
     if (customer.password !== password) {
       throw new UnauthorizedException();
