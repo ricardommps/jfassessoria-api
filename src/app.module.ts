@@ -12,6 +12,7 @@ import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { PaymentModule } from './payment/payment.module';
 import { ProgramModule } from './program/program.module';
+import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
@@ -45,6 +46,7 @@ import { UserModule } from './user/user.module';
     MetricsModule,
     MediaModule,
     CloudinaryModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [

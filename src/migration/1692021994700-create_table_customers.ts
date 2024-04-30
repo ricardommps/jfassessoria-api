@@ -25,6 +25,7 @@ export class CreateTableCustomers1692021994700 implements MigrationInterface {
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
             primary key (id),
             foreign key (user_id) references public.user(id)
+            ON DELETE CASCADE
         );
         
         CREATE SEQUENCE public.customer_id_seq
