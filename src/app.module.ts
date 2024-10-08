@@ -16,6 +16,7 @@ import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
+import { AnamneseModule } from './anamnese/anamnese.module';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { UserModule } from './user/user.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: true,
+      ssl: false,
     }),
     CustomersModule,
     UserModule,
@@ -47,6 +48,7 @@ import { UserModule } from './user/user.module';
     MediaModule,
     CloudinaryModule,
     RatingModule,
+    AnamneseModule,
   ],
   controllers: [],
   providers: [
