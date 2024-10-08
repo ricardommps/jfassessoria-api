@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AnamneseModule } from './anamnese/anamnese.module';
 import { AuthModule } from './auth/auth.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CustomersModule } from './customers/customers.module';
@@ -16,7 +17,6 @@ import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
-import { AnamneseModule } from './anamnese/anamnese.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { AnamneseModule } from './anamnese/anamnese.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: false,
+      ssl: true,
     }),
     CustomersModule,
     UserModule,
