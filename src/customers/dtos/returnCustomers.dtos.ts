@@ -14,6 +14,8 @@ export class ReturnCustomerDto {
   temporaryPassword: boolean;
   programs: ReturnProgramDto[];
   payments: ReturnPaymentDto[];
+  anamnesisRead?: boolean;
+  hasAnamneses?: boolean;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -31,5 +33,9 @@ export class ReturnCustomerDto {
     this.payments = customerEntity.payments
       ? customerEntity.payments.map((payment) => new ReturnPaymentDto(payment))
       : undefined;
+
+    this.hasAnamneses =
+      customerEntity.anamneses && customerEntity.anamneses.length > 0;
+    this.anamnesisRead = customerEntity.anamneses?.[0]?.read || false;
   }
 }

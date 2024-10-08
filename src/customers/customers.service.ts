@@ -8,6 +8,7 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { AnamnesisEntity } from 'src/anamnese/entities/anamnese.entity';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import { FinishedTrainingEntity } from '../finished-training/entities/finished-training.entity';
@@ -17,6 +18,7 @@ import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
 import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed, validatePassword } from '../utils/password';
+import { CustomerEmail } from './customers.controller';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
@@ -62,6 +64,7 @@ export class CustomersService {
       relations: {
         programs: true,
         payments: true,
+        anamneses: true,
       },
       order: {
         name: 'ASC',
@@ -89,15 +92,49 @@ export class CustomersService {
       .addSelect(
         "COALESCE((select json_agg(payment.*) from payment where payment.customer_id = c.id), 'null'::json) AS payments",
       )
+      // Adicionar verificação de anamnese existente e se read é true
+      .addSelect(
+        `CASE 
+          WHEN COUNT(anam.id) > 0 THEN true 
+          ELSE false 
+        END AS hasAnamneses`,
+      )
+      .addSelect(
+        `CASE 
+          WHEN COUNT(anam.id) > 0 AND BOOL_OR(anam.read = true) THEN true 
+          ELSE false 
+        END AS anamnesisRead`,
+      )
       .from(CustomerEntity, 'c')
       .leftJoin(ProgramEntity, 'pro', 'pro.customer_id = c.id')
       .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
       .leftJoin(FinishedTrainingEntity, 'ft', 'ft.training_id = tra.id')
-      .where('c.user_id= :userId', { userId: userId })
+      .leftJoin(AnamnesisEntity, 'anam', 'anam.customer_id = c.id') // Join com a tabela de anamneses
+      .where('c.user_id = :userId', { userId: userId })
       .orderBy('c.name', 'ASC')
       .groupBy('c.id');
+
     const customers = await qb.getRawMany();
     return customers;
+  }
+
+  async createCustomerAnamnese(customerData) {
+    const userId = 1;
+    await this.userService.findUserById(userId);
+    const customer = await this.findCustomerByEmail(customerData.email).catch(
+      () => undefined,
+    );
+    if (customer) {
+      throw new BadRequestException('email registred in system');
+    }
+    return this.customerRepository.save({
+      ...customerData,
+      userId,
+      typeUser: UserType.User,
+      password: null,
+      temporaryPassword: false,
+      active: false,
+    });
   }
 
   async createCustomer(
@@ -108,7 +145,6 @@ export class CustomersService {
     const customer = await this.findCustomerByEmail(
       createCustomersDto.email,
     ).catch(() => undefined);
-
     if (customer) {
       throw new BadRequestException('email registred in system');
     }
@@ -259,5 +295,22 @@ export class CustomersService {
       password: passwordHashed,
       temporaryPassword: true,
     });
+  }
+
+  async checkEmail(customerEmail: CustomerEmail): Promise<void> {
+    if (!process.env.USER_EMAIL) {
+      throw new UnauthorizedException();
+    }
+    const user = await this.userService.findUserByEmail(process.env.USER_EMAIL);
+    const customer = await this.customerRepository.findOne({
+      where: {
+        email: customerEmail.email,
+        userId: user.id,
+      },
+    });
+    if (customer) {
+      throw new Error('email registred in system');
+    }
+    return;
   }
 }

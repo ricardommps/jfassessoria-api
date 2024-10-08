@@ -3,6 +3,7 @@ import { MetricsEntity } from '../../metrics/entities/metrics.entity';
 import { PaymentEntity } from '../../payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
 
+import { AnamnesisEntity } from 'src/anamnese/entities/anamnese.entity';
 import {
   Column,
   CreateDateColumn,
@@ -54,8 +55,8 @@ export class CustomerEntity {
   @Column({ name: 'birth_date', nullable: false })
   birthDate: Date;
 
-  @Column({ name: 'height' })
-  height: number;
+  @Column('decimal', { precision: 5, scale: 2, nullable: true })
+  height: number; // Permite até dois dígitos decimais
 
   @Column({ name: 'weight' })
   weight: number;
@@ -72,11 +73,41 @@ export class CustomerEntity {
   @Column({ name: 'temporary_password' })
   temporaryPassword: boolean;
 
+  @Column({ name: 'marital_status' })
+  maritalStatus: string;
+
+  @Column({ name: 'zip_code' })
+  zipCode: string;
+
+  @Column({ name: 'complement' })
+  complement: string;
+
+  @Column({ name: 'street' })
+  street: string;
+
+  @Column({ name: 'street_number' })
+  streetNumber: string;
+
+  @Column({ name: 'city' })
+  city: string;
+
+  @Column({ name: 'state' })
+  state: string;
+
+  @Column({ name: 'district' })
+  district: string;
+
+  @Column({ name: 'fat_percentage' })
+  fatPercentage: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(() => AnamnesisEntity, (anamnese) => anamnese.customer)
+  anamneses?: AnamnesisEntity[];
 
   @OneToMany(() => ProgramEntity, (program) => program.customer)
   programs?: ProgramEntity[];

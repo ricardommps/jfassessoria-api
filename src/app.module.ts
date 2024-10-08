@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AnamneseModule } from './anamnese/anamnese.module';
 import { AuthModule } from './auth/auth.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CustomersModule } from './customers/customers.module';
@@ -47,6 +48,7 @@ import { UserModule } from './user/user.module';
     MediaModule,
     CloudinaryModule,
     RatingModule,
+    AnamneseModule,
   ],
   controllers: [],
   providers: [

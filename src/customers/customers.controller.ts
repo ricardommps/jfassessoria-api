@@ -28,6 +28,10 @@ import { ReturnMyDataDto } from './dtos/returnMyData.dtos';
 import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
+export interface CustomerEmail {
+  email: string;
+}
+
 @Controller('customer')
 export class CustomersController {
   constructor(private readonly customerService: CustomersService) {}
@@ -127,5 +131,10 @@ export class CustomersController {
       updatePasswordDTO,
       customerId,
     );
+  }
+
+  @Post('/checkEmail')
+  async checkEmail(@Body() customer: CustomerEmail): Promise<void> {
+    return this.customerService.checkEmail(customer);
   }
 }
