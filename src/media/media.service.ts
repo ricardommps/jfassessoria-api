@@ -30,6 +30,17 @@ export class MediaService {
     return medias;
   }
 
+  async getMediasWithStretchTag(userId: number): Promise<MediaEntity[]> {
+    const medias = await this.mediaEntity
+      .createQueryBuilder('media')
+      .where('media.userId = :userId', { userId })
+      .andWhere('media.tags @> :tag', { tag: ['Alongamentos'] }) // Usar operador @> para arrays
+      .orderBy('media.updatedAt', 'DESC')
+      .getMany();
+
+    return medias;
+  }
+
   async findMediaById(id: number, userId: number): Promise<MediaEntity> {
     const media = await this.mediaEntity.findOne({
       where: {

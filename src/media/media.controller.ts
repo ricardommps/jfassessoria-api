@@ -28,6 +28,16 @@ export class MediaController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
+  @Get('/stretchTag')
+  async getMediasWithStretchTag(
+    @UserId() userId: number,
+  ): Promise<ReturnMediaDto[]> {
+    return (await this.mediaService.getMediasWithStretchTag(userId)).map(
+      (mediaEntity) => new ReturnMediaDto(mediaEntity),
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Post()
   async createMedia(

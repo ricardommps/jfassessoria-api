@@ -7,6 +7,8 @@ export class ReturnMediaDto {
   videoUrl: string;
   instrucctions: string;
   blocked: boolean;
+  tags?: string[];
+
   constructor(mediaEntity: MediaEntity) {
     this.id = mediaEntity.id;
     this.title = mediaEntity.title;
@@ -14,5 +16,6 @@ export class ReturnMediaDto {
     this.videoUrl = mediaEntity.videoUrl;
     this.instrucctions = mediaEntity.instrucctions;
     this.blocked = mediaEntity.blocked;
+    this.tags = mediaEntity.tags; // Adiciona o array de tags
   }
 }
