@@ -57,5 +57,9 @@ export class UpdateTrainingDto {
 
   @IsArray()
   @IsOptional()
+  stretchesOrder: number[];
+
+  @IsArray()
+  @IsOptional()
   exerciseInfo: object[];
 }

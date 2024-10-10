@@ -32,6 +32,9 @@ export class MediaEntity {
   @Column({ name: 'blocked', nullable: false })
   blocked: boolean;
 
+  @Column({ type: 'text', array: true, default: () => "'{}'", name: 'tags' })
+  tags: string[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

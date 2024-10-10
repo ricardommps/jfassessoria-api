@@ -20,6 +20,7 @@ export class ReturnTrainingDto {
   finished: boolean;
   videos: Video[];
   mediaOrder: number[];
+  stretchesOrder: number[];
   exerciseInfo: object[];
 
   constructor(training: TrainingEntity) {
@@ -36,6 +37,7 @@ export class ReturnTrainingDto {
     this.hide = training.hide;
     this.finished = training.finished;
     this.mediaOrder = training.mediaOrder;
+    this.stretchesOrder = training.stretchesOrder;
     this.exerciseInfo = training.exerciseInfo
       ? training.exerciseInfo.map((item) => item)
       : undefined;

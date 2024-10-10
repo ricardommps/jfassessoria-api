@@ -57,6 +57,10 @@ export class SendTrainingDto {
 
   @IsArray()
   @IsOptional()
+  stretchesOrder: number[];
+
+  @IsArray()
+  @IsOptional()
   exerciseInfo: object[];
 
   @IsArray()

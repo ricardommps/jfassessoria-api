@@ -60,6 +60,10 @@ export class CreateTrainingDto {
 
   @IsArray()
   @IsOptional()
+  stretchesOrder: number[];
+
+  @IsArray()
+  @IsOptional()
   medias: MediaEntity[];
 
   @IsArray()

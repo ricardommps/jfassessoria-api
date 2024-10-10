@@ -1,4 +1,4 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateMediaDto {
   @IsString()
@@ -17,4 +17,9 @@ export class CreateMediaDto {
 
   @IsBoolean()
   blocked: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
 }
