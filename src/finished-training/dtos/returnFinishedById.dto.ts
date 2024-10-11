@@ -16,6 +16,9 @@ export class ReturnFinishedByIdDto {
   unitmeasurement: string;
   typetraining: string;
   intensities: string[];
+  distanceInMeters: number;
+  durationInSeconds: number;
+  paceInSeconds: number;
   trainings?: ReturnTrainingDto[];
   constructor(finishedTrainingEntity: FinishedTrainingEntity) {
     this.id = finishedTrainingEntity.id;
@@ -32,5 +35,8 @@ export class ReturnFinishedByIdDto {
     this.unitmeasurement = finishedTrainingEntity.unitmeasurement;
     this.intensities = finishedTrainingEntity.intensities;
     this.typetraining = finishedTrainingEntity.typetraining;
+    this.distanceInMeters = finishedTrainingEntity.distanceInMeters;
+    this.durationInSeconds = finishedTrainingEntity.durationInSeconds;
+    this.paceInSeconds = finishedTrainingEntity.paceInSeconds;
   }
 }

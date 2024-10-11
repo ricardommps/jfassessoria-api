@@ -61,4 +61,16 @@ export class CreateFinishedTrainingDto {
   @IsOptional()
   @IsBoolean()
   unrealized: boolean;
+
+  @IsOptional()
+  @IsNumber()
+  distanceInMeters: number;
+
+  @IsOptional()
+  @IsNumber()
+  durationInSeconds: number;
+
+  @IsOptional()
+  @IsNumber()
+  paceInSeconds: number;
 }
