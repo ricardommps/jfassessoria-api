@@ -11,6 +11,7 @@ import { FinishedTrainingModule } from './finished-training/finished-training.mo
 import { RolesGuard } from './guards/roles.guard';
 import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { NotificationModule } from './notification/notification.module';
 import { PaymentModule } from './payment/payment.module';
 import { ProgramModule } from './program/program.module';
 import { RatingModule } from './rating/rating.module';
@@ -49,6 +50,7 @@ import { UserModule } from './user/user.module';
     CloudinaryModule,
     RatingModule,
     AnamneseModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [

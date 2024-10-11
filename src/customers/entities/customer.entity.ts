@@ -4,6 +4,7 @@ import { PaymentEntity } from '../../payment/entities/payment.entity';
 import { ProgramEntity } from '../../program/entities/program.entity';
 
 import { AnamnesisEntity } from 'src/anamnese/entities/anamnese.entity';
+import { NotificationEntity } from 'src/notification/entities/notification.entity';
 import {
   Column,
   CreateDateColumn,
@@ -105,6 +106,12 @@ export class CustomerEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => NotificationEntity,
+    (notification) => notification.recipientId,
+  )
+  notifications?: NotificationEntity[];
 
   @OneToMany(() => AnamnesisEntity, (anamnese) => anamnese.customer)
   anamneses?: AnamnesisEntity[];
