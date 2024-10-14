@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -31,6 +32,14 @@ export class NotificationController {
     return await this.notificationService.getNotificationByRecipientId(userId);
   }
 
+  @Roles(UserType.Admin)
+  @Get('/all/:recipientId')
+  async getNotificationByCustomerId(@Param('recipientId') recipientId: number) {
+    return await this.notificationService.getNotificationByRecipientId(
+      recipientId,
+    );
+  }
+
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/readAt/:notificationId')
   @UsePipes(ValidationPipe)
@@ -45,5 +54,24 @@ export class NotificationController {
   @Delete('/:id')
   async deleteNotification(@Param('id') id: string) {
     return this.notificationService.deleteNotification(+id);
+  }
+
+  @Roles(UserType.Admin)
+  @Get('/:id')
+  async findNotificationById(@Param('id') id: string) {
+    return this.notificationService.findNotificationById(+id);
+  }
+
+  @Roles(UserType.Admin)
+  @Put('/:notificationId')
+  @UsePipes(ValidationPipe)
+  async updateProgram(
+    @Body() notificationUpdate,
+    @Param('notificationId') notificationId: number,
+  ) {
+    return this.notificationService.updateNotification(
+      notificationUpdate,
+      notificationId,
+    );
   }
 }
