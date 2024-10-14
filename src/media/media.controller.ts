@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -56,5 +58,18 @@ export class MediaController {
     return new ReturnMediaDto(
       await this.mediaService.findMediaById(id, userId),
     );
+  }
+
+  @Roles(UserType.Admin)
+  @Put('/:mediaId')
+  @UsePipes(ValidationPipe)
+  async updateMedia(@Body() mediaUpdate, @Param('mediaId') mediaId: number) {
+    return this.mediaService.updateMedia(mediaUpdate, mediaId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Delete('/:id')
+  async deleteMedia(@Param('id') id: string) {
+    return this.mediaService.deleteMedia(+id);
   }
 }

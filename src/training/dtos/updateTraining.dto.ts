@@ -59,6 +59,11 @@ export class UpdateTrainingDto {
   @IsOptional()
   stretchesOrder: number[];
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
+
   @IsArray()
   @IsOptional()
   exerciseInfo: object[];

@@ -63,6 +63,11 @@ export class SendTrainingDto {
   @IsOptional()
   exerciseInfo: object[];
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
+
   @IsArray()
   programsId: [];
 }

@@ -65,6 +65,9 @@ export class TrainingEntity {
   @Column('jsonb', { name: 'exercise_info' })
   exerciseInfo: object[];
 
+  @Column({ type: 'text', array: true, default: () => "'{}'", name: 'tags' })
+  tags: string[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
