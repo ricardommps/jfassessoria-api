@@ -67,4 +67,12 @@ export class NotificationService {
 
     return this.notificationEntity.delete({ id: notificationId });
   }
+
+  async updateNotification(notificationUpdate, notificationId: number) {
+    const notification = await this.findNotificationById(notificationId);
+    return this.notificationEntity.save({
+      ...notification,
+      ...notificationUpdate,
+    });
+  }
 }
