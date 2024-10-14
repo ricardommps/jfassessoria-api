@@ -64,4 +64,32 @@ export class MediaService {
       userId,
     });
   }
+
+  async updateMedia(mediaUpdate, mediaId: number) {
+    const media = await this.mediaEntity.findOne({
+      where: {
+        id: mediaId,
+      },
+    });
+    if (!media) {
+      throw new NotFoundException(`Media: ${mediaId} Not Found`);
+    }
+    return this.mediaEntity.save({
+      ...media,
+      ...mediaUpdate,
+    });
+  }
+
+  async deleteMedia(mediaId: number) {
+    const media = await this.mediaEntity.findOne({
+      where: {
+        id: mediaId,
+      },
+    });
+    if (!media) {
+      throw new NotFoundException(`Media: ${mediaId} Not Found`);
+    }
+
+    return this.mediaEntity.delete({ id: mediaId });
+  }
 }

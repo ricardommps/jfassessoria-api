@@ -22,6 +22,7 @@ export class ReturnTrainingDto {
   mediaOrder: number[];
   stretchesOrder: number[];
   exerciseInfo: object[];
+  tags?: string[];
 
   constructor(training: TrainingEntity) {
     this.id = training.id;
@@ -44,5 +45,6 @@ export class ReturnTrainingDto {
     this.videos = training.videos
       ? training.videos.map((video) => video)
       : undefined;
+    this.tags = training.tags;
   }
 }

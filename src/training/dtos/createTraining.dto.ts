@@ -70,6 +70,11 @@ export class CreateTrainingDto {
   @IsOptional()
   exerciseInfo: object[];
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
+
   @IsInt()
   programId: number;
 }
