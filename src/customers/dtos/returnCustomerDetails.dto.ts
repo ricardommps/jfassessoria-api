@@ -1,4 +1,4 @@
-import { AnamneseDto } from 'src/anamnese/dtos/anamnese.dtos';
+import { AnamneseDto } from '../..//anamnese/dtos/anamnese.dtos';
 import { CustomerEntity } from '../entities/customer.entity';
 
 export class ReturnCustomerDetailsDto {
