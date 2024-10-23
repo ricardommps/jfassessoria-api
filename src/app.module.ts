@@ -13,12 +13,12 @@ import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { NotificationModule } from './notification/notification.module';
 import { PaymentModule } from './payment/payment.module';
+import { PerformanceMetricsModule } from './performance_metrics/performance_metrics.module';
 import { ProgramModule } from './program/program.module';
 import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
-import { PerformanceMetricsModule } from './performance_metrics/performance_metrics.module';
 
 @Module({
   imports: [
@@ -35,7 +35,7 @@ import { PerformanceMetricsModule } from './performance_metrics/performance_metr
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: false,
+      ssl: true,
     }),
     CustomersModule,
     UserModule,
