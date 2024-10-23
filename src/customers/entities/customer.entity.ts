@@ -5,6 +5,7 @@ import { ProgramEntity } from '../../program/entities/program.entity';
 
 import { AnamnesisEntity } from 'src/anamnese/entities/anamnese.entity';
 import { NotificationEntity } from 'src/notification/entities/notification.entity';
+import { PerformanceMetricsEntity } from 'src/performance_metrics/entities/performance_metrics.entity';
 import {
   Column,
   CreateDateColumn,
@@ -115,6 +116,9 @@ export class CustomerEntity {
 
   @OneToMany(() => AnamnesisEntity, (anamnese) => anamnese.customer)
   anamneses?: AnamnesisEntity[];
+
+  @OneToMany(() => PerformanceMetricsEntity, (item) => item.customer)
+  performanceMetric?: PerformanceMetricsEntity[];
 
   @OneToMany(() => ProgramEntity, (program) => program.customer)
   programs?: ProgramEntity[];

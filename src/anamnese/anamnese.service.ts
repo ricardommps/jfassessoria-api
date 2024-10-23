@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomersService } from 'src/customers/customers.service';
 import { Repository } from 'typeorm';
@@ -54,6 +58,40 @@ export class AnamneseService {
       }
       throw new Error(`Error creating anamnese, ${error}`);
     }
+  }
+
+  async createAnamneseRegisteredUser(customer, anamnese, userId) {
+    const customerLogin = await this.customersService.findCustomerById(userId);
+    if (customerLogin.id !== userId) {
+      throw new UnauthorizedException();
+    }
+    const responseCustomer = await this.customersService.updateCustomerAnamnese(
+      customer,
+      userId,
+    );
+    if (!responseCustomer) {
+      throw new Error(`Error creating anamnese`);
+    }
+
+    const anamneseCustomer = await this.anamneseRepository.findOne({
+      where: {
+        customer_id: responseCustomer.id,
+      },
+    });
+
+    if (!anamneseCustomer) {
+      const anamneseData = {
+        customer_id: responseCustomer.id,
+        ...anamnese,
+      };
+
+      return this.anamneseRepository.save(anamneseData);
+    }
+
+    return this.anamneseRepository.save({
+      ...anamneseCustomer,
+      ...anamnese,
+    });
   }
 
   async listAnamnese(customerId: number, userId: number) {

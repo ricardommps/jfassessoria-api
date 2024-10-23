@@ -91,6 +91,16 @@ export class CustomersController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
+  @Get('/profile/:customerId')
+  async profile(
+    @Param('customerId') customerId: number,
+    @UserId() userId: number,
+  ) {
+    const profile = await this.customerService.getProfile(customerId, userId);
+    return profile;
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
   @UsePipes(ValidationPipe)
   @Put('/:customerId')
   async updateProduct(
@@ -134,7 +144,7 @@ export class CustomersController {
   }
 
   @Post('/checkEmail')
-  async checkEmail(@Body() customer: CustomerEmail): Promise<void> {
+  async checkEmail(@Body() customer: CustomerEmail) {
     return this.customerService.checkEmail(customer);
   }
 }

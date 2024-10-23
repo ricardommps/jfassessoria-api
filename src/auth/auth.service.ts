@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ReturnCustomerDetailsDto } from 'src/customers/dtos/returnCustomerDetails.dto';
 import { CustomersService } from '../customers/customers.service';
 import { CustomerEntity } from '../customers/entities/customer.entity';
 import { ReturnUserDto } from '../user/dtos/returnUser.dto';
@@ -27,7 +28,7 @@ export class AuthService {
       user?.password || '',
     );
     if (!user || !isMatch) {
-      throw new NotFoundException('Email or password invalid');
+      throw new NotFoundException('Email ou senha inválidos');
     }
     return {
       accessToken: this.jwtService.sign({ ...new LoginPayload(user) }),
@@ -40,18 +41,40 @@ export class AuthService {
       .findCustomerByEmail(loginDto.email)
       .catch(() => undefined);
     if (!customer?.password) {
-      throw new NotFoundException('Email or password invalid');
+      throw new NotFoundException('Email ou senha inválidos');
     }
     const isMatch = await validatePassword(
       loginDto.password,
       customer?.password || '',
     );
     if (!customer || !isMatch) {
-      throw new NotFoundException('Email or password invalid');
+      throw new NotFoundException('Email ou senha inválidos');
     }
     return {
       accessToken: this.jwtService.sign({ ...new LoginPayload(customer) }),
       user: new ReturnUserDto(customer),
+    };
+  }
+
+  async anamneseLogin(loginDto: LoginDto) {
+    const customer: CustomerEntity | undefined = await this.customerService
+      .findCustomerByEmailAnamnese(loginDto.email)
+      .catch(() => undefined);
+    if (!customer?.password) {
+      throw new NotFoundException('Email ou senha inválidos');
+    }
+    const isMatch = await validatePassword(
+      loginDto.password,
+      customer?.password || '',
+    );
+    if (!customer || !isMatch) {
+      throw new NotFoundException('Email ou senha inválidos');
+    }
+    //userId
+    //password
+    return {
+      accessToken: this.jwtService.sign({ ...new LoginPayload(customer) }),
+      customer: new ReturnCustomerDetailsDto(customer),
     };
   }
 }

@@ -18,6 +18,7 @@ import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
+import { PerformanceMetricsModule } from './performance_metrics/performance_metrics.module';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { UserModule } from './user/user.module';
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
-      ssl: true,
+      ssl: false,
     }),
     CustomersModule,
     UserModule,
@@ -51,6 +52,7 @@ import { UserModule } from './user/user.module';
     RatingModule,
     AnamneseModule,
     NotificationModule,
+    PerformanceMetricsModule,
   ],
   controllers: [],
   providers: [
