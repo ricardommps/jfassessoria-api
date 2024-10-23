@@ -171,6 +171,21 @@ export class CustomersService {
     return customer;
   }
 
+  async findCustomerByEmailAnamnese(email: string): Promise<CustomerEntity> {
+    const customer = await this.customerRepository.findOne({
+      where: {
+        email,
+      },
+      relations: {
+        anamneses: true,
+      },
+    });
+    if (!customer) {
+      throw new NotFoundException(`Email: ${email} Not Found`);
+    }
+    return customer;
+  }
+
   async customerMe(userId: number, password: string): Promise<CustomerEntity> {
     const customer = await this.customerRepository.findOne({
       where: {
@@ -232,6 +247,22 @@ export class CustomersService {
     return customer;
   }
 
+  async getProfile(
+    customerId: number,
+    userId: number,
+  ): Promise<CustomerEntity> {
+    const customer = await this.customerRepository.findOne({
+      where: {
+        userId,
+        id: customerId,
+      },
+    });
+    if (!customer) {
+      throw new NotFoundException(`CustomerId: ${customerId} Not Found`);
+    }
+    return customer;
+  }
+
   async updateCustomer(
     updateCustomerDTO: UpdateCustomersDto,
     customerId: number,
@@ -247,6 +278,27 @@ export class CustomersService {
       ...customer,
       ...updateCustomerDTO,
       temporaryPassword: false,
+    });
+  }
+
+  async updateCustomerAnamnese(customerUpdate, userId: number) {
+    // Busca o cliente pelo ID (userId)
+    const customer = await this.findCustomerById(userId);
+
+    // Verifica se o email já está em uso por outro cliente
+    const customerByEmail = await this.findUserByEmail(
+      customerUpdate.email,
+    ).catch(() => undefined);
+
+    // Se encontrar um cliente com o mesmo email e esse cliente não for o atual (diferente de userId)
+    if (customerByEmail && customerByEmail.id !== customer.id) {
+      throw new BadRequestException('Email already registered in the system');
+    }
+
+    // Atualiza os dados do cliente
+    return this.customerRepository.save({
+      ...customer, // Pega os dados atuais do cliente
+      ...customerUpdate, // Sobrescreve os dados com os novos valores
     });
   }
 
@@ -297,7 +349,7 @@ export class CustomersService {
     });
   }
 
-  async checkEmail(customerEmail: CustomerEmail): Promise<void> {
+  async checkEmail(customerEmail: CustomerEmail) {
     if (!process.env.USER_EMAIL) {
       throw new UnauthorizedException();
     }
@@ -309,8 +361,12 @@ export class CustomersService {
       },
     });
     if (customer) {
-      throw new Error('email registred in system');
+      return {
+        status: 'registered_user',
+      };
     }
-    return;
+    return {
+      status: 'unregistered_user',
+    };
   }
 }

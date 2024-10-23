@@ -18,7 +18,7 @@ export class AnamneseController {
   constructor(private readonly anamneseService: AnamneseService) {}
   @UsePipes(ValidationPipe)
   @Post()
-  async createCustomer(@Body() anamnese) {
+  async createAnamnese(@Body() anamnese) {
     return await this.anamneseService.createAnamnese(anamnese);
   }
 
@@ -36,5 +36,19 @@ export class AnamneseController {
   @UsePipes(ValidationPipe)
   async readAnamnese(@Param('anamneseId') anamneseId: number) {
     return this.anamneseService.readAnamnese(anamneseId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @UsePipes(ValidationPipe)
+  @Post('/registeredUser')
+  async createAnamneseRegisteredUser(
+    @Body() payload,
+    @UserId() userId: number,
+  ) {
+    return this.anamneseService.createAnamneseRegisteredUser(
+      payload.customer,
+      payload.anamnese,
+      userId,
+    );
   }
 }

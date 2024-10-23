@@ -24,4 +24,10 @@ export class AuthController {
   async customerLogin(@Body() loginDto: LoginDto): Promise<ReturnLogin> {
     return this.authService.customerLogin(loginDto);
   }
+
+  @UsePipes(ValidationPipe)
+  @Post('/customer/anamnese/login')
+  async anamneseLogin(@Body() loginDto: LoginDto) {
+    return this.authService.anamneseLogin(loginDto);
+  }
 }

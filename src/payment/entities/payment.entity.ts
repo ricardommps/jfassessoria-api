@@ -1,4 +1,3 @@
-import { CustomerEntity } from '../../customers/entities/customer.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CustomerEntity } from '../../customers/entities/customer.entity';
 
 @Entity({ name: 'payment' })
 export class PaymentEntity {

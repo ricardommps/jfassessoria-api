@@ -13,6 +13,7 @@ import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { NotificationModule } from './notification/notification.module';
 import { PaymentModule } from './payment/payment.module';
+import { PerformanceMetricsModule } from './performance_metrics/performance_metrics.module';
 import { ProgramModule } from './program/program.module';
 import { RatingModule } from './rating/rating.module';
 import { TrainingModule } from './training/training.module';
@@ -51,6 +52,7 @@ import { UserModule } from './user/user.module';
     RatingModule,
     AnamneseModule,
     NotificationModule,
+    PerformanceMetricsModule,
   ],
   controllers: [],
   providers: [
