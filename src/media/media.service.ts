@@ -41,6 +41,20 @@ export class MediaService {
     return medias;
   }
 
+  async getMediasWithTagFiltered(
+    userId: number,
+    tags: string[],
+  ): Promise<MediaEntity[]> {
+    const medias = await this.mediaEntity
+      .createQueryBuilder('media')
+      .where('media.userId = :userId', { userId })
+      .andWhere('media.tags && :tags', { tags })
+      .orderBy('media.updatedAt', 'DESC')
+      .getMany();
+
+    return medias;
+  }
+
   async findMediaById(id: number, userId: number): Promise<MediaEntity> {
     const media = await this.mediaEntity.findOne({
       where: {

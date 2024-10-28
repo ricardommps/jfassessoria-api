@@ -21,6 +21,7 @@ export class ReturnTrainingDto {
   videos: Video[];
   mediaOrder: number[];
   stretchesOrder: number[];
+  heatingOrder: number[];
   exerciseInfo: object[];
   tags?: string[];
 
@@ -39,6 +40,7 @@ export class ReturnTrainingDto {
     this.finished = training.finished;
     this.mediaOrder = training.mediaOrder;
     this.stretchesOrder = training.stretchesOrder;
+    this.heatingOrder = training.heatingOrder;
     this.exerciseInfo = training.exerciseInfo
       ? training.exerciseInfo.map((item) => item)
       : undefined;

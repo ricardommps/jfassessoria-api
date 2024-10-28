@@ -59,6 +59,10 @@ export class UpdateTrainingDto {
   @IsOptional()
   stretchesOrder: number[];
 
+  @IsArray()
+  @IsOptional()
+  heatingOrder: number[];
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })

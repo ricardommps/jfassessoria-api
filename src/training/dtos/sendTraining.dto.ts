@@ -61,6 +61,10 @@ export class SendTrainingDto {
 
   @IsArray()
   @IsOptional()
+  heatingOrder: number[];
+
+  @IsArray()
+  @IsOptional()
   exerciseInfo: object[];
 
   @IsOptional()
