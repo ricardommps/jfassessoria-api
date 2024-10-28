@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -37,6 +38,18 @@ export class MediaController {
     return (await this.mediaService.getMediasWithStretchTag(userId)).map(
       (mediaEntity) => new ReturnMediaDto(mediaEntity),
     );
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('/filtered')
+  async getMediasWithTagFiltered(
+    @UserId() userId: number,
+    @Query('tags') tags: string,
+  ): Promise<ReturnMediaDto[]> {
+    const tagsArray = tags ? tags.split(',') : [];
+    return (
+      await this.mediaService.getMediasWithTagFiltered(userId, tagsArray)
+    ).map((mediaEntity) => new ReturnMediaDto(mediaEntity));
   }
 
   @Roles(UserType.Admin, UserType.Root)

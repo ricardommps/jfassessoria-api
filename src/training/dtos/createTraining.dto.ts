@@ -64,6 +64,10 @@ export class CreateTrainingDto {
 
   @IsArray()
   @IsOptional()
+  heatingOrder: number[];
+
+  @IsArray()
+  @IsOptional()
   medias: MediaEntity[];
 
   @IsArray()

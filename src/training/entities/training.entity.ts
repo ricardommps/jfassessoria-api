@@ -62,6 +62,9 @@ export class TrainingEntity {
   @Column('integer', { name: 'stretches_order', array: true })
   stretchesOrder: number[];
 
+  @Column('integer', { name: 'heating_order', array: true })
+  heatingOrder: number[];
+
   @Column('jsonb', { name: 'exercise_info' })
   exerciseInfo: object[];
 
