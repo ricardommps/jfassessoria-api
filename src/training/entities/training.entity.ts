@@ -56,14 +56,14 @@ export class TrainingEntity {
   @Column({ name: 'finished' })
   finished: boolean;
 
-  @Column('integer', { name: 'media_order', array: true })
-  mediaOrder: number[];
+  @Column('jsonb', { name: 'media_order' })
+  mediaOrder: object[];
 
-  @Column('integer', { name: 'stretches_order', array: true })
-  stretchesOrder: number[];
+  @Column('jsonb', { name: 'stretches_order' })
+  stretchesOrder: object[];
 
-  @Column('integer', { name: 'heating_order', array: true })
-  heatingOrder: number[];
+  @Column('jsonb', { name: 'heating_order' })
+  heatingOrder: object[];
 
   @Column('jsonb', { name: 'exercise_info' })
   exerciseInfo: object[];

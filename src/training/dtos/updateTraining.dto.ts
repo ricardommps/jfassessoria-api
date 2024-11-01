@@ -53,15 +53,15 @@ export class UpdateTrainingDto {
 
   @IsArray()
   @IsOptional()
-  mediaOrder: number[];
+  mediaOrder: object[];
 
   @IsArray()
   @IsOptional()
-  stretchesOrder: number[];
+  stretchesOrder: object[];
 
   @IsArray()
   @IsOptional()
-  heatingOrder: number[];
+  heatingOrder: object[];
 
   @IsOptional()
   @IsArray()
