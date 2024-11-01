@@ -19,9 +19,9 @@ export class ReturnTrainingDto {
   hide: boolean;
   finished: boolean;
   videos: Video[];
-  mediaOrder: number[];
-  stretchesOrder: number[];
-  heatingOrder: number[];
+  mediaOrder: object[];
+  stretchesOrder: object[];
+  heatingOrder: object[];
   exerciseInfo: object[];
   tags?: string[];
 
