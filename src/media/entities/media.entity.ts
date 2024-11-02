@@ -1,10 +1,12 @@
 import { TrainingEntity } from 'src/training/entities/training.entity';
+import { WorkoutLoadEntity } from 'src/workout-load/entities/workout-load.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -47,4 +49,7 @@ export class MediaEntity {
   })
   @JoinTable()
   trainings: TrainingEntity[];
+
+  @OneToMany(() => WorkoutLoadEntity, (workoutLoad) => workoutLoad.media)
+  workoutLoads: WorkoutLoadEntity[];
 }

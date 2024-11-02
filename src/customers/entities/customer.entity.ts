@@ -6,6 +6,7 @@ import { ProgramEntity } from '../../program/entities/program.entity';
 import { AnamnesisEntity } from 'src/anamnese/entities/anamnese.entity';
 import { NotificationEntity } from 'src/notification/entities/notification.entity';
 import { PerformanceMetricsEntity } from 'src/performance_metrics/entities/performance_metrics.entity';
+import { WorkoutLoadEntity } from 'src/workout-load/entities/workout-load.entity';
 import {
   Column,
   CreateDateColumn,
@@ -131,4 +132,7 @@ export class CustomerEntity {
 
   @OneToOne(() => RatingEntity, (rating) => rating.customer)
   rating: RatingEntity;
+
+  @OneToMany(() => WorkoutLoadEntity, (workoutLoad) => workoutLoad.customer)
+  workoutLoads: WorkoutLoadEntity[];
 }
