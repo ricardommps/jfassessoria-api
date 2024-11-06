@@ -25,7 +25,6 @@ import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
 import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
 import { ReturnMyDataDto } from './dtos/returnMyData.dtos';
-import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
 export interface CustomerEmail {
@@ -104,7 +103,7 @@ export class CustomersController {
   @UsePipes(ValidationPipe)
   @Put('/:customerId')
   async updateProduct(
-    @Body() updateCustomerDTO: UpdateCustomersDto,
+    @Body() updateCustomerDTO,
     @Param('customerId') customerId: number,
   ): Promise<CustomerEntity> {
     return this.customerService.updateCustomer(updateCustomerDTO, customerId);

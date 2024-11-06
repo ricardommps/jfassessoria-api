@@ -21,7 +21,6 @@ import { createPasswordHashed, validatePassword } from '../utils/password';
 import { CustomerEmail } from './customers.controller';
 import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { NewPasswordDTO } from './dtos/newPassword.dtos';
-import { UpdateCustomersDto } from './dtos/updateCustomer.dto';
 import { CustomerEntity } from './entities/customer.entity';
 
 @Injectable()
@@ -264,7 +263,7 @@ export class CustomersService {
   }
 
   async updateCustomer(
-    updateCustomerDTO: UpdateCustomersDto,
+    updateCustomerDTO,
     customerId: number,
   ): Promise<CustomerEntity> {
     const customer = await this.findCustomerById(customerId);
