@@ -20,7 +20,6 @@ import { UserId } from '../decorators/user-id.decorator';
 import { UpdatePasswordDTO } from '../user/dtos/update-password.dto';
 import { UserType } from '../user/enum/user-type.enum';
 import { CustomersService } from './customers.service';
-import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { ReturnCustomerIdDto } from './dtos/returnCustomerId.dtos';
 import { ReturnCustomerDto } from './dtos/returnCustomers.dtos';
@@ -66,12 +65,8 @@ export class CustomersController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
-  @UsePipes(ValidationPipe)
   @Post()
-  async createCustomer(
-    @Body() createCustomer: CreateCustomersDto,
-    @UserId() userId: number,
-  ): Promise<CustomerEntity> {
+  async createCustomer(@Body() createCustomer, @UserId() userId: number) {
     return this.customerService.createCustomer(createCustomer, userId);
   }
 

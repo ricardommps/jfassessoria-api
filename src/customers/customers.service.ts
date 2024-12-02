@@ -19,7 +19,6 @@ import { UserType } from '../user/enum/user-type.enum';
 import { UserService } from '../user/user.service';
 import { createPasswordHashed, validatePassword } from '../utils/password';
 import { CustomerEmail } from './customers.controller';
-import { CreateCustomersDto } from './dtos/createCustomers.dtos';
 import { NewPasswordDTO } from './dtos/newPassword.dtos';
 import { CustomerEntity } from './entities/customer.entity';
 
@@ -136,10 +135,7 @@ export class CustomersService {
     });
   }
 
-  async createCustomer(
-    createCustomersDto: CreateCustomersDto,
-    userId: number,
-  ): Promise<CustomerEntity> {
+  async createCustomer(createCustomersDto, userId: number) {
     await this.userService.findUserById(userId);
     const customer = await this.findCustomerByEmail(
       createCustomersDto.email,
