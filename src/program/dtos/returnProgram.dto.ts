@@ -16,6 +16,7 @@ export class ReturnProgramDto {
   vla: string;
   paceVla: string;
   active: boolean;
+  vs2: boolean;
   test: string;
   warningPdf: string;
   dateTest: Date;
@@ -40,6 +41,7 @@ export class ReturnProgramDto {
     this.vlan = program.vlan;
     this.paceVlan = program.paceVlan;
     this.active = program.active;
+    this.vs2 = program.vs2;
     this.test = program.test;
     this.dateTest = program.dateTest;
     this.customerId = program.customerId;

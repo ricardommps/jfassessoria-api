@@ -86,6 +86,9 @@ export class ProgramEntity {
   @Column({ name: 'hide' })
   hide: boolean;
 
+  @Column({ name: 'vs2' })
+  vs2: boolean;
+
   @Column({ name: 'type', nullable: true })
   type: number;
 

@@ -104,7 +104,11 @@ export class CustomersService {
         END AS anamnesisRead`,
       )
       .from(CustomerEntity, 'c')
-      .leftJoin(ProgramEntity, 'pro', 'pro.customer_id = c.id')
+      .leftJoin(
+        ProgramEntity,
+        'pro',
+        'pro.customer_id = c.id AND (pro.vs2 = false OR pro.vs2 IS NULL)', // Condição adicionada
+      )
       .leftJoin(TrainingEntity, 'tra', 'tra.program_id = pro.id')
       .leftJoin(FinishedTrainingEntity, 'ft', 'ft.training_id = tra.id')
       .leftJoin(AnamnesisEntity, 'anam', 'anam.customer_id = c.id') // Join com a tabela de anamneses

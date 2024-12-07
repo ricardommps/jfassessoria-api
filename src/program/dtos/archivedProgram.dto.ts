@@ -17,6 +17,7 @@ export class ArchivedProgramDto {
   paceVla: string;
   vlaLevel: number;
   active: boolean;
+  vs2: boolean;
   test: string;
   warningPdf: string;
   dateTest: Date;
@@ -43,6 +44,7 @@ export class ArchivedProgramDto {
     this.vlan = program.vlan;
     this.paceVlan = program.paceVlan;
     this.active = program.active;
+    this.vs2 = program.vs2;
     this.test = program.test;
     this.dateTest = program.dateTest;
     this.vlanLevel = program.vlanLevel;

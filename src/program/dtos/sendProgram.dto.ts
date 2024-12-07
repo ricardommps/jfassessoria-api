@@ -69,6 +69,10 @@ export class SendProgramDto {
   @IsBoolean()
   active: boolean;
 
+  @IsBoolean()
+  @IsOptional()
+  vs2: boolean;
+
   @IsString()
   @IsOptional()
   test: string;
