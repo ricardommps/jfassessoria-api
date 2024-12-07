@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { CustomersModule } from './customers/customers.module';
 import { FinishedTrainingModule } from './finished-training/finished-training.module';
+import { FinishedModule } from './finished/finished.module';
 import { RolesGuard } from './guards/roles.guard';
 import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
@@ -20,6 +21,7 @@ import { TrainingModule } from './training/training.module';
 import { TrainingFeedbackModule } from './training_feedback/training_feedback.module';
 import { UserModule } from './user/user.module';
 import { WorkoutLoadModule } from './workout-load/workout-load.module';
+import { WorkoutModule } from './workout/workout.module';
 
 @Module({
   imports: [
@@ -55,6 +57,8 @@ import { WorkoutLoadModule } from './workout-load/workout-load.module';
     NotificationModule,
     PerformanceMetricsModule,
     WorkoutLoadModule,
+    WorkoutModule,
+    FinishedModule,
   ],
   controllers: [],
   providers: [

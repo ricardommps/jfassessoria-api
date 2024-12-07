@@ -1,3 +1,4 @@
+import { FinishedEntity } from 'src/finished/entities/finished.entity';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import {
   Column,
@@ -7,13 +8,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProgramEntity } from '../../program/entities/program.entity';
 
-@Entity({ name: 'training' })
-export class TrainingEntity {
+@Entity({ name: 'workout' })
+export class WorkoutEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
@@ -41,20 +43,23 @@ export class TrainingEntity {
   @Column({ name: 'date_published' })
   datePublished: Date;
 
-  @Column({ name: 'training_date_other' })
-  trainingDateOther: Date;
+  @Column({ name: 'workout_date_other' })
+  workoutDateOther: Date;
 
   @Column({ name: 'published' })
   published: boolean;
-
-  @Column({ type: 'json', name: 'videos' })
-  videos: [];
 
   @Column({ name: 'hide' })
   hide: boolean;
 
   @Column({ name: 'finished' })
   finished: boolean;
+
+  @Column({ name: 'unrealized' })
+  unrealized: boolean;
+
+  @Column({ name: 'running' })
+  running: boolean;
 
   @Column('jsonb', { name: 'media_order' })
   mediaOrder: object[];
@@ -71,23 +76,29 @@ export class TrainingEntity {
   @Column({ type: 'text', array: true, default: () => "'{}'", name: 'tags' })
   tags: string[];
 
+  @Column({ name: 'display_order' })
+  displayOrder: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => ProgramEntity, (program) => program.trainings)
+  @ManyToOne(() => ProgramEntity, (program) => program.workouts)
   @JoinColumn({ name: 'program_id', referencedColumnName: 'id' })
   program?: ProgramEntity;
 
-  @ManyToMany(() => MediaEntity, (media) => media.trainings, {
+  @OneToMany(() => FinishedEntity, (finished) => finished.workouts)
+  history: FinishedEntity[];
+
+  @ManyToMany(() => MediaEntity, (media) => media.workouts, {
     onDelete: 'CASCADE', // Exclusão em cascata da tabela intermediária
   })
   @JoinTable({
-    name: 'training_media',
+    name: 'workout_media',
     joinColumn: {
-      name: 'training_id',
+      name: 'workout_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {

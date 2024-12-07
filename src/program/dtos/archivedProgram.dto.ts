@@ -24,6 +24,8 @@ export class ArchivedProgramDto {
   customerId: number;
   hide: boolean;
   type: number;
+  startDate: Date;
+  endDate: Date;
   customer?: ReturnCustomerDetailsDto;
   trainings?: ReturnTrainingDto[];
 
@@ -49,6 +51,8 @@ export class ArchivedProgramDto {
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
     this.type = program.type;
+    this.startDate = program.startDate;
+    this.endDate = program.endDate;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

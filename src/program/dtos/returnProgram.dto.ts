@@ -23,6 +23,8 @@ export class ReturnProgramDto {
   fcmValue: number;
   hide: boolean;
   type: number;
+  startDate: Date;
+  endDate: Date;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -47,6 +49,8 @@ export class ReturnProgramDto {
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
     this.type = program.type;
+    this.startDate = program.startDate;
+    this.endDate = program.endDate;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

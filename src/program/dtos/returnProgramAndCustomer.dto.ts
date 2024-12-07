@@ -23,6 +23,8 @@ export class ReturnProgramAndCustomerDto {
   customerId: number;
   hide: boolean;
   type: number;
+  startDate: Date;
+  endDate: Date;
   updatedAt: Date;
   customer?: ReturnCustomerDetailsDto;
 
@@ -48,6 +50,8 @@ export class ReturnProgramAndCustomerDto {
     this.hide = program.hide;
     this.type = program.type;
     this.updatedAt = program.updatedAt;
+    this.startDate = program.startDate;
+    this.endDate = program.endDate;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

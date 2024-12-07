@@ -1,3 +1,4 @@
+import { WorkoutEntity } from 'src/workout/entities/workout.entity';
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +19,12 @@ export class ProgramEntity {
 
   @Column({ name: 'customer_id', nullable: false })
   customerId: number;
+
+  @Column({ name: 'start_date' })
+  startDate: Date;
+
+  @Column({ name: 'end_date' })
+  endDate: Date;
 
   @Column({ name: 'active', nullable: false })
   active: boolean;
@@ -91,4 +98,7 @@ export class ProgramEntity {
 
   @OneToMany(() => TrainingEntity, (training) => training.program)
   trainings?: TrainingEntity[];
+
+  @OneToMany(() => WorkoutEntity, (workout) => workout.program)
+  workouts?: WorkoutEntity[];
 }

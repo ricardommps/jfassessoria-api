@@ -15,6 +15,14 @@ export class SendProgramDto {
   @IsOptional()
   goal: string;
 
+  @IsDateString()
+  @IsOptional()
+  startDate: Date;
+
+  @IsDateString()
+  @IsOptional()
+  endDate: Date;
+
   @IsString()
   @IsOptional()
   difficultyLevel: string;
