@@ -16,6 +16,7 @@ export class ReturnProgramAndCustomerDto {
   paceVla: string;
   vlaLevel: number;
   active: boolean;
+  vs2: boolean;
   test: string;
   warningPdf: string;
   dateTest: Date;
@@ -23,6 +24,8 @@ export class ReturnProgramAndCustomerDto {
   customerId: number;
   hide: boolean;
   type: number;
+  startDate: Date;
+  endDate: Date;
   updatedAt: Date;
   customer?: ReturnCustomerDetailsDto;
 
@@ -39,6 +42,7 @@ export class ReturnProgramAndCustomerDto {
     this.vlan = program.vlan;
     this.paceVlan = program.paceVlan;
     this.active = program.active;
+    this.vs2 = program.vs2;
     this.test = program.test;
     this.dateTest = program.dateTest;
     this.vlanLevel = program.vlanLevel;
@@ -48,6 +52,8 @@ export class ReturnProgramAndCustomerDto {
     this.hide = program.hide;
     this.type = program.type;
     this.updatedAt = program.updatedAt;
+    this.startDate = program.startDate;
+    this.endDate = program.endDate;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

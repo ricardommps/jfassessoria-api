@@ -5,7 +5,7 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { DataSource, DeleteResult, Repository } from 'typeorm';
+import { DataSource, DeleteResult, In, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
 import { TrainingService } from '../training/training.service';
 import { CloneProgramDto } from './dtos/cloneProgram.dto';
@@ -92,6 +92,42 @@ export class ProgramService {
       where: {
         customerId,
         hide: false,
+      },
+      relations: {
+        trainings: true,
+      },
+      order: { updatedAt: 'DESC' },
+    });
+
+    return programs;
+  }
+
+  async findProgramByCustomerIdV1(
+    customerId: number,
+  ): Promise<ProgramEntity[]> {
+    const programs = await this.programRepository.find({
+      where: {
+        customerId,
+        hide: false,
+        vs2: In([false, null]),
+      },
+      relations: {
+        trainings: true,
+      },
+      order: { updatedAt: 'DESC' },
+    });
+
+    return programs;
+  }
+
+  async findProgramByCustomerIdV2(
+    customerId: number,
+  ): Promise<ProgramEntity[]> {
+    const programs = await this.programRepository.find({
+      where: {
+        customerId,
+        hide: false,
+        vs2: true,
       },
       relations: {
         trainings: true,

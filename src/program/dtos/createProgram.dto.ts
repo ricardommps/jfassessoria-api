@@ -14,6 +14,14 @@ export class CreateProgramDto {
   @IsOptional()
   goal: string;
 
+  @IsDateString()
+  @IsOptional()
+  startDate: Date;
+
+  @IsDateString()
+  @IsOptional()
+  endDate: Date;
+
   @IsString()
   @IsOptional()
   difficultyLevel: string;
@@ -60,6 +68,10 @@ export class CreateProgramDto {
 
   @IsBoolean()
   active: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  vs2: boolean;
 
   @IsString()
   @IsOptional()

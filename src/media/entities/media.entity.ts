@@ -1,10 +1,10 @@
 import { TrainingEntity } from 'src/training/entities/training.entity';
 import { WorkoutLoadEntity } from 'src/workout-load/entities/workout-load.entity';
+import { WorkoutEntity } from 'src/workout/entities/workout.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -43,12 +43,11 @@ export class MediaEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany(() => TrainingEntity, (training) => training.medias, {
-    onDelete: 'CASCADE',
-    orphanedRowAction: 'delete',
-  })
-  @JoinTable()
+  @ManyToMany(() => TrainingEntity, (training) => training.medias)
   trainings: TrainingEntity[];
+
+  @ManyToMany(() => WorkoutEntity, (workout) => workout.medias)
+  workouts: WorkoutEntity[];
 
   @OneToMany(() => WorkoutLoadEntity, (workoutLoad) => workoutLoad.media)
   workoutLoads: WorkoutLoadEntity[];

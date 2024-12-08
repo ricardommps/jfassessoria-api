@@ -93,9 +93,19 @@ export class ProgramController {
   async findProgramByCustomerId(
     @Param('customerId') customerId,
   ): Promise<ReturnProgramDto[]> {
-    return (await this.programService.findProgramByCustomerId(customerId)).map(
-      (program) => new ReturnProgramDto(program),
-    );
+    return (
+      await this.programService.findProgramByCustomerIdV1(customerId)
+    ).map((program) => new ReturnProgramDto(program));
+  }
+
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('/customer/:customerId/v2')
+  async findProgramByCustomerIdV2(
+    @Param('customerId') customerId,
+  ): Promise<ReturnProgramDto[]> {
+    return (
+      await this.programService.findProgramByCustomerIdV2(customerId)
+    ).map((program) => new ReturnProgramDto(program));
   }
 
   @Roles(UserType.Admin, UserType.Root)

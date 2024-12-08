@@ -15,6 +15,14 @@ export class CloneProgramDto {
   @IsOptional()
   goal: string;
 
+  @IsDateString()
+  @IsOptional()
+  startDate: Date;
+
+  @IsDateString()
+  @IsOptional()
+  endDate: Date;
+
   @IsString()
   difficultyLevel: string;
 
@@ -51,6 +59,10 @@ export class CloneProgramDto {
 
   @IsBoolean()
   active: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  vs2: boolean;
 
   @IsString()
   @IsOptional()

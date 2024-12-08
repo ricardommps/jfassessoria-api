@@ -16,6 +16,7 @@ export class ReturnProgramDto {
   vla: string;
   paceVla: string;
   active: boolean;
+  vs2: boolean;
   test: string;
   warningPdf: string;
   dateTest: Date;
@@ -23,6 +24,8 @@ export class ReturnProgramDto {
   fcmValue: number;
   hide: boolean;
   type: number;
+  startDate: Date;
+  endDate: Date;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -38,6 +41,7 @@ export class ReturnProgramDto {
     this.vlan = program.vlan;
     this.paceVlan = program.paceVlan;
     this.active = program.active;
+    this.vs2 = program.vs2;
     this.test = program.test;
     this.dateTest = program.dateTest;
     this.customerId = program.customerId;
@@ -47,6 +51,8 @@ export class ReturnProgramDto {
     this.fcmValue = program.fcmValue;
     this.hide = program.hide;
     this.type = program.type;
+    this.startDate = program.startDate;
+    this.endDate = program.endDate;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))
