@@ -77,10 +77,13 @@ export class WorkoutService {
 
   async findWorkoutRunningByProgramIdUser(programId: number) {
     const program = await this.programService.findProgramById(programId);
-    const expired = isExpired(
-      program.startDate.toISOString(),
-      program.endDate.toISOString(),
-    );
+    let expired = null;
+    if (program.startDate && program.endDate) {
+      expired = isExpired(
+        program.startDate.toISOString(),
+        program.endDate ? program.endDate.toISOString() : null,
+      );
+    }
 
     if (expired) {
       return {
