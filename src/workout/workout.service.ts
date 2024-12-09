@@ -215,9 +215,10 @@ export class WorkoutService {
       const { workoutId, programsId } = sendTrainingDto;
       const workout = await this.getTrainingById(workoutId);
       delete workout.id;
-      workout.datePublished = null;
+      workout.workoutDateOther = null;
       workout.published = false;
       workout.finished = false;
+      workout.unrealized = false;
       await programsId.map(async (item) => {
         const saveTraining = {
           ...workout,
