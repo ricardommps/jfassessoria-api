@@ -2,6 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MediaEntity } from 'src/media/entities/media.entity';
 import { ProgramService } from 'src/program/program.service';
+import { WorkoutLoadService } from 'src/workout-load/workout-load.service';
 import { In, Repository } from 'typeorm';
 import { WorkoutEntity } from './entities/workout.entity';
 
@@ -35,13 +36,36 @@ export class WorkoutService {
 
     @Inject(forwardRef(() => ProgramService))
     private readonly programService: ProgramService,
+
+    @Inject(forwardRef(() => WorkoutLoadService))
+    private readonly workoutLoadService: WorkoutLoadService,
   ) {}
 
   async getTrainingById(id: number): Promise<WorkoutEntity> {
-    return this.workoutRepository.findOne({
+    const workouts = await this.workoutRepository.findOne({
       where: { id },
       relations: ['medias'],
     });
+    return workouts;
+  }
+
+  async getTrainingByIdFeedback(id: number, customerId: number) {
+    const workouts: any = await this.workoutRepository.findOne({
+      where: { id },
+      relations: ['medias'],
+    });
+    const { medias } = workouts;
+    for (const media of medias) {
+      if (media.id) {
+        const workoutLoad =
+          await this.workoutLoadService.getWorkoutLoadsByCustomerAndMedia(
+            customerId,
+            media.id,
+          );
+        media.workoutLoad = [...workoutLoad];
+      }
+    }
+    return workouts;
   }
 
   async create(workout, mediasIds: number[]): Promise<WorkoutEntity> {
@@ -176,6 +200,11 @@ export class WorkoutService {
 
   async findWorkouById(id: number): Promise<WorkoutEntity> {
     const workout = await this.getTrainingById(id);
+    return workout;
+  }
+
+  async findWorkouByIdFeedBack(id: number, customerId: number) {
+    const workout = await this.getTrainingByIdFeedback(customerId, id);
     return workout;
   }
 
