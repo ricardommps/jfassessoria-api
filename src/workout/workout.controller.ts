@@ -55,6 +55,12 @@ export class WorkoutController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/gym/:programId')
+  async findWorkoutGymByProgramId(@Param('programId') programId: number) {
+    return await this.workoutService.findWorkoutGymByProgramId(programId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/:customerId/:id')
   async findWorkouByIdFeedback(
     @Param('customerId') customerId: string,
@@ -62,13 +68,6 @@ export class WorkoutController {
   ): Promise<WorkoutEntity> {
     return this.workoutService.findWorkouByIdFeedBack(+customerId, +id);
   }
-
-  @Roles(UserType.Admin, UserType.Root, UserType.User)
-  @Get('/gym/:programId')
-  async findWorkoutGymByProgramId(@Param('programId') programId: number) {
-    return await this.workoutService.findWorkoutGymByProgramId(programId);
-  }
-
   @Roles(UserType.Admin, UserType.Root)
   @Put('/:id')
   async updateWorkout(

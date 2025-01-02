@@ -123,6 +123,7 @@ export class FinishedService {
       distanceInMeters: f.distanceInMeters,
       durationInSeconds: f.durationInSeconds,
       paceInSeconds: f.paceInSeconds,
+      checkList: f.checkList,
       createdAt: f.createdAt,
       updatedAt: f.updatedAt,
       workout: {
