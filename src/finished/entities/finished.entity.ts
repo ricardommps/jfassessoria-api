@@ -62,6 +62,9 @@ export class FinishedEntity {
   @Column({ type: 'varchar', name: 'type_workout', nullable: true })
   typeWorkout: string;
 
+  @Column('jsonb', { name: 'check_list' })
+  checkList: number[];
+
   @Column({
     type: 'numeric',
     precision: 10,
