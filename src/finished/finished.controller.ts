@@ -30,13 +30,18 @@ export class FinishedController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
-  @Put('/review/:id')
+  @Put('/review/:customerId/:id')
   async reviewWorkout(
     @Body() reviewWorkoutDto,
     @Param('id') id: string,
+    @Param('customerId') customerId: string,
   ): Promise<FinishedEntity> {
     const { feedback } = reviewWorkoutDto;
-    return this.finishedService.reviewWorkout(Number(id), feedback);
+    return this.finishedService.reviewWorkout(
+      Number(customerId),
+      Number(id),
+      feedback,
+    );
   }
 
   @Roles(UserType.Admin, UserType.Root)
