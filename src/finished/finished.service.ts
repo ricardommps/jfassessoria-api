@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { NotificationService } from 'src/notification/notification.service';
 import { ProgramEntity } from 'src/program/entities/program.entity';
 import { WorkoutEntity } from 'src/workout/entities/workout.entity';
 import { WorkoutService } from 'src/workout/workout.service';
@@ -19,6 +20,9 @@ export class FinishedService {
 
     @Inject(forwardRef(() => WorkoutService))
     private readonly workoutService: WorkoutService,
+
+    @Inject(forwardRef(() => NotificationService))
+    private readonly notificationService: NotificationService,
   ) {}
 
   async getFinishedById(id: number): Promise<FinishedEntity> {
@@ -142,14 +146,17 @@ export class FinishedService {
     }));
   }
 
-  async reviewWorkout(id: number, feedback: string): Promise<FinishedEntity> {
+  async reviewWorkout(
+    customerId,
+    id: number,
+    feedback: string,
+  ): Promise<FinishedEntity> {
     try {
       const finished = await this.finishedEntity.findOne({
         where: {
           id: id,
         },
       });
-
       if (!finished) {
         throw new NotFoundException(`finished not found`);
       }
@@ -159,6 +166,15 @@ export class FinishedService {
         feedback: feedback,
         review: true,
       });
+      if (customerId) {
+        const payloadNotification = {
+          recipientId: customerId,
+          title: 'Olä!',
+          content:
+            'O feedback do seu último treino já está disponível! Vem ver!',
+        };
+        await this.notificationService.createNotification(payloadNotification);
+      }
 
       return this.getFinishedById(id);
     } catch (error) {
