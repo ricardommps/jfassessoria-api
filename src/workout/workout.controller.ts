@@ -49,7 +49,7 @@ export class WorkoutController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
-  @Get('/:id')
+  @Get('/by-id/:id')
   async findWorkouById(@Param('id') id: string): Promise<WorkoutEntity> {
     return this.workoutService.findWorkouById(+id);
   }
@@ -61,7 +61,7 @@ export class WorkoutController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
-  @Get('/:customerId/:id')
+  @Get('/feedback/:customerId/:id')
   async findWorkouByIdFeedback(
     @Param('customerId') customerId: string,
     @Param('id') id: string,
@@ -69,7 +69,7 @@ export class WorkoutController {
     return this.workoutService.findWorkouByIdFeedBack(+customerId, +id);
   }
   @Roles(UserType.Admin, UserType.Root)
-  @Put('/:id')
+  @Put('/by-id/:id')
   async updateWorkout(
     @Param('id') id: string,
     @Body() trainigeData: Partial<WorkoutEntity>,
@@ -78,7 +78,7 @@ export class WorkoutController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
-  @Delete('/:id')
+  @Delete('/by-id/:id')
   async deleteWorkout(@Param('id') id: string): Promise<WorkoutEntity> {
     return this.workoutService.deleteWorkout(+id);
   }
@@ -90,11 +90,13 @@ export class WorkoutController {
   }
 
   @Roles(UserType.Admin, UserType.Root)
-  @Get('/clone/:id')
+  @Get('/clone-workout/:id')
   async cloneTrainingWithMedias(
     @Param('id') id: string,
     @Query('qntCopy') qntCopy: number,
   ): Promise<WorkoutEntity[]> {
+    console.log('--cloneTrainingWithMedias---id: ', id);
+    console.log('--cloneTrainingWithMedias---iqntCopyd: ', qntCopy);
     return this.workoutService.cloneWorkout(+id, qntCopy);
   }
 }
