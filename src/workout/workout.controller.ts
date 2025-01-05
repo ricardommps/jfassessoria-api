@@ -95,8 +95,6 @@ export class WorkoutController {
     @Param('id') id: string,
     @Query('qntCopy') qntCopy: number,
   ): Promise<WorkoutEntity[]> {
-    console.log('--cloneTrainingWithMedias---id: ', id);
-    console.log('--cloneTrainingWithMedias---iqntCopyd: ', qntCopy);
     return this.workoutService.cloneWorkout(+id, qntCopy);
   }
 }
