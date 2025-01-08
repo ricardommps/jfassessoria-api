@@ -23,6 +23,7 @@ export class ReturnCustomerDetailsDto {
   state: string;
   district: string;
   fatPercentage: string;
+  isYoungLife: boolean;
   anamneses?: AnamneseDto[];
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
@@ -46,6 +47,7 @@ export class ReturnCustomerDetailsDto {
     this.state = customerEntity.state;
     this.district = customerEntity.district;
     this.fatPercentage = customerEntity.fatPercentage;
+    this.isRunner = customerEntity.isYoungLife;
     this.anamneses = customerEntity.anamneses
       ? customerEntity.anamneses.map((anamnese) => new AnamneseDto(anamnese))
       : undefined;

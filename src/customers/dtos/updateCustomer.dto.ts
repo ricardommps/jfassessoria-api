@@ -55,4 +55,8 @@ export class UpdateCustomersDto {
   @IsOptional()
   @IsBoolean()
   temporaryPassword: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isYoungLife: string;
 }
