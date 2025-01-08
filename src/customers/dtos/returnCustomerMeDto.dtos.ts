@@ -5,6 +5,7 @@ interface User {
   email: string;
   temporaryPassword: boolean;
   avatar: string;
+  isYoungLife: boolean;
 }
 
 export class ReturnCustomerMeDto {
@@ -15,5 +16,6 @@ export class ReturnCustomerMeDto {
     this.user.email = customerEntity.email;
     this.user.temporaryPassword = customerEntity.temporaryPassword;
     this.user.avatar = customerEntity.avatar;
+    this.user.isYoungLife = customerEntity.isYoungLife;
   }
 }

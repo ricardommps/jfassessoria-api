@@ -103,6 +103,9 @@ export class CustomerEntity {
   @Column({ name: 'fat_percentage' })
   fatPercentage: string;
 
+  @Column({ name: 'is_young_life', default: false })
+  isYoungLife: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -16,6 +16,7 @@ export class ReturnCustomerDto {
   payments: ReturnPaymentDto[];
   anamnesisRead?: boolean;
   hasAnamneses?: boolean;
+  isYoungLife: boolean;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -37,5 +38,6 @@ export class ReturnCustomerDto {
     this.hasAnamneses =
       customerEntity.anamneses && customerEntity.anamneses.length > 0;
     this.anamnesisRead = customerEntity.anamneses?.[0]?.read || false;
+    this.isYoungLife = customerEntity.isYoungLife;
   }
 }

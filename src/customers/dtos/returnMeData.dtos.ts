@@ -8,6 +8,7 @@ export class ReturnMeData {
   avatar: string;
   temporaryPassword: boolean;
   rating: RatingEntity;
+  isYoungLife: boolean;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -15,5 +16,6 @@ export class ReturnMeData {
     this.avatar = customerEntity.avatar;
     this.temporaryPassword = customerEntity.temporaryPassword;
     this.rating = customerEntity.rating;
+    this.isYoungLife = customerEntity.isYoungLife;
   }
 }
