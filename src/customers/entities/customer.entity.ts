@@ -138,4 +138,7 @@ export class CustomerEntity {
 
   @OneToMany(() => WorkoutLoadEntity, (workoutLoad) => workoutLoad.customer)
   workoutLoads: WorkoutLoadEntity[];
+
+  @OneToMany(() => ProgramEntity, (invoice) => invoice.customer)
+  invoices?: ProgramEntity[];
 }

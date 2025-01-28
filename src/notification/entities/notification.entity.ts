@@ -26,6 +26,12 @@ export class NotificationEntity {
   @Column({ name: 'read_at', type: 'timestamp', nullable: true })
   readAt: Date | null;
 
+  @Column({ name: 'type' })
+  type: string;
+
+  @Column({ name: 'link' })
+  link: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
