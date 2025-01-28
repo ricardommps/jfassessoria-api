@@ -26,6 +26,7 @@ export class ReturnProgramDto {
   type: number;
   startDate: Date;
   endDate: Date;
+  additionalInformation: string;
   trainings?: ReturnTrainingDto[];
 
   constructor(program: ProgramEntity) {
@@ -53,6 +54,7 @@ export class ReturnProgramDto {
     this.type = program.type;
     this.startDate = program.startDate;
     this.endDate = program.endDate;
+    this.additionalInformation = program.additionalInformation;
 
     this.trainings = program.trainings
       ? program.trainings.map((training) => new ReturnTrainingDto(training))

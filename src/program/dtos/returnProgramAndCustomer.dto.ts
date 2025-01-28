@@ -27,6 +27,7 @@ export class ReturnProgramAndCustomerDto {
   startDate: Date;
   endDate: Date;
   updatedAt: Date;
+  additionalInformation: string;
   customer?: ReturnCustomerDetailsDto;
 
   constructor(program: ProgramEntity) {
@@ -54,6 +55,7 @@ export class ReturnProgramAndCustomerDto {
     this.updatedAt = program.updatedAt;
     this.startDate = program.startDate;
     this.endDate = program.endDate;
+    this.additionalInformation = program.additionalInformation;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

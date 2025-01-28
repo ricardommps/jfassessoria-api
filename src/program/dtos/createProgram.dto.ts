@@ -93,6 +93,10 @@ export class CreateProgramDto {
   @IsOptional()
   hide: boolean;
 
+  @IsString()
+  @IsOptional()
+  additionalInformation: string;
+
   @IsInt()
   @IsOptional()
   type: number;
