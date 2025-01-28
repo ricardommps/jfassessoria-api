@@ -89,6 +89,9 @@ export class ProgramEntity {
   @Column({ name: 'vs2' })
   vs2: boolean;
 
+  @Column({ name: 'additional_information' })
+  additionalInformation: string;
+
   @Column({ name: 'type', nullable: true })
   type: number;
 

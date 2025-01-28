@@ -27,6 +27,7 @@ export class ArchivedProgramDto {
   type: number;
   startDate: Date;
   endDate: Date;
+  additionalInformation: string;
   customer?: ReturnCustomerDetailsDto;
   trainings?: ReturnTrainingDto[];
 
@@ -55,6 +56,7 @@ export class ArchivedProgramDto {
     this.type = program.type;
     this.startDate = program.startDate;
     this.endDate = program.endDate;
+    this.additionalInformation = program.additionalInformation;
 
     this.customer = program.customer
       ? new ReturnCustomerDetailsDto(program.customer)

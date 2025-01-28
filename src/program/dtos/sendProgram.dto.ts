@@ -97,6 +97,10 @@ export class SendProgramDto {
   @IsOptional()
   type: number;
 
+  @IsString()
+  @IsOptional()
+  additionalInformation: string;
+
   @IsArray()
   trainings: [];
 }
