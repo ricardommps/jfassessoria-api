@@ -11,6 +11,7 @@ import { FinishedTrainingModule } from './finished-training/finished-training.mo
 import { FinishedModule } from './finished/finished.module';
 import { RolesGuard } from './guards/roles.guard';
 import { InvoiceModule } from './invoice/invoice.module';
+import { LogModule } from './log/log.module';
 import { MediaModule } from './media/media.module';
 import { MetricsModule } from './metrics/metrics.module';
 import { NotificationModule } from './notification/notification.module';
@@ -61,6 +62,7 @@ import { WorkoutModule } from './workout/workout.module';
     WorkoutModule,
     FinishedModule,
     InvoiceModule,
+    LogModule,
   ],
   controllers: [],
   providers: [
