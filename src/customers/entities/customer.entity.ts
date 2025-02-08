@@ -141,4 +141,7 @@ export class CustomerEntity {
 
   @OneToMany(() => ProgramEntity, (invoice) => invoice.customer)
   invoices?: ProgramEntity[];
+
+  @OneToMany(() => ProgramEntity, (log) => log.customer)
+  logs?: ProgramEntity[];
 }
