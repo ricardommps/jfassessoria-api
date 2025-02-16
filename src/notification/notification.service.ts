@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomersService } from 'src/customers/customers.service';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { NotificationEntity } from './entities/notification.entity';
 
 @Injectable()
@@ -44,6 +44,7 @@ export class NotificationService {
     const programs = await this.notificationEntity.find({
       where: {
         recipientId,
+        readAt: IsNull(),
       },
       order: { createdAt: 'DESC' },
     });
