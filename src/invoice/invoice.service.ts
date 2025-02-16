@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CustomersService } from 'src/customers/customers.service';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InvoiceEntity } from './entities/invoice.entity';
 
 @Injectable()
@@ -13,15 +17,15 @@ export class InvoiceService {
   ) {}
 
   async findInvoiceById(invoiceId: number): Promise<InvoiceEntity> {
-    const notification = await this.invoiceEntity.findOne({
+    const invoice = await this.invoiceEntity.findOne({
       where: {
         id: invoiceId,
       },
     });
-    if (!notification) {
-      throw new NotFoundException(`Notification id: ${invoiceId} not found`);
+    if (!invoice) {
+      throw new NotFoundException(`Invoice id: ${invoiceId} not found`);
     }
-    return notification;
+    return invoice;
   }
 
   async createInvoice(invoice) {
@@ -32,14 +36,34 @@ export class InvoiceService {
   }
 
   async getInvoiceAllByCustomerId(customerId: number) {
-    const programs = await this.invoiceEntity.find({
+    const invoice = await this.invoiceEntity.find({
       where: {
         customerId,
       },
       order: { createdAt: 'DESC' },
     });
 
-    return programs;
+    return invoice;
+  }
+
+  async getInvoiceAllPaindByCustomerId(customerId: number) {
+    const invoice = await this.invoiceEntity.find({
+      where: {
+        customerId,
+        status: In(['paid', 'pending']),
+      },
+      order: { createdAt: 'DESC' },
+    });
+
+    return invoice;
+  }
+
+  async getInvoiceIdByCustomerId(invoiceId: number, customerId: number) {
+    const invoice = await this.findInvoiceById(invoiceId);
+    if (invoice.customerId !== customerId) {
+      throw new UnauthorizedException();
+    }
+    return invoice;
   }
 
   async getMyInvoices(customerId: number): Promise<InvoiceEntity[]> {
@@ -66,5 +90,20 @@ export class InvoiceService {
       ...invoice,
       ...invoiceUpdate,
     });
+  }
+
+  async getTotalPaidInvoices(customerId: number) {
+    const result = await this.invoiceEntity
+      .createQueryBuilder('invoice')
+      .select('COUNT(invoice.id)', 'count')
+      .where('invoice.customerId = :customerId', { customerId })
+      .andWhere('invoice.status IN (:...statuses)', {
+        statuses: ['paid', 'pending'],
+      })
+      .getRawOne();
+
+    return {
+      totalPaid: result?.count ? parseInt(result.count, 10) : 0,
+    };
   }
 }

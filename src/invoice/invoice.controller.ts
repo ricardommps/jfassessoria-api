@@ -10,7 +10,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Roles } from 'src/decorators/roles.decorator';
+import { UserId } from 'src/decorators/user-id.decorator';
 import { UserType } from 'src/user/enum/user-type.enum';
+import { InvoiceEntity } from './entities/invoice.entity';
 import { InvoiceService } from './invoice.service';
 
 @Controller('invoice')
@@ -22,6 +24,29 @@ export class InvoiceController {
   @UsePipes(ValidationPipe)
   async createProgram(@Body() invoice) {
     return this.invoiceService.createInvoice(invoice);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/total-paid')
+  @UsePipes(ValidationPipe)
+  async getTotalPaidInvoices(@UserId() userId: number) {
+    return this.invoiceService.getTotalPaidInvoices(userId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/listAll/')
+  async getNotificationAllByCustomerId(@UserId() userId: number) {
+    return await this.invoiceService.getInvoiceAllPaindByCustomerId(userId);
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/my/:invoiceId')
+  @UsePipes(ValidationPipe)
+  async myInvoice(
+    @UserId() userId: number,
+    @Param('invoiceId') invoiceId: number,
+  ): Promise<InvoiceEntity> {
+    return this.invoiceService.getInvoiceIdByCustomerId(invoiceId, userId);
   }
 
   @Roles(UserType.Admin)

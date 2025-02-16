@@ -9,6 +9,7 @@ export class ReturnMeData {
   temporaryPassword: boolean;
   rating: RatingEntity;
   isYoungLife: boolean;
+  phone: string;
   constructor(customerEntity: CustomerEntity) {
     this.id = customerEntity.id;
     this.name = customerEntity.name;
@@ -17,5 +18,6 @@ export class ReturnMeData {
     this.temporaryPassword = customerEntity.temporaryPassword;
     this.rating = customerEntity.rating;
     this.isYoungLife = customerEntity.isYoungLife;
+    this.phone = customerEntity.phone;
   }
 }
