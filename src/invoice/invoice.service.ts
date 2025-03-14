@@ -16,6 +16,37 @@ export class InvoiceService {
     private readonly customersService: CustomersService,
   ) {}
 
+  async checkOverdueInvoices(customerId: number) {
+    const today = new Date();
+
+    // Fetch all invoices for the customer
+    const invoices = await this.invoiceEntity.find({
+      where: { customerId },
+      order: { createdAt: 'DESC' },
+    });
+
+    // Filter overdue invoices (status !== 'paid' and dueDate < today)
+    const overdueInvoices = invoices.filter(
+      (invoice) => invoice.status !== 'paid' && invoice.dueDate < today,
+    );
+
+    if (overdueInvoices.length > 0) {
+      // Update the status of overdue invoices to "overdue"
+      await Promise.all(
+        overdueInvoices.map(async (invoice) => {
+          await this.invoiceEntity.update(invoice.id, { status: 'overdue' });
+        }),
+      );
+    }
+
+    // Fetch all invoices again to return the updated list
+    const updatedInvoices = await this.invoiceEntity.find({
+      where: { customerId },
+    });
+
+    return updatedInvoices;
+  }
+
   async findInvoiceById(invoiceId: number): Promise<InvoiceEntity> {
     const invoice = await this.invoiceEntity.findOne({
       where: {
@@ -36,21 +67,22 @@ export class InvoiceService {
   }
 
   async getInvoiceAllByCustomerId(customerId: number) {
-    const invoice = await this.invoiceEntity.find({
-      where: {
-        customerId,
-      },
-      order: { createdAt: 'DESC' },
-    });
+    const invoices = await this.checkOverdueInvoices(customerId);
+    // const invoice = await this.invoiceEntity.find({
+    //   where: {
+    //     customerId,
+    //   },
+    //   order: { createdAt: 'DESC' },
+    // });
 
-    return invoice;
+    return invoices;
   }
 
   async getInvoiceAllPaindByCustomerId(customerId: number) {
     const invoice = await this.invoiceEntity.find({
       where: {
         customerId,
-        status: In(['paid', 'pending']),
+        status: In(['paid', 'pending', 'overdue']),
       },
       order: { createdAt: 'DESC' },
     });
@@ -92,7 +124,26 @@ export class InvoiceService {
     });
   }
 
+  async verificaInvoicesVencidos(customerId: number) {
+    const invoices = await this.invoiceEntity.find({
+      where: {
+        customerId,
+      },
+    });
+  }
+
   async getTotalPaidInvoices(customerId: number) {
+    const invoices = await this.checkOverdueInvoices(customerId);
+
+    const filterResult = invoices.filter(
+      (item) => item.status === 'paid' || item.status === 'pending',
+    );
+    return {
+      totalPaid: filterResult?.length || 0,
+    };
+  }
+
+  async getTotalPaidInvoices_(customerId: number) {
     const result = await this.invoiceEntity
       .createQueryBuilder('invoice')
       .select('COUNT(invoice.id)', 'count')
@@ -101,7 +152,6 @@ export class InvoiceService {
         statuses: ['paid', 'pending'],
       })
       .getRawOne();
-
     return {
       totalPaid: result?.count ? parseInt(result.count, 10) : 0,
     };
