@@ -126,9 +126,7 @@ export class ProgramController {
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/viewPdf/:programId')
-  async findProgramByIdUViewPdf(
-    @Param('programId') programId,
-  ): Promise<ReturnProgramAndCustomerDto> {
+  async findProgramByIdUViewPdf(@Param('programId') programId) {
     return await this.programService.findProgramByIdUViewPdf(programId);
   }
 
