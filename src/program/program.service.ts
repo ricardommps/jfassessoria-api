@@ -229,23 +229,24 @@ export class ProgramService {
     return program;
   }
 
-  async findProgramByIdUViewPdf(programId: number): Promise<ProgramEntity> {
+  async findProgramByIdUViewPdf(programId: number) {
     const program = await this.programRepository.findOne({
       where: {
         id: programId,
-        trainings: {
+        workouts: {
           published: true,
           // id: Not(IsNull()), // parent (not)exist - this can helpful for someone
         },
       },
-      relations: ['trainings', 'trainings.medias', 'customer'],
+      relations: ['workouts', 'workouts.medias', 'customer'],
 
       order: {
-        trainings: {
+        workouts: {
           datePublished: 'ASC',
         },
       },
     });
+
     if (!program) {
       throw new NotFoundException(`Program id: ${programId} not found`);
     }
