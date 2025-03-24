@@ -80,6 +80,46 @@ export class FinishedService {
     return formattedFinishedTrainings;
   }
 
+  async findFinishedById(userId: number, id: number) {
+    const finishedTrainings = await this.finishedEntity
+      .createQueryBuilder('finished')
+      .select([
+        'finished.*',
+        'workout.name as trainingName',
+        'workout.subtitle as trainingSubtitle',
+        'workout.description as trainingDesc',
+        'workout.date_published as trainingDatePublished',
+        'workout.id as trainingId',
+        'pro.name as programName',
+        'pro.type as type',
+        'pro.goal as goal',
+        'pro.pv as pv',
+        'pro.pace as programpace',
+        'pro.difficulty_level as difficulty',
+        'pro.reference_month as month',
+        'pro.id as programId',
+      ])
+      .innerJoin(WorkoutEntity, 'workout', 'finished.workout_id = workout.id')
+      .leftJoin(ProgramEntity, 'pro', 'workout.program_id = pro.id')
+      .where('pro.customer_id = :customerId', { customerId: userId })
+      .andWhere('finished.id = :id', { id: id })
+      .orderBy('finished.execution_day', 'DESC')
+      .getRawMany(); // Retorna os resultados
+
+    const formattedFinishedTrainings = finishedTrainings.map((finished) => {
+      const formatted = {};
+      Object.keys(finished).forEach((key) => {
+        const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) =>
+          letter.toUpperCase(),
+        ); // Converte para camelCase
+        formatted[camelCaseKey] = finished[key];
+      });
+      return formatted;
+    });
+
+    return formattedFinishedTrainings;
+  }
+
   async createFinished(createFinishedTrainingDto): Promise<FinishedEntity> {
     try {
       const workout = await this.workoutService.findWorkouById(
@@ -161,18 +201,27 @@ export class FinishedService {
         throw new NotFoundException(`finished not found`);
       }
 
-      await this.finishedEntity.save({
+      const finishedSave = await this.finishedEntity.save({
         ...finished,
         feedback: feedback,
         review: true,
       });
-      if (customerId) {
+      if (customerId && finished) {
         const payloadNotification = {
           recipientId: customerId,
-          title: 'Olä!',
+          title: 'Olá',
           content:
             'O feedback do seu último treino já está disponível! Vem ver!',
+          type: 'feedback',
+          link: finishedSave.id,
         };
+
+        // const payloadNotification = {
+        //   recipientId: customerId,
+        //   title: 'Olä!',
+        //   content:
+        //     'O feedback do seu último treino já está disponível! Vem ver!',
+        // };
         await this.notificationService.createNotification(payloadNotification);
       }
 

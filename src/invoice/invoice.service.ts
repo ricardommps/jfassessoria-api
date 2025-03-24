@@ -138,8 +138,11 @@ export class InvoiceService {
     const filterResult = invoices.filter(
       (item) => item.status === 'paid' || item.status === 'pending',
     );
+
+    const totalOverdue = invoices.filter((item) => item.status === 'overdue');
     return {
       totalPaid: filterResult?.length || 0,
+      totalOverdue: totalOverdue?.length || 0,
     };
   }
 
