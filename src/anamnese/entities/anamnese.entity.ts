@@ -92,6 +92,9 @@ export class AnamnesisEntity {
   @Column({ name: 'disease' })
   disease: string;
 
+  @Column({ name: 'days_the_week_sports_consultancy' })
+  daysTheWeekSportsConsultancy: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

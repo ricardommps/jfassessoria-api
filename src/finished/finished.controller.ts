@@ -49,4 +49,10 @@ export class FinishedController {
   async getUnreviewedFinished() {
     return this.finishedService.getUnreviewedFinished();
   }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('/:id')
+  async findFinishedById(@UserId() userId: number, @Param('id') id: string) {
+    return await this.finishedService.findFinishedById(userId, Number(id));
+  }
 }

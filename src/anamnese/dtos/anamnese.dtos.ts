@@ -28,6 +28,7 @@ export class AnamneseDto {
   longestRunningDistance: string;
   bestRunningTime: string;
   disease: string;
+  daysTheWeekSportsConsultancy: string;
   createdAt: Date;
   updatedAt: Date;
   read: boolean;
@@ -63,6 +64,8 @@ export class AnamneseDto {
     this.longestRunningDistance = anamnesisEntity.longestRunningDistance;
     this.bestRunningTime = anamnesisEntity.bestRunningTime;
     this.disease = anamnesisEntity.disease;
+    this.daysTheWeekSportsConsultancy =
+      anamnesisEntity.daysTheWeekSportsConsultancy;
     this.createdAt = anamnesisEntity.createdAt;
     this.updatedAt = anamnesisEntity.updatedAt;
     this.read = anamnesisEntity.read;
