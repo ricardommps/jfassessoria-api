@@ -50,6 +50,20 @@ export class FinishedController {
     return this.finishedService.getUnreviewedFinished();
   }
 
+  @Roles(UserType.Admin, UserType.Root)
+  @Get('listByUserAdmin/:userId')
+  async findFinishedAdmin(
+    @Param('userId') userId: string,
+    @Query('timestampFrom') timestampFrom?: string,
+    @Query('timestampTo') timestampTo?: string,
+  ) {
+    return await this.finishedService.findFinished(
+      Number(userId),
+      timestampFrom,
+      timestampTo,
+    );
+  }
+
   @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/:id')
   async findFinishedById(@UserId() userId: number, @Param('id') id: string) {

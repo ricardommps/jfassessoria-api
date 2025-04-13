@@ -157,7 +157,12 @@ export class WorkoutService {
         published: true, // Filtrando onde published é true
       },
       relations: ['history'],
-      order: { displayOrder: 'ASC' },
+      order: {
+        displayOrder: 'ASC',
+        history: {
+          executionDay: 'DESC', // ou 'ASC'
+        },
+      },
     });
 
     const workouts = {

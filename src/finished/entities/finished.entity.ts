@@ -18,7 +18,7 @@ export class FinishedEntity {
   workoutId: number;
 
   @Column({ name: 'execution_day' })
-  executionDay: Date;
+  executionDay: string;
 
   @Column({ type: 'numeric', precision: 8, scale: 3, nullable: true })
   distance: number;
