@@ -65,8 +65,24 @@ export class FinishedController {
   }
 
   @Roles(UserType.Admin, UserType.Root, UserType.User)
+  @Get('getVolume')
+  async getVolume(
+    @UserId() userId: number,
+    @Query('programId') programId: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    return await this.finishedService.getVolume(
+      Number(userId),
+      Number(programId),
+      startDate,
+      endDate,
+    );
+  }
+
+  @Roles(UserType.Admin, UserType.Root, UserType.User)
   @Get('/:id')
   async findFinishedById(@UserId() userId: number, @Param('id') id: string) {
-    return await this.finishedService.findFinishedById(userId, Number(id));
+    return await this.finishedService.findFinishedByIdNew(userId, id);
   }
 }

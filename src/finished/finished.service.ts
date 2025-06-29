@@ -1,5 +1,7 @@
 import {
   forwardRef,
+  HttpException,
+  HttpStatus,
   Inject,
   Injectable,
   NotFoundException,
@@ -11,6 +13,13 @@ import { WorkoutEntity } from 'src/workout/entities/workout.entity';
 import { WorkoutService } from 'src/workout/workout.service';
 import { Repository } from 'typeorm';
 import { FinishedEntity } from './entities/finished.entity';
+
+type Formatted = {
+  executionDay: string;
+  distanceInKm: number;
+  workoutId: number;
+  [key: string]: any;
+};
 
 @Injectable()
 export class FinishedService {
@@ -81,6 +90,46 @@ export class FinishedService {
   }
 
   async findFinishedById(userId: number, id: number) {
+    const finishedTrainings = await this.finishedEntity
+      .createQueryBuilder('finished')
+      .select([
+        'finished.*',
+        'workout.name as trainingName',
+        'workout.subtitle as trainingSubtitle',
+        'workout.description as trainingDesc',
+        'workout.date_published as trainingDatePublished',
+        'workout.id as trainingId',
+        'pro.name as programName',
+        'pro.type as type',
+        'pro.goal as goal',
+        'pro.pv as pv',
+        'pro.pace as programpace',
+        'pro.difficulty_level as difficulty',
+        'pro.reference_month as month',
+        'pro.id as programId',
+      ])
+      .innerJoin(WorkoutEntity, 'workout', 'finished.workout_id = workout.id')
+      .leftJoin(ProgramEntity, 'pro', 'workout.program_id = pro.id')
+      .where('pro.customer_id = :customerId', { customerId: userId })
+      .andWhere('finished.id = :id', { id: id })
+      .orderBy('finished.execution_day', 'DESC')
+      .getRawMany(); // Retorna os resultados
+
+    const formattedFinishedTrainings = finishedTrainings.map((finished) => {
+      const formatted = {};
+      Object.keys(finished).forEach((key) => {
+        const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) =>
+          letter.toUpperCase(),
+        ); // Converte para camelCase
+        formatted[camelCaseKey] = finished[key];
+      });
+      return formatted;
+    });
+
+    return formattedFinishedTrainings;
+  }
+
+  async findFinishedByIdNew(userId: number, id: string) {
     const finishedTrainings = await this.finishedEntity
       .createQueryBuilder('finished')
       .select([
@@ -229,5 +278,86 @@ export class FinishedService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getVolume(
+    userId: number,
+    programId: number,
+    startDate: string,
+    endDate: string,
+  ) {
+    // Primeiro, verificar se o programa pertence ao usuário
+    const programOwnership = await this.finishedEntity
+      .createQueryBuilder('finished')
+      .select(['pro.customer_id'])
+      .innerJoin('finished.workouts', 'workout')
+      .leftJoin(ProgramEntity, 'pro', 'workout.program_id = pro.id')
+      .where('workout.program_id = :programId', { programId })
+      .limit(1)
+      .getRawOne();
+
+    // Se não encontrou o programa ou não pertence ao usuário, retorna 403
+    if (!programOwnership || programOwnership.customer_id !== userId) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+
+    // Adiciona o fim do dia no endDate
+    const endDateTime = `${endDate} 23:59:59`;
+
+    const finishedTrainings = await this.finishedEntity
+      .createQueryBuilder('finished')
+      .select([
+        'finished.execution_day',
+        'finished.distance_in_meters',
+        'finished.workout_id',
+      ])
+      .innerJoin('finished.workouts', 'workout')
+      .leftJoin(ProgramEntity, 'pro', 'workout.program_id = pro.id')
+      .where('pro.customer_id = :customerId', { customerId: userId })
+      .andWhere('workout.program_id = :programId', { programId })
+      .andWhere('finished.execution_day >= :startDate', { startDate })
+      .andWhere('finished.execution_day <= :endDateTime', { endDateTime })
+      .andWhere('finished.unrealized = :unrealized', { unrealized: false })
+      .andWhere('workout.running = :running', { running: true })
+      .orderBy('finished.execution_day', 'ASC')
+      .getRawMany();
+
+    const formattedFinishedTrainings = finishedTrainings
+      .map((finished) => {
+        const formatted: Formatted = {} as Formatted;
+        Object.keys(finished).forEach((key) => {
+          const camelCaseKey = key.replace(/_([a-z])/g, (match, letter) =>
+            letter.toUpperCase(),
+          );
+
+          // Converter distanceInMeters para km (441 → 4.41 km)
+          if (camelCaseKey === 'distanceInMeters') {
+            formatted['distanceInKm'] = finished[key]
+              ? parseFloat((finished[key] / 100).toFixed(2))
+              : 0;
+          } else {
+            formatted[camelCaseKey] = finished[key];
+          }
+        });
+        return formatted;
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.executionDay).getTime() -
+          new Date(a.executionDay).getTime(),
+      );
+
+    // Calcular a soma total das distâncias em km
+    const totalDistanceInKm = finishedTrainings.reduce((sum, finished) => {
+      const distance = finished.distance_in_meters
+        ? finished.distance_in_meters / 100
+        : 0;
+      return sum + distance;
+    }, 0);
+
+    return {
+      data: formattedFinishedTrainings,
+      totalDistanceInKm: parseFloat(totalDistanceInKm.toFixed(2)),
+    };
   }
 }
