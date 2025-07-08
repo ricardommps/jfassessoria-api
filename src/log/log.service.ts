@@ -19,4 +19,23 @@ export class LogService {
       ...logPaylod,
     });
   }
+
+  async getLogs() {
+    const logs = await this.logEntity.find({
+      order: { createdAt: 'DESC' },
+    });
+
+    const logsParsed = logs.map((log) => ({
+      ...log,
+      errorMessage: (() => {
+        try {
+          return JSON.parse(log.errorMessage);
+        } catch (error) {
+          return log.errorMessage; // Retorna a string original se não for JSON válido
+        }
+      })(),
+    }));
+
+    return logsParsed;
+  }
 }

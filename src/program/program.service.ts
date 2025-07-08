@@ -98,7 +98,6 @@ export class ProgramService {
       },
       order: { updatedAt: 'DESC' },
     });
-
     return programs;
   }
 
