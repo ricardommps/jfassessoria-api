@@ -41,6 +41,9 @@ import { WorkoutModule } from './workout/workout.module';
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true,
       ssl: true,
+      // ssl: {
+      //   rejectUnauthorized: false,
+      // },
     }),
     CustomersModule,
     UserModule,

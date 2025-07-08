@@ -93,7 +93,7 @@ export class WorkoutService {
         running: true, // Filtrando onde running é true
       },
       relations: ['history'],
-      order: { datePublished: 'ASC' },
+      order: { datePublished: 'DESC' },
     });
 
     return workouts;

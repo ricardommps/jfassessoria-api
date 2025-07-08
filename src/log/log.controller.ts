@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UsePipes,
   ValidationPipe,
@@ -23,5 +24,11 @@ export class LogController {
     @UserId() userId: number,
   ): Promise<LogEntity> {
     return this.logService.createLog(logPaylod, userId);
+  }
+
+  @Roles(UserType.Admin)
+  @Get()
+  async getLogs() {
+    return await this.logService.getLogs();
   }
 }
