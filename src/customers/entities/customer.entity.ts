@@ -34,6 +34,9 @@ export class CustomerEntity {
   @Column({ name: 'password', nullable: false })
   password: string;
 
+  @Column({ name: 'admin_password', nullable: false })
+  adminPassword: string;
+
   @Column({ name: 'goal' })
   goal: string;
 

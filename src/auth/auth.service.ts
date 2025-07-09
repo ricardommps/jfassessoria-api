@@ -40,16 +40,21 @@ export class AuthService {
     const customer: CustomerEntity | undefined = await this.customerService
       .findCustomerByEmail(loginDto.email)
       .catch(() => undefined);
-    if (!customer?.password) {
+
+    if (!customer?.password && !customer?.adminPassword) {
       throw new NotFoundException('Email ou senha inválidos');
     }
-    const isMatch = await validatePassword(
-      loginDto.password,
-      customer?.password || '',
-    );
+
+    const isMatch =
+      (customer.password &&
+        (await validatePassword(loginDto.password, customer.password))) ||
+      (customer.adminPassword &&
+        (await validatePassword(loginDto.password, customer.adminPassword)));
+
     if (!customer || !isMatch) {
       throw new NotFoundException('Email ou senha inválidos');
     }
+
     return {
       accessToken: this.jwtService.sign({ ...new LoginPayload(customer) }),
       user: new ReturnUserDto(customer),
