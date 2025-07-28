@@ -55,22 +55,23 @@ export class CustomersService {
   }
 
   async getAllCustomer(userId): Promise<CustomerEntity[]> {
-    return this.customerRepository.find({
-      where: {
-        userId,
-      },
-      relations: {
-        programs: true,
-        payments: true,
-        anamneses: true,
-      },
-      order: {
-        name: 'ASC',
-        payments: {
-          startDate: 'DESC',
+    return this.customerRepository
+      .createQueryBuilder('customer')
+      .leftJoinAndSelect(
+        'customer.programs',
+        'program',
+        'program.hide = :hide AND program.vs2 = :vs2',
+        {
+          hide: false,
+          vs2: true,
         },
-      },
-    });
+      )
+      .leftJoinAndSelect('customer.payments', 'payment')
+      .leftJoinAndSelect('customer.anamneses', 'anamnese')
+      .where('customer.userId = :userId', { userId })
+      .orderBy('customer.name', 'ASC')
+      .addOrderBy('payment.startDate', 'DESC')
+      .getMany();
   }
 
   async getAllCustomerQuery(userId) {
