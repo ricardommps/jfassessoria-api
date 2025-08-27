@@ -40,6 +40,9 @@ export class CustomerEntity {
   @Column({ name: 'goal' })
   goal: string;
 
+  @Column({ name: 'cpf' })
+  cpf: string;
+
   @Column({ name: 'type_user', nullable: false })
   typeUser: number;
 

@@ -1,4 +1,3 @@
-import { RatingEntity } from 'src/rating/entities/rating.entity';
 import { CustomerEntity } from '../entities/customer.entity';
 
 export class ReturnMeData {
@@ -6,8 +5,8 @@ export class ReturnMeData {
   name: string;
   email: string;
   avatar: string;
+  cpf: string;
   temporaryPassword: boolean;
-  rating: RatingEntity;
   isYoungLife: boolean;
   phone: string;
   constructor(customerEntity: CustomerEntity) {
@@ -16,8 +15,8 @@ export class ReturnMeData {
     this.email = customerEntity.email;
     this.avatar = customerEntity.avatar;
     this.temporaryPassword = customerEntity.temporaryPassword;
-    this.rating = customerEntity.rating;
     this.isYoungLife = customerEntity.isYoungLife;
     this.phone = customerEntity.phone;
+    this.cpf = customerEntity.cpf;
   }
 }
