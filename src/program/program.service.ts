@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  forwardRef,
-} from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, In, Repository } from 'typeorm';
 import { CustomersService } from '../customers/customers.service';
@@ -277,6 +272,37 @@ export class ProgramService {
       },
       relations: ['trainings'],
     });
+
+    if (!program) {
+      throw new NotFoundException(`Program id: ${id} not found`);
+    }
+
+    const finishedCountResult = await this.dataSource.query(
+      `
+        SELECT COUNT(*)::int AS count
+        FROM finished f
+        WHERE EXISTS (
+          SELECT 1
+          FROM workout w
+          WHERE w.id = f.workout_id
+            AND w.program_id = $1
+        )
+        OR EXISTS (
+          SELECT 1
+          FROM workouts ws
+          WHERE ws.id = f.workouts_id
+            AND ws.program_id = $1
+        )
+      `,
+      [id],
+    );
+
+    if (finishedCountResult[0]?.count > 0) {
+      program.hide = true;
+      await this.programRepository.save(program);
+      return;
+    }
+
     await this.programRepository.remove(program);
   }
 
